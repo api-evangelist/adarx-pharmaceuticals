@@ -1,0 +1,729 @@
+openapi: 3.1.0
+info:
+  title: ADARx Pharmaceuticals Content API
+  version: '1.0'
+  summary: The anonymously readable WordPress REST content API behind www.adarx.com.
+  description: >-
+    Derived by the API Evangelist enrichment pipeline from the WordPress REST route index published
+    at https://www.adarx.com/wp-json/ (213 routes across the namespaces oembed/1.0, akismet/v1,
+    redirection/v1, yoast/v1, llar/v1, wp/v2, wp-site-health/v1, wp-block-editor/v1 and
+    wp-abilities/v1) and verified against live anonymous responses on 2026-08-06. Only the
+    operations that returned data without credentials are modelled here. ADARx Pharmaceuticals does
+    not market this as a developer product and publishes no documentation for it; the contract for
+    the wp/v2 namespace is defined upstream by the WordPress REST API Handbook.
+    Anonymous collection sizes observed on 2026-08-06 (X-WP-Total): posts 46, pages 18, media 105,
+    categories 6, users 2, navigation 1, tags 0, comments 0, blocks 0.
+    Unlike many corporate WordPress installs, `content.rendered` IS populated on the press-release
+    posts, so this API yields full article prose as well as identity and metadata. Posts also carry
+    an `acf` (Advanced Custom Fields) object and a `yoast_head_json` object containing the page's
+    schema.org JSON-LD graph.
+  contact:
+    name: ADARx Pharmaceuticals
+    url: https://www.adarx.com/contact/
+    email: info@adarx.com
+  x-derived-from: https://www.adarx.com/wp-json/
+  x-verified: '2026-08-06'
+  x-upstream-contract: https://developer.wordpress.org/rest-api/
+servers:
+  - url: https://www.adarx.com/wp-json
+    description: Production WordPress REST API
+tags:
+  - name: index
+    description: Route discovery and site identity.
+  - name: content
+    description: Press releases, publications and corporate pages.
+  - name: media
+    description: The site media library.
+  - name: taxonomy
+    description: Categories, tags, taxonomies and post statuses.
+  - name: people
+    description: Content authors registered on the site.
+  - name: search
+    description: Cross-content search.
+  - name: embed
+    description: oEmbed provider and SEO head rendering.
+paths:
+  /:
+    get:
+      operationId: getRouteIndex
+      summary: Get the REST route index
+      description: >-
+        Returns site identity (name, description, url, home), the registered namespaces, the
+        authentication methods offered, and the full route table.
+      tags: [index]
+      responses:
+        '200':
+          description: The route index.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name: { type: string }
+                  description: { type: string }
+                  url: { type: string, format: uri }
+                  home: { type: string, format: uri }
+                  namespaces:
+                    type: array
+                    items: { type: string }
+                  authentication: { type: object }
+                  routes: { type: object }
+  /wp/v2/posts:
+    get:
+      operationId: listPosts
+      summary: List press releases, clinical-trial listings and publications
+      description: >-
+        46 published posts as of 2026-08-06, spread across the categories News (23), BOD (9),
+        Clinical Trials (7), Leadership (5) and Publications (3).
+      tags: [content]
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/perPage'
+        - $ref: '#/components/parameters/search'
+        - $ref: '#/components/parameters/orderby'
+        - $ref: '#/components/parameters/order'
+        - $ref: '#/components/parameters/fields'
+        - name: categories
+          in: query
+          description: Limit to posts assigned one or more category ids.
+          schema:
+            type: array
+            items: { type: integer }
+        - name: after
+          in: query
+          description: ISO 8601 date; limit to posts published after it.
+          schema: { type: string, format: date-time }
+        - name: before
+          in: query
+          description: ISO 8601 date; limit to posts published before it.
+          schema: { type: string, format: date-time }
+      responses:
+        '200':
+          description: A page of posts.
+          headers:
+            X-WP-Total: { $ref: '#/components/headers/XWPTotal' }
+            X-WP-TotalPages: { $ref: '#/components/headers/XWPTotalPages' }
+            Link: { $ref: '#/components/headers/LinkPagination' }
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/Post' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+  /wp/v2/posts/{id}:
+    get:
+      operationId: getPost
+      summary: Get one post
+      tags: [content]
+      parameters:
+        - $ref: '#/components/parameters/idPath'
+        - $ref: '#/components/parameters/fields'
+      responses:
+        '200':
+          description: The post.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Post' }
+        '404': { $ref: '#/components/responses/NotFound' }
+  /wp/v2/pages:
+    get:
+      operationId: listPages
+      summary: List corporate pages
+      description: >-
+        18 published pages as of 2026-08-06 — Home, Company (Overview, Team, Investors), Science
+        (Overview, Technology, Publications), Pipeline, Patients, News, Careers, Contact, Terms of
+        Use, Privacy Policy and two additional privacy notices. Pages are hierarchical via `parent`.
+      tags: [content]
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/perPage'
+        - $ref: '#/components/parameters/search'
+        - $ref: '#/components/parameters/fields'
+        - name: parent
+          in: query
+          description: Limit to children of the given page ids.
+          schema:
+            type: array
+            items: { type: integer }
+      responses:
+        '200':
+          description: A page of pages.
+          headers:
+            X-WP-Total: { $ref: '#/components/headers/XWPTotal' }
+            X-WP-TotalPages: { $ref: '#/components/headers/XWPTotalPages' }
+            Link: { $ref: '#/components/headers/LinkPagination' }
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/Page' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+  /wp/v2/pages/{id}:
+    get:
+      operationId: getPage
+      summary: Get one page
+      tags: [content]
+      parameters:
+        - $ref: '#/components/parameters/idPath'
+        - $ref: '#/components/parameters/fields'
+      responses:
+        '200':
+          description: The page.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Page' }
+        '404': { $ref: '#/components/responses/NotFound' }
+  /wp/v2/media:
+    get:
+      operationId: listMedia
+      summary: List the media library
+      description: 105 attachments as of 2026-08-06 — logos, team headshots, pipeline graphics and press-release imagery.
+      tags: [media]
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/perPage'
+        - $ref: '#/components/parameters/search'
+        - $ref: '#/components/parameters/fields'
+        - name: parent
+          in: query
+          description: Limit to attachments of the given post ids.
+          schema:
+            type: array
+            items: { type: integer }
+      responses:
+        '200':
+          description: A page of media items.
+          headers:
+            X-WP-Total: { $ref: '#/components/headers/XWPTotal' }
+            X-WP-TotalPages: { $ref: '#/components/headers/XWPTotalPages' }
+            Link: { $ref: '#/components/headers/LinkPagination' }
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/MediaItem' }
+        '400': { $ref: '#/components/responses/BadRequest' }
+  /wp/v2/media/{id}:
+    get:
+      operationId: getMediaItem
+      summary: Get one media item
+      tags: [media]
+      parameters:
+        - $ref: '#/components/parameters/idPath'
+        - $ref: '#/components/parameters/fields'
+      responses:
+        '200':
+          description: The media item.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/MediaItem' }
+        '404': { $ref: '#/components/responses/NotFound' }
+  /wp/v2/categories:
+    get:
+      operationId: listCategories
+      summary: List post categories
+      description: >-
+        Six categories as of 2026-08-06 — News (23), BOD (9), Clinical Trials (7), Leadership (5),
+        Publications (3) and Uncategorized (0). These are the primary editorial facet on this site.
+      tags: [taxonomy]
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/perPage'
+        - $ref: '#/components/parameters/fields'
+      responses:
+        '200':
+          description: A page of categories.
+          headers:
+            X-WP-Total: { $ref: '#/components/headers/XWPTotal' }
+            X-WP-TotalPages: { $ref: '#/components/headers/XWPTotalPages' }
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/Term' }
+  /wp/v2/categories/{id}:
+    get:
+      operationId: getCategory
+      summary: Get one category
+      tags: [taxonomy]
+      parameters:
+        - $ref: '#/components/parameters/idPath'
+      responses:
+        '200':
+          description: The category.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/Term' }
+        '404': { $ref: '#/components/responses/NotFound' }
+  /wp/v2/tags:
+    get:
+      operationId: listTags
+      summary: List post tags
+      description: The tag taxonomy is registered but empty on this site (X-WP-Total 0 on 2026-08-06).
+      tags: [taxonomy]
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/perPage'
+      responses:
+        '200':
+          description: A page of tags.
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/Term' }
+  /wp/v2/comments:
+    get:
+      operationId: listComments
+      summary: List comments
+      description: Returns an empty array; commenting is not used on this site.
+      tags: [content]
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/perPage'
+      responses:
+        '200':
+          description: A page of comments (empty on this site).
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { type: object }
+  /wp/v2/taxonomies:
+    get:
+      operationId: listTaxonomies
+      summary: List registered taxonomies
+      description: Four registered — category, post_tag, nav_menu, wp_pattern_category.
+      tags: [taxonomy]
+      responses:
+        '200':
+          description: A map of taxonomy name to definition.
+          content:
+            application/json:
+              schema: { type: object, additionalProperties: { type: object } }
+  /wp/v2/taxonomies/{taxonomy}:
+    get:
+      operationId: getTaxonomy
+      summary: Get one taxonomy definition
+      tags: [taxonomy]
+      parameters:
+        - name: taxonomy
+          in: path
+          required: true
+          schema: { type: string }
+          example: category
+      responses:
+        '200':
+          description: The taxonomy definition.
+          content:
+            application/json:
+              schema: { type: object }
+        '404': { $ref: '#/components/responses/NotFound' }
+  /wp/v2/types:
+    get:
+      operationId: listPostTypes
+      summary: List registered post types
+      description: >-
+        Registered types on this install — post, page, attachment, nav_menu_item, wp_block,
+        wp_template, wp_template_part, wp_global_styles, wp_navigation, wp_font_family,
+        wp_font_face. No custom editorial post type is registered on www.adarx.com.
+      tags: [taxonomy]
+      responses:
+        '200':
+          description: A map of post type name to definition.
+          content:
+            application/json:
+              schema: { type: object, additionalProperties: { type: object } }
+  /wp/v2/types/{type}:
+    get:
+      operationId: getPostType
+      summary: Get one post type definition
+      tags: [taxonomy]
+      parameters:
+        - name: type
+          in: path
+          required: true
+          schema: { type: string }
+          example: post
+      responses:
+        '200':
+          description: The post type definition.
+          content:
+            application/json:
+              schema: { type: object }
+        '404': { $ref: '#/components/responses/NotFound' }
+  /wp/v2/statuses:
+    get:
+      operationId: listStatuses
+      summary: List post statuses visible anonymously
+      description: Anonymously this returns publish and (empty) private-visible statuses only.
+      tags: [taxonomy]
+      responses:
+        '200':
+          description: A map of status slug to definition.
+          content:
+            application/json:
+              schema: { type: object, additionalProperties: { type: object } }
+  /wp/v2/statuses/{status}:
+    get:
+      operationId: getStatus
+      summary: Get one post status definition
+      tags: [taxonomy]
+      parameters:
+        - name: status
+          in: path
+          required: true
+          schema: { type: string }
+          example: publish
+      responses:
+        '200':
+          description: The status definition.
+          content:
+            application/json:
+              schema: { type: object }
+        '404': { $ref: '#/components/responses/NotFound' }
+  /wp/v2/users:
+    get:
+      operationId: listUsers
+      summary: List content authors
+      description: >-
+        Two author accounts are exposed anonymously on this install (2026-08-06). Unlike many
+        WordPress sites this endpoint is not locked down; it returns display names, slugs and
+        author-archive links but no email addresses.
+      tags: [people]
+      parameters:
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/perPage'
+      responses:
+        '200':
+          description: A page of author records.
+          headers:
+            X-WP-Total: { $ref: '#/components/headers/XWPTotal' }
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/User' }
+  /wp/v2/users/{id}:
+    get:
+      operationId: getUser
+      summary: Get one author
+      tags: [people]
+      parameters:
+        - $ref: '#/components/parameters/idPath'
+      responses:
+        '200':
+          description: The author record.
+          content:
+            application/json:
+              schema: { $ref: '#/components/schemas/User' }
+        '404': { $ref: '#/components/responses/NotFound' }
+  /wp/v2/search:
+    get:
+      operationId: searchContent
+      summary: Search across posts and pages
+      tags: [search]
+      parameters:
+        - name: search
+          in: query
+          required: true
+          description: The search term.
+          schema: { type: string }
+          example: onvuzosiran
+        - $ref: '#/components/parameters/page'
+        - $ref: '#/components/parameters/perPage'
+        - name: type
+          in: query
+          description: Object type to search.
+          schema: { type: string, enum: [post, term, post-format] }
+      responses:
+        '200':
+          description: Search results.
+          headers:
+            X-WP-Total: { $ref: '#/components/headers/XWPTotal' }
+          content:
+            application/json:
+              schema:
+                type: array
+                items: { $ref: '#/components/schemas/SearchResult' }
+  /wp/v2/blocks:
+    get:
+      operationId: listReusableBlocks
+      summary: List reusable blocks / patterns
+      description: Returns an empty array on this install.
+      tags: [content]
+      responses:
+        '200':
+          description: A page of reusable blocks (empty on this site).
+          content:
+            application/json:
+              schema: { type: array, items: { type: object } }
+  /wp/v2/navigation:
+    get:
+      operationId: listNavigationMenus
+      summary: List block-editor navigation menus
+      description: One navigation menu object is exposed anonymously (2026-08-06).
+      tags: [content]
+      responses:
+        '200':
+          description: A page of navigation menus.
+          content:
+            application/json:
+              schema: { type: array, items: { type: object } }
+  /oembed/1.0/embed:
+    get:
+      operationId: getOEmbed
+      summary: oEmbed provider for adarx.com URLs
+      description: >-
+        RFC-less but widely implemented oEmbed 1.0 provider endpoint. Returns provider identity,
+        author, title, thumbnail and an iframe embed for any URL on this site.
+      tags: [embed]
+      parameters:
+        - name: url
+          in: query
+          required: true
+          description: The adarx.com URL to embed.
+          schema: { type: string, format: uri }
+          example: https://www.adarx.com/
+        - name: format
+          in: query
+          schema: { type: string, enum: [json, xml], default: json }
+        - name: maxwidth
+          in: query
+          schema: { type: integer }
+      responses:
+        '200':
+          description: The oEmbed document.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  version: { type: string }
+                  provider_name: { type: string }
+                  provider_url: { type: string, format: uri }
+                  author_name: { type: string }
+                  title: { type: string }
+                  html: { type: string }
+        '404': { $ref: '#/components/responses/NotFound' }
+  /yoast/v1/get_head:
+    get:
+      operationId: getSeoHead
+      summary: Render the Yoast SEO head for a URL
+      description: >-
+        Returns the full `<head>` SEO block for any URL on the site, including the schema.org
+        JSON-LD `@graph`. This is the machine-readable structured-data surface of the site; the
+        same graph is embedded per-object as `yoast_head_json` on posts and pages.
+      tags: [embed]
+      parameters:
+        - name: url
+          in: query
+          required: true
+          schema: { type: string, format: uri }
+          example: https://www.adarx.com/
+      responses:
+        '200':
+          description: The rendered head.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  html: { type: string }
+                  json: { type: object }
+components:
+  headers:
+    XWPTotal:
+      description: Total number of records in the collection.
+      schema: { type: integer }
+    XWPTotalPages:
+      description: Total number of pages available at the current per_page.
+      schema: { type: integer }
+    LinkPagination:
+      description: RFC 8288 Link header carrying rel="next" / rel="prev".
+      schema: { type: string }
+  parameters:
+    page:
+      name: page
+      in: query
+      description: 1-indexed page of the collection.
+      schema: { type: integer, minimum: 1, default: 1 }
+    perPage:
+      name: per_page
+      in: query
+      description: Records per page.
+      schema: { type: integer, minimum: 1, maximum: 100, default: 10 }
+    search:
+      name: search
+      in: query
+      description: Limit results to those matching a string.
+      schema: { type: string }
+    orderby:
+      name: orderby
+      in: query
+      schema: { type: string, enum: [date, id, title, slug, modified, relevance], default: date }
+    order:
+      name: order
+      in: query
+      schema: { type: string, enum: [asc, desc], default: desc }
+    fields:
+      name: _fields
+      in: query
+      description: Comma-separated sparse-fieldset projection, e.g. `id,slug,title,link`.
+      schema: { type: string }
+      example: id,slug,title,link,date
+    idPath:
+      name: id
+      in: path
+      required: true
+      schema: { type: integer }
+  responses:
+    BadRequest:
+      description: Invalid parameter.
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/RestError' }
+    NotFound:
+      description: No object found with that id.
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/RestError' }
+    Unauthorized:
+      description: >-
+        The endpoint exists but requires an authenticated WordPress user. Returned as HTTP 401 with
+        a `rest_forbidden` / `rest_cannot_*` code.
+      content:
+        application/json:
+          schema: { $ref: '#/components/schemas/RestError' }
+  schemas:
+    RestError:
+      type: object
+      description: The WordPress REST error envelope. Not RFC 9457 problem+json.
+      properties:
+        code: { type: string, example: rest_post_invalid_id }
+        message: { type: string }
+        data:
+          type: object
+          properties:
+            status: { type: integer }
+      required: [code, message, data]
+    RenderedText:
+      type: object
+      properties:
+        rendered: { type: string }
+        protected: { type: boolean }
+    Post:
+      type: object
+      properties:
+        id: { type: integer }
+        date: { type: string, format: date-time }
+        date_gmt: { type: string, format: date-time }
+        modified: { type: string, format: date-time }
+        slug: { type: string }
+        status: { type: string, example: publish }
+        type: { type: string, const: post }
+        link: { type: string, format: uri }
+        title: { $ref: '#/components/schemas/RenderedText' }
+        content: { $ref: '#/components/schemas/RenderedText' }
+        excerpt: { $ref: '#/components/schemas/RenderedText' }
+        author: { type: integer, description: 'References /wp/v2/users/{id}.' }
+        featured_media: { type: integer, description: 'References /wp/v2/media/{id}; 0 when unset.' }
+        categories:
+          type: array
+          description: References /wp/v2/categories/{id}.
+          items: { type: integer }
+        tags:
+          type: array
+          items: { type: integer }
+        acf:
+          description: Advanced Custom Fields payload projected into REST.
+          oneOf:
+            - type: object
+            - type: array
+        yoast_head_json:
+          type: object
+          description: The schema.org JSON-LD graph and Open Graph metadata for this object.
+      required: [id, slug, type, link, title]
+    Page:
+      type: object
+      properties:
+        id: { type: integer }
+        date: { type: string, format: date-time }
+        modified: { type: string, format: date-time }
+        slug: { type: string }
+        status: { type: string }
+        type: { type: string, const: page }
+        link: { type: string, format: uri }
+        parent: { type: integer, description: 'References /wp/v2/pages/{id}; 0 for a top-level page.' }
+        menu_order: { type: integer }
+        title: { $ref: '#/components/schemas/RenderedText' }
+        content: { $ref: '#/components/schemas/RenderedText' }
+        excerpt: { $ref: '#/components/schemas/RenderedText' }
+        author: { type: integer }
+        featured_media: { type: integer }
+        yoast_head_json: { type: object }
+      required: [id, slug, type, link, title]
+    MediaItem:
+      type: object
+      properties:
+        id: { type: integer }
+        date: { type: string, format: date-time }
+        slug: { type: string }
+        type: { type: string, const: attachment }
+        link: { type: string, format: uri }
+        title: { $ref: '#/components/schemas/RenderedText' }
+        media_type: { type: string, example: image }
+        mime_type: { type: string, example: image/jpeg }
+        source_url: { type: string, format: uri }
+        alt_text: { type: string }
+        post: { type: integer, description: 'The parent post/page id, when attached.' }
+        media_details:
+          type: object
+          properties:
+            width: { type: integer }
+            height: { type: integer }
+            sizes: { type: object }
+      required: [id, slug, type, source_url]
+    Term:
+      type: object
+      properties:
+        id: { type: integer }
+        count: { type: integer }
+        name: { type: string }
+        slug: { type: string }
+        description: { type: string }
+        taxonomy: { type: string }
+        parent: { type: integer }
+        link: { type: string, format: uri }
+      required: [id, name, slug, taxonomy]
+    User:
+      type: object
+      properties:
+        id: { type: integer }
+        name: { type: string }
+        slug: { type: string }
+        description: { type: string }
+        url: { type: string }
+        link: { type: string, format: uri }
+        avatar_urls: { type: object }
+      required: [id, name, slug]
+    SearchResult:
+      type: object
+      properties:
+        id: { type: integer }
+        title: { type: string }
+        url: { type: string, format: uri }
+        type: { type: string, example: post }
+        subtype: { type: string, example: page }
+      required: [id, title, url]
+  securitySchemes:
+    applicationPassword:
+      type: http
+      scheme: basic
+      description: >-
+        WordPress Application Passwords (HTTP Basic with a user login and a generated application
+        password). Advertised by the route index at
+        https://www.adarx.com/wp-admin/authorize-application.php. Only required for the write and
+        administrative routes, which are NOT modelled in this document — every operation above is
+        readable anonymously.
+security: []

@@ -1,0 +1,84 @@
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebPage",
+      "@id": "https://www.adarx.com/",
+      "url": "https://www.adarx.com/",
+      "name": "Home - ADARx Pharmaceuticals",
+      "isPartOf": {
+        "@id": "https://www.adarx.com/#website"
+      },
+      "primaryImageOfPage": {
+        "@id": "https://www.adarx.com/#primaryimage"
+      },
+      "image": {
+        "@id": "https://www.adarx.com/#primaryimage"
+      },
+      "thumbnailUrl": "https://www.adarx.com/wp-content/uploads/2024/12/home-bkg.jpg",
+      "datePublished": "2024-12-06T18:18:26+00:00",
+      "dateModified": "2025-01-09T17:55:25+00:00",
+      "breadcrumb": {
+        "@id": "https://www.adarx.com/#breadcrumb"
+      },
+      "inLanguage": "en-US",
+      "potentialAction": [
+        {
+          "@type": "ReadAction",
+          "target": [
+            "https://www.adarx.com/"
+          ]
+        }
+      ]
+    },
+    {
+      "@type": "ImageObject",
+      "inLanguage": "en-US",
+      "@id": "https://www.adarx.com/#primaryimage",
+      "url": "https://www.adarx.com/wp-content/uploads/2024/12/home-bkg.jpg",
+      "contentUrl": "https://www.adarx.com/wp-content/uploads/2024/12/home-bkg.jpg",
+      "width": 3840,
+      "height": 1608,
+      "caption": "home-bkg"
+    },
+    {
+      "@type": "BreadcrumbList",
+      "@id": "https://www.adarx.com/#breadcrumb",
+      "itemListElement": [
+        {
+          "@type": "ListItem",
+          "position": 1,
+          "name": "Home",
+          "item": "https://www.adarx.com/"
+        },
+        {
+          "@type": "ListItem",
+          "position": 2,
+          "name": "Home"
+        }
+      ]
+    },
+    {
+      "@type": "WebSite",
+      "@id": "https://www.adarx.com/#website",
+      "url": "https://www.adarx.com/",
+      "name": "ADARx Pharmaceuticals",
+      "description": "Providing hope for patients with intractable disease",
+      "potentialAction": [
+        {
+          "@type": "SearchAction",
+          "target": {
+            "@type": "EntryPoint",
+            "urlTemplate": "https://www.adarx.com/?s={search_term_string}"
+          },
+          "query-input": {
+            "@type": "PropertyValueSpecification",
+            "valueRequired": true,
+            "valueName": "search_term_string"
+          }
+        }
+      ],
+      "inLanguage": "en-US"
+    }
+  ]
+}

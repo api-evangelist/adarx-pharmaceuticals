@@ -1,0 +1,154 @@
+generated: '2026-08-06'
+method: derived
+source: >-
+  openapi/adarx-pharmaceuticals-content-openapi.yml,
+  openapi/adarx-pharmaceuticals-stop-hae-openapi.yml, live response headers and bodies from
+  https://www.adarx.com/wp-json/ and https://stophae.com/wp-json/ on 2026-08-06, the /.well-known/
+  probe recorded in well-known/adarx-pharmaceuticals-well-known.yml, and a search of www.adarx.com
+  for published compliance or certification claims.
+apis:
+- adarx-pharmaceuticals-content-api
+- adarx-pharmaceuticals-stop-hae-api
+summary: >-
+  Cross-cutting standards assertions for the two WordPress REST surfaces ADARx Pharmaceuticals
+  operates. ADARx is a clinical-stage biotechnology company; it runs a corporate website and a
+  patient-recruitment site, not a software platform, and it publishes no compliance program, no
+  certification page and no trust center. Every `conforms: false` below is an honest observation,
+  not a criticism of an API the company never set out to ship.
+standards:
+- id: rest
+  conforms: true
+  evidence: >-
+    Resource-oriented paths, a GET-only public surface, JSON representations, and RFC 8288 Link
+    headers for pagination. HATEOAS is present via the _links map on every object, including
+    targetHints.allow.
+- id: openapi
+  conforms: false
+  evidence: >-
+    ADARx publishes no OpenAPI. The two documents in openapi/ are API Evangelist derivations of the
+    route indexes the sites publish at /wp-json/, not provider artifacts.
+- id: json-schema
+  conforms: partial
+  evidence: >-
+    WordPress exposes a JSON Schema per route via the OPTIONS method and the `schema` block in the
+    route index, so a schema is discoverable per endpoint. Verified: OPTIONS /wp/v2/posts returns
+    a namespace/methods/endpoints/args document. It is WordPress-flavoured schema, not a published,
+    versioned JSON Schema document set.
+- id: rfc9457
+  conforms: false
+  evidence: >-
+    Errors are served as application/json with the WordPress {code, message, data} envelope. No
+    `type` URI, no `title`, no `instance`, no application/problem+json media type. See
+    errors/adarx-pharmaceuticals-problem-types.yml.
+- id: rfc8288
+  conforms: true
+  evidence: >-
+    Collection responses carry a Link header with rel="next"/rel="prev", and both hosts expose it
+    cross-origin via Access-Control-Expose-Headers.
+- id: pagination
+  conforms: true
+  evidence: >-
+    page + per_page (1-100) with X-WP-Total and X-WP-TotalPages headers; offset paging also
+    supported. Out-of-range per_page returns a structured 400.
+- id: idempotency
+  conforms: false
+  evidence: >-
+    No idempotency-key facility. Moot for the public surface, which is entirely GET, but nothing is
+    published for the write half.
+- id: oauth2
+  conforms: false
+  evidence: >-
+    /.well-known/oauth-authorization-server and /.well-known/oauth-protected-resource returned 404
+    on both hosts. No OAuth of any kind. The only advertised credential is WordPress Application
+    Passwords (HTTP Basic).
+- id: oidc
+  conforms: false
+  evidence: /.well-known/openid-configuration returned 404 on both hosts.
+- id: rfc9116
+  conforms: false
+  evidence: >-
+    /.well-known/security.txt returned 404 on both hosts. No published security contact, no
+    disclosure policy, no bug bounty.
+- id: rfc8594
+  conforms: false
+  evidence: >-
+    No Sunset or Deprecation headers were observed on any response, and no deprecation policy is
+    published.
+- id: rfc9309
+  conforms: true
+  evidence: >-
+    https://www.adarx.com/robots.txt returned 200 and is well-formed; nothing is disallowed.
+    https://stophae.com/robots.txt returned 200 and disallows only /wp-admin/.
+- id: sitemaps-org
+  conforms: true
+  evidence: >-
+    https://www.adarx.com/sitemap_index.xml returned 200; a Yoast sitemap index with two children,
+    post-sitemap.xml and page-sitemap.xml.
+- id: rss-2.0
+  conforms: true
+  evidence: >-
+    https://www.adarx.com/feed/ returned 200 with 10 items — the most recent press releases. This
+    is the only push-shaped surface either site offers.
+- id: oembed
+  conforms: true
+  evidence: >-
+    /oembed/1.0/embed returns a valid oEmbed 1.0 rich response on both hosts, with provider_name
+    "ADARx Pharmaceuticals" and "ADARX1 Patient Website" respectively. Verified 200 anonymously.
+    /oembed/1.0/proxy is 401.
+- id: schema-org
+  conforms: true
+  evidence: >-
+    Every page carries a schema.org JSON-LD @graph — WebPage, ImageObject, BreadcrumbList and
+    WebSite — served both in the HTML head and in the API's yoast_head_json field, and renderable
+    for any URL via /yoast/v1/get_head. Saved verbatim in
+    json-ld/adarx-pharmaceuticals-website.jsonld. Note the graph declares no Organization node,
+    so there is no machine-readable company identity, address or sameAs set.
+- id: asyncapi
+  conforms: false
+  evidence: >-
+    No event, webhook or streaming surface exists on either deployment. The RSS feed is polled, not
+    pushed. Not applicable rather than missing.
+- id: mcp
+  conforms: false
+  evidence: >-
+    No MCP server. Both installs DO register the WordPress Abilities API (wp-abilities/v1), an
+    agent-facing capability registry, but every endpoint under it returns 401 rest_forbidden
+    anonymously, so no agent surface is exposed.
+- id: a2a
+  conforms: false
+  evidence: >-
+    /.well-known/agent-card.json and /.well-known/agent.json both returned 404 on both hosts. No
+    a2a/ artifact is written; an agent card must be served by the provider and is never authored on
+    its behalf.
+- id: cors
+  conforms: true
+  evidence: >-
+    Both hosts send Vary: Origin, Access-Control-Allow-Headers (Authorization, X-WP-Nonce,
+    Content-Disposition, Content-MD5, Content-Type) and Access-Control-Expose-Headers for the
+    pagination trio.
+- id: hipaa
+  conforms: unknown
+  evidence: >-
+    ADARx runs Phase 1-3 clinical trials and operates a patient prescreener at
+    https://stophae.com/prescreener/, so protected health information is plainly in scope for the
+    company. It publishes a clinical-trial-related website privacy notice
+    (https://www.adarx.com/stop-hae-privacy-notice/) and a privacy notice for applicants, employees
+    and contractors, but no HIPAA statement, BAA posture, or compliance page. No such data touches
+    either REST surface catalogued here. Nothing is asserted.
+- id: gdpr
+  conforms: unknown
+  evidence: >-
+    A privacy policy and two supplementary privacy notices are published, but no GDPR
+    representative, lawful-basis statement or DPA is surfaced. Not asserted.
+- id: fhir
+  conforms: false
+  evidence: No health-data API of any kind. ADARx clinical data is not exposed publicly.
+- id: dicom
+  conforms: false
+  evidence: No imaging surface.
+compliance_program_published: false
+certifications_published: []
+note: >-
+  No `type: Compliance` and no `type: TrustCenter` pointer is emitted in apis.yml for this
+  provider, because no compliance program, certification or trust center is published. Emitting one
+  would be fabrication.

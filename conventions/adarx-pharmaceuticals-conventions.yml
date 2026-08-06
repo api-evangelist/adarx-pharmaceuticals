@@ -1,0 +1,162 @@
+generated: '2026-08-06'
+method: derived
+source: >-
+  openapi/adarx-pharmaceuticals-content-openapi.yml and
+  openapi/adarx-pharmaceuticals-stop-hae-openapi.yml, plus live anonymous request/response headers
+  observed against https://www.adarx.com/wp-json/ and https://stophae.com/wp-json/ on 2026-08-06.
+apis:
+- adarx-pharmaceuticals-content-api
+- adarx-pharmaceuticals-stop-hae-api
+summary: >-
+  Cross-cutting runtime semantics of the two WordPress REST surfaces ADARx Pharmaceuticals
+  operates. These are WordPress core conventions, not conventions ADARx authored or documents — the
+  company publishes no developer documentation for either surface. They are recorded here because
+  they are what an integrator actually has to code against.
+authentication:
+  style: none-for-read
+  detail: >-
+    Read operations take no credential. The route index advertises WordPress Application Passwords
+    (HTTP Basic, authorization endpoint /wp-admin/authorize-application.php) for write and
+    administrative routes; every such route returns 401 anonymously. See
+    authentication/adarx-pharmaceuticals-authentication.yml.
+pagination:
+  style: page-number
+  params:
+  - name: page
+    default: 1
+    minimum: 1
+  - name: per_page
+    default: 10
+    minimum: 1
+    maximum: 100
+    note: >-
+      Values outside 1-100 return 400 rest_invalid_param with a `details.per_page` block naming the
+      bound that was violated.
+  - name: offset
+    note: Supported as an alternative to page on post-type collections.
+  response_fields: []
+  response_headers:
+  - name: X-WP-Total
+    description: >-
+      Total matching records across all pages. Observed on 2026-08-06 — www.adarx.com posts 46,
+      pages 18, media 105, categories 6, users 2; stophae.com clinic 50, media 592, pages 4,
+      posts 0.
+  - name: X-WP-TotalPages
+    description: Total pages at the current per_page.
+  - name: Link
+    description: RFC 8288 Link header carrying rel="next" and rel="prev".
+  note: >-
+    The collection body is a bare JSON array with no envelope, so the totals live only in headers.
+    Both hosts set `Access-Control-Expose-Headers: X-WP-Total, X-WP-TotalPages, Link`, so a browser
+    client can read them cross-origin.
+sorting:
+  params: [order, orderby]
+  order_default: desc
+  orderby_default: date
+  note: >-
+    orderby accepts `relevance` only when a search term is supplied. Term collections order by name
+    ascending. The `clinic` collection on stophae.com additionally supports orderby=menu_order,
+    which is how the trial-site list is sequenced in the UI.
+filtering:
+  params: [search, slug, include, exclude, after, before, modified_after, modified_before, status, parent, categories, tags]
+  note: >-
+    `status` is accepted but anonymous callers may only request `publish`. Date filters take ISO
+    8601 values. On www.adarx.com the useful filter is `categories` — 4 News, 5 Clinical Trials,
+    6 Leadership, 7 BOD, 9 Publications.
+sparse_fieldsets:
+  supported: true
+  param: _fields
+  example: /wp/v2/posts?per_page=100&_fields=id,slug,title,link,date,categories
+  note: >-
+    _fields is the highest-value parameter on these APIs. The unfiltered post object carries a
+    large `yoast_head` markup string and a full `content.rendered` body, so field-filtering cuts
+    response size by roughly an order of magnitude when you only need an index.
+embedding:
+  supported: true
+  param: _embed
+  note: >-
+    _embed inlines _links targets. It resolves usefully here — unlike many corporate WordPress
+    installs, /wp/v2/users returns 200 anonymously on both hosts, so the `author` relation
+    dereferences.
+hateoas:
+  supported: true
+  field: _links
+  note: >-
+    Every object carries a _links map with self, collection, about, wp:attachment and wp:term
+    relations, plus `targetHints.allow` listing the methods available to the current caller — which
+    is `["GET"]` for an anonymous client.
+error_envelope:
+  format: wordpress-rest
+  rfc9457: false
+  content_type: application/json
+  shape: '{code, message, data:{status, params?, details?}}'
+  see: errors/adarx-pharmaceuticals-problem-types.yml
+idempotency:
+  supported: false
+  detail: >-
+    No idempotency key, no request-deduplication header, and no documented retry semantics. Moot in
+    practice — every operation catalogued in this repo is a GET and therefore idempotent by HTTP
+    method alone. No `type: Idempotency` pointer is emitted for this provider, because no
+    idempotency facility exists to point at.
+request_tracing:
+  request_id_header: none
+  detail: >-
+    Neither origin returns X-Request-Id, X-Correlation-Id or an equivalent. A caller cannot cite a
+    request identifier in a support conversation.
+rate_limiting:
+  documented: false
+  headers: none
+  detail: >-
+    No X-RateLimit-*, no RateLimit-* and no Retry-After were observed across the full probe run on
+    either host. www.adarx.com runs the Limit Login Attempts Reloaded plugin (namespace `llar/v1`)
+    and Akismet, which throttle authentication and comment traffic at the edge, but neither
+    advertises anything to a REST caller. Treat throughput as unspecified and be conservative.
+versioning:
+  scheme: namespace-in-path
+  current: wp/v2
+  detail: >-
+    The version is the WordPress core namespace, not an ADARx version. Namespaces registered on
+    www.adarx.com are oembed/1.0, akismet/v1, redirection/v1, yoast/v1, llar/v1, wp/v2,
+    wp-site-health/v1, wp-block-editor/v1 and wp-abilities/v1; on stophae.com they are oembed/1.0,
+    wpml/v1, wpml/st/v1, wpml/tm/v1, wpml/ate/v1, otgs/installer/v1, wp/v2, wp-site-health/v1,
+    wp-block-editor/v1 and wp-abilities/v1. ADARx does not version either surface itself; the shape
+    changes when WordPress or a plugin is upgraded.
+  see: lifecycle/adarx-pharmaceuticals-lifecycle.yml
+caching:
+  detail: >-
+    No Cache-Control, ETag or Last-Modified was observed on REST responses; both origins send
+    `X-Robots-Tag: noindex` and `X-Content-Type-Options: nosniff`. Objects do carry `modified` and
+    `modified_gmt`, so a client should poll `modified_after` to detect change rather than refetching
+    whole collections.
+content_negotiation:
+  media_types: [application/json]
+  detail: >-
+    JSON only, except /oembed/1.0/embed which accepts format=xml. An alternative HTML
+    representation of any object is available at its `link` URL. Per-route JSON Schema is
+    discoverable via the OPTIONS method.
+cors:
+  detail: >-
+    `Vary: Origin` with `Access-Control-Allow-Headers: Authorization, X-WP-Nonce,
+    Content-Disposition, Content-MD5, Content-Type`. Expose-headers covers the pagination trio.
+notable_characteristics:
+  content_is_populated: >-
+    Unlike many corporate WordPress installs, `content.rendered` and `excerpt.rendered` ARE
+    populated on the ADARx press releases (4,900-5,300 characters on the posts sampled), so the
+    full text of a release is retrievable from the API rather than only from the HTML page. Three
+    of the 46 posts are Publications-category records with empty content that exist only to carry a
+    title and a link out to the journal or conference abstract.
+  acf_asymmetry: >-
+    Posts on www.adarx.com carry an `acf` (Advanced Custom Fields) object projected into REST. The
+    `clinic` records on stophae.com carry `acf` as an EMPTY ARRAY, so the trial-site addresses and
+    contacts that the page renders are not available through the API — only site codes such as
+    `801-01`, permalinks and dates.
+  abilities_api_gated: >-
+    Both installs register the WordPress Abilities API (`wp-abilities/v1`), an agent-facing
+    capability registry, but every endpoint under it returns 401 rest_forbidden anonymously. No
+    agent surface is exposed.
+cross_references:
+- errors/adarx-pharmaceuticals-problem-types.yml
+- authentication/adarx-pharmaceuticals-authentication.yml
+- lifecycle/adarx-pharmaceuticals-lifecycle.yml
+- data-model/adarx-pharmaceuticals-data-model.yml
+- conformance/adarx-pharmaceuticals-conformance.yml

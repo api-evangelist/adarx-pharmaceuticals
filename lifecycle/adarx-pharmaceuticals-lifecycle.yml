@@ -1,0 +1,65 @@
+generated: '2026-08-06'
+method: derived
+source: >-
+  Live probes of https://www.adarx.com and https://stophae.com on 2026-08-06, plus a search of
+  www.adarx.com for a versioning policy, deprecation policy, SLA, status page or changelog.
+apis:
+- adarx-pharmaceuticals-content-api
+- adarx-pharmaceuticals-stop-hae-api
+summary: >-
+  ADARx Pharmaceuticals publishes no API lifecycle commitments of any kind. There is no developer
+  portal, no versioning policy, no deprecation policy, no SLA, no status page and no changelog for
+  either REST surface. This is expected — neither surface is a product the company markets. What
+  follows is what an integrator can actually observe.
+versioning:
+  scheme: namespace-in-path
+  current: wp/v2
+  policy_url: null
+  detail: >-
+    The version is the WordPress core REST namespace, not an ADARx version. ADARx exercises no
+    version control over either surface: its shape changes whenever WordPress core or one of the
+    installed plugins is upgraded, with no announcement. www.adarx.com self-reports WordPress 7.0.2
+    with Elementor 3.25.10; stophae.com self-reports WPML 4.9.5. Treat the contract as unstable and
+    re-read the route index at /wp-json/ before relying on any route.
+deprecation:
+  policy_url: null
+  sunset_header: false
+  deprecation_header: false
+  detail: >-
+    No Sunset (RFC 8594) or Deprecation header was observed on any response from either host, and
+    no deprecation policy is published. Routes can disappear silently on a plugin deactivation —
+    the `clinic` custom post type on stophae.com and the `redirection/v1` and `llar/v1` namespaces
+    on www.adarx.com all exist only because a specific plugin is active.
+deprecated_operations: []
+sla:
+  url: null
+  uptime_target: null
+  detail: No service-level commitment is published, and none would be implied for a marketing site.
+status_page: null
+status_page_detail: >-
+  No status page exists at status.adarx.com, /status, or any third-party status host, and none is
+  linked from the site. No `type: StatusPage` pointer is emitted.
+changelog: null
+changelog_detail: >-
+  No API or product changelog is published. The nearest thing is the corporate press-release
+  stream at https://www.adarx.com/news/ (46 posts, 2021-09-08 through 2026-06-10, also available as
+  RSS at /feed/), which is company news rather than a record of changes to any interface. No
+  `type: ChangeLog` pointer is emitted, because pointing a changelog check at a press-release feed
+  would misrepresent it.
+support:
+  channel: https://www.adarx.com/contact/
+  emails:
+  - info@adarx.com
+  - ir@adarx.com
+  phone: (877) 232-7974
+  detail: >-
+    General corporate contact only. There is no developer support channel, no community forum and
+    no issue tracker for either REST surface.
+observed_content_cadence:
+  posts_total: 46
+  first_post: '2021-09-08'
+  latest_post: '2026-06-10'
+  note: >-
+    Publishing runs at roughly one press release a month in 2025-2026, clustered around clinical
+    data readouts and leadership appointments. Derived from
+    https://www.adarx.com/wp-json/wp/v2/posts on 2026-08-06.

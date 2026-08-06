@@ -1,0 +1,51 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the ADARx STOP-HAE Trial Site API
+  version: 1.0.0
+extends: openapi/adarx-pharmaceuticals-stop-hae-openapi.yml
+x-generated: '2026-08-06'
+x-method: generated
+x-note: >-
+  ADARx Pharmaceuticals publishes no OpenAPI for stophae.com. The document this overlay extends is
+  an API Evangelist derivation of the WordPress route index at https://stophae.com/wp-json/,
+  verified against live anonymous responses. This overlay keeps the assessment separable from the
+  description.
+actions:
+- target: $.info
+  update:
+    x-apievangelist-profile: https://apis.io/providers/adarx-pharmaceuticals/
+    x-apievangelist-derived: true
+    x-apievangelist-provider-published-spec: false
+    x-apievangelist-surface-class: incidental-cms-api
+    x-apievangelist-verified: '2026-08-06'
+- target: $.info
+  update:
+    x-artifacts:
+      authentication: authentication/adarx-pharmaceuticals-authentication.yml
+      conventions: conventions/adarx-pharmaceuticals-conventions.yml
+      errors: errors/adarx-pharmaceuticals-problem-types.yml
+      conformance: conformance/adarx-pharmaceuticals-conformance.yml
+      data_model: data-model/adarx-pharmaceuticals-data-model.yml
+      skills: skills/_index.yml
+- target: $.paths['/wp/v2/clinic'].get
+  update:
+    x-apievangelist-significance: >-
+      The only domain-specific entity either ADARx install exposes: 50 STOP-HAE Phase 3 trial-site
+      records, readable without credentials.
+    x-apievangelist-limitation: >-
+      `acf` is an empty array on every record, so the address, principal investigator and contact
+      the HTML page renders are absent from the API. Projecting those ACF fields into REST is a
+      per-field configuration change and would turn this into a genuinely useful trial-site
+      directory.
+    x-authoritative-source: >-
+      ClinicalTrials.gov is the registry of record for STOP-HAE site locations
+      (NCT07081503, NCT06989359, NCT06990269, NCT05876312, NCT05691361).
+- target: $.components.schemas.Clinic
+  update:
+    x-empty-acf-observed: '2026-08-06'
+    x-no-geography: true
+- target: $.paths['/wp/v2/media'].get
+  update:
+    x-volume-note: >-
+      592 attachments for a four-page site. The WPML 4.9.5 multilingual configuration duplicates
+      assets across roughly 27 language slots. Page serially.

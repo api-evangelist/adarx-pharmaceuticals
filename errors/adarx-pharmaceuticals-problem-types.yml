@@ -1,0 +1,128 @@
+generated: '2026-08-06'
+method: derived
+source: >-
+  Live anonymous error responses provoked against https://www.adarx.com/wp-json/ and
+  https://stophae.com/wp-json/ on 2026-08-06, cross-checked against the 4xx responses declared in
+  openapi/adarx-pharmaceuticals-content-openapi.yml and
+  openapi/adarx-pharmaceuticals-stop-hae-openapi.yml.
+format: wordpress-rest
+rfc9457: false
+media_type: application/json
+envelope:
+  shape: '{ "code": string, "message": string, "data": { "status": integer, ... } }'
+  detail: >-
+    WordPress's own error envelope. There is no `type` URI, no `title`, no `instance` and no
+    application/problem+json media type, so this is NOT RFC 9457 Problem Details. The stable
+    machine-readable discriminator is `code`; `message` is human prose and is localisable.
+    Validation failures additionally carry `data.params` (a field-to-message map) and
+    `data.details` (a per-field nested error with its own `code`).
+  note: >-
+    The HTTP status is duplicated inside the body at `data.status`. A client should trust the
+    transport status; the body copy is informational.
+problems:
+- code: rest_no_route
+  status: 404
+  title: No route matched
+  message: No route was found matching the URL and request method.
+  remediation: Check the path against the route index at /wp-json/, and check the HTTP method.
+  observed: https://www.adarx.com/wp-json/wp/v2/nope
+- code: rest_post_invalid_id
+  status: 404
+  title: Invalid post ID
+  message: Invalid post ID.
+  remediation: The id does not exist or is not published. List the collection first.
+  observed: https://www.adarx.com/wp-json/wp/v2/posts/999999
+  source_operations:
+  - openapi/adarx-pharmaceuticals-content-openapi.yml#getPost
+  - openapi/adarx-pharmaceuticals-content-openapi.yml#getPage
+  - openapi/adarx-pharmaceuticals-stop-hae-openapi.yml#getTrialClinic
+- code: rest_invalid_param
+  status: 400
+  title: Invalid parameter
+  message: 'Invalid parameter(s): per_page'
+  remediation: >-
+    Read `data.params` for the field-level message and `data.details.<field>.code` for the nested
+    reason (e.g. rest_out_of_bounds). per_page must be between 1 and 100 inclusive.
+  observed: https://www.adarx.com/wp-json/wp/v2/posts?per_page=500
+  source_operations:
+  - openapi/adarx-pharmaceuticals-content-openapi.yml#listPosts
+  - openapi/adarx-pharmaceuticals-content-openapi.yml#listPages
+  - openapi/adarx-pharmaceuticals-content-openapi.yml#listMedia
+  - openapi/adarx-pharmaceuticals-stop-hae-openapi.yml#listTrialClinics
+- code: rest_out_of_bounds
+  status: 400
+  title: Parameter out of bounds
+  message: per_page must be between 1 (inclusive) and 100 (inclusive)
+  remediation: Nested inside data.details on a rest_invalid_param response. Clamp the value.
+  observed: https://www.adarx.com/wp-json/wp/v2/posts?per_page=500
+- code: rest_forbidden
+  status: 401
+  title: Not allowed
+  message: Sorry, you are not allowed to do that.
+  remediation: >-
+    The route requires an authenticated WordPress user. The generic form is returned by
+    /wp/v2/settings, /wp-abilities/v1/*, /redirection/v1/* and /akismet/v1/* on www.adarx.com.
+    Anonymous callers cannot reach these; they are not part of the public contract.
+  observed: https://www.adarx.com/wp-json/wp/v2/settings
+- code: rest_cannot_create
+  status: 401
+  title: Cannot create
+  message: Sorry, you are not allowed to create posts as this user.
+  remediation: Write operations require Application Password credentials. No public write surface exists.
+  observed: POST https://www.adarx.com/wp-json/wp/v2/posts
+- code: rest_cannot_read
+  status: 401
+  title: Cannot read
+  message: Sorry, you are not allowed to view revisions of this post.
+  remediation: The revisions sub-collection is authenticated-only. Use the object's `modified` field instead.
+  observed: https://www.adarx.com/wp-json/wp/v2/posts/965/revisions
+- code: rest_cannot_view_themes
+  status: 401
+  title: Cannot view themes
+  message: Sorry, you are not allowed to view themes.
+  observed: https://www.adarx.com/wp-json/wp/v2/themes
+- code: rest_cannot_view_plugins
+  status: 401
+  title: Cannot manage plugins
+  message: Sorry, you are not allowed to manage plugins for this site.
+  observed: https://www.adarx.com/wp-json/wp/v2/plugins
+- code: rest_cannot_manage_widgets
+  status: 401
+  title: Cannot manage widgets
+  message: Sorry, you are not allowed to manage widgets on this site.
+  observed: https://www.adarx.com/wp-json/wp/v2/widgets
+- code: rest_cannot_manage_templates
+  status: 401
+  title: Cannot manage templates
+  message: Sorry, you are not allowed to access the templates on this site.
+  observed: https://www.adarx.com/wp-json/wp/v2/templates
+- code: rest_block_type_cannot_view
+  status: 401
+  title: Cannot view block types
+  message: Sorry, you are not allowed to manage block types.
+  observed: https://www.adarx.com/wp-json/wp/v2/block-types
+- code: rest_cannot_read_global_styles
+  status: 401
+  title: Cannot read global styles
+  message: Sorry, you are not allowed to access the global styles on this site.
+  observed: https://www.adarx.com/wp-json/wp/v2/global-styles/themes/{stylesheet}
+- code: rest_cannot_view
+  status: 401
+  title: Cannot view
+  message: Sorry, you are not allowed to view menus. / view the registered block patterns. / view the registered icons.
+  remediation: Generic capability refusal used by menus, menu-locations, block patterns and icons.
+  observed: https://www.adarx.com/wp-json/wp/v2/menus
+- code: rest_cannot_read
+  status: 401
+  title: Cannot read font collections
+  message: Sorry, you are not allowed to access font collections.
+  observed: https://www.adarx.com/wp-json/wp/v2/font-collections
+not_observed:
+  '5xx': >-
+    No 5xx response was produced during the probe run on either host, so no server-error catalogue
+    is asserted here. Absence of an observation is not a claim that none exists.
+note: >-
+  ADARx Pharmaceuticals publishes no error reference for these surfaces. Every entry above was
+  provoked live and recorded verbatim; nothing is inferred from the WordPress source. The upstream
+  contract that defines these codes is the WordPress REST API Handbook,
+  https://developer.wordpress.org/rest-api/.

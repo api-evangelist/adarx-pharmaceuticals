@@ -1,0 +1,57 @@
+overlay: 1.0.0
+info:
+  title: API Evangelist enhancements for the ADARx Pharmaceuticals Content API
+  version: 1.0.0
+extends: openapi/adarx-pharmaceuticals-content-openapi.yml
+x-generated: '2026-08-06'
+x-method: generated
+x-note: >-
+  ADARx Pharmaceuticals publishes no OpenAPI. The document this overlay extends is itself an API
+  Evangelist derivation of the WordPress route index at https://www.adarx.com/wp-json/. This
+  overlay records the API Evangelist assessment layered on top of it, so the derivation stays a
+  faithful description of the observed surface and the opinion stays separable from it.
+actions:
+- target: $.info
+  update:
+    x-apievangelist-profile: https://apis.io/providers/adarx-pharmaceuticals/
+    x-apievangelist-derived: true
+    x-apievangelist-provider-published-spec: false
+    x-apievangelist-surface-class: incidental-cms-api
+    x-apievangelist-verified: '2026-08-06'
+- target: $.info
+  update:
+    x-artifacts:
+      authentication: authentication/adarx-pharmaceuticals-authentication.yml
+      conventions: conventions/adarx-pharmaceuticals-conventions.yml
+      errors: errors/adarx-pharmaceuticals-problem-types.yml
+      conformance: conformance/adarx-pharmaceuticals-conformance.yml
+      lifecycle: lifecycle/adarx-pharmaceuticals-lifecycle.yml
+      data_model: data-model/adarx-pharmaceuticals-data-model.yml
+      json_ld: json-ld/adarx-pharmaceuticals-json-ld.yml
+      well_known: well-known/adarx-pharmaceuticals-well-known.yml
+      domain_security: security/adarx-pharmaceuticals-domain-security.yml
+      skills: skills/_index.yml
+- target: $.paths['/wp/v2/posts'].get
+  update:
+    x-poll-strategy: >-
+      No ETag, Last-Modified or Cache-Control is returned. Use modified_after against the highest
+      `modified` seen. No rate-limit header of any kind is advertised; poll no more than hourly.
+    x-content-populated: true
+- target: $.paths['/wp/v2/users'].get
+  update:
+    x-exposure-note: >-
+      This endpoint returns 200 anonymously on this install, which is not the WordPress default
+      posture for a corporate site. It exposes two author display names and slugs (no email
+      addresses). Recorded as an observation, not a vulnerability.
+- target: $.paths['/yoast/v1/get_head'].get
+  update:
+    x-structured-data-gap: >-
+      The returned schema.org @graph carries WebPage, ImageObject, BreadcrumbList and WebSite nodes
+      but no Organization node, so ADARx company identity is not machine readable.
+- target: $.components.schemas.Post
+  update:
+    x-missing-domain-model: >-
+      The ADARx clinical pipeline — ADX-038 (agazisiran), ADX-324 (onvuzosiran), ADX-626, ADX-077,
+      ADX-199 with their targets, indications and phases — has no representation in this schema or
+      any other. It exists only as rendered HTML inside page id 10. This is the largest gap between
+      what ADARx knows and what ADARx publishes machine-readably.

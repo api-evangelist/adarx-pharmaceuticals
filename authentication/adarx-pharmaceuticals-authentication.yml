@@ -1,0 +1,71 @@
+generated: '2026-08-06'
+method: derived
+source: >-
+  openapi/adarx-pharmaceuticals-content-openapi.yml,
+  openapi/adarx-pharmaceuticals-stop-hae-openapi.yml, and the `authentication` block returned by the
+  live route indexes at https://www.adarx.com/wp-json/ and https://stophae.com/wp-json/ on
+  2026-08-06.
+upstream_docs: https://developer.wordpress.org/rest-api/using-the-rest-api/authentication/
+provider_docs: null
+provider_docs_note: >-
+  ADARx Pharmaceuticals publishes no authentication documentation of its own. The link above is the
+  upstream WordPress handbook that defines the scheme; it is recorded as `upstream_docs`, not as
+  `docs`, so it is never mistaken for a provider artifact.
+summary:
+  types:
+  - http
+  public_read: true
+  api_key_in: []
+  oauth2_flows: []
+  oidc: false
+  mtls: false
+public_access:
+  anonymous_read: true
+  detail: >-
+    Every operation catalogued in this repo — 24 on the content API and 17 on the STOP-HAE API —
+    returns 200 without any credential. No API key, no token, no signup, no registration and no
+    rate-limit gate stands in front of them. There is nothing to obtain.
+schemes:
+- name: applicationPassword
+  type: http
+  scheme: basic
+  description: >-
+    WordPress Application Passwords — HTTP Basic with a WordPress user login and a generated
+    application password. Advertised by both route indexes under
+    `authentication["application-passwords"].endpoints.authorization`, at
+    https://www.adarx.com/wp-admin/authorize-application.php and
+    https://stophae.com/wp-admin/authorize-application.php respectively. Required only for write and
+    administrative routes, none of which are modelled in this repo. There is no public path to
+    obtaining a credential — accounts are internal to ADARx.
+  sources:
+  - openapi/adarx-pharmaceuticals-content-openapi.yml
+  - openapi/adarx-pharmaceuticals-stop-hae-openapi.yml
+  authorization_endpoints:
+  - https://www.adarx.com/wp-admin/authorize-application.php
+  - https://stophae.com/wp-admin/authorize-application.php
+- name: wpNonce
+  type: apiKey
+  in: header
+  parameter_name: X-WP-Nonce
+  description: >-
+    Cookie-plus-nonce authentication, used by the WordPress admin's own first-party JavaScript.
+    Both hosts list X-WP-Nonce in `Access-Control-Allow-Headers`. Not usable by a third-party
+    integrator — it requires a logged-in session cookie on the same origin.
+  sources:
+  - live response headers, https://www.adarx.com/wp-json/wp/v2/posts
+not_present:
+- id: oauth2
+  evidence: /.well-known/oauth-authorization-server and /.well-known/oauth-protected-resource returned 404 on both hosts.
+- id: openIdConnect
+  evidence: /.well-known/openid-configuration returned 404 on both hosts.
+- id: apiKey-query
+  evidence: No query- or header-based API key is accepted or documented.
+- id: mutualTLS
+  evidence: No client-certificate requirement observed.
+authorization_behaviour:
+  detail: >-
+    Refusals are capability-based and arrive as HTTP 401 (not 403) with a WordPress error envelope —
+    `rest_forbidden`, `rest_cannot_read`, `rest_cannot_view_themes`, `rest_cannot_manage_widgets`
+    and siblings. Each object's `_links.self[].targetHints.allow` reports the methods available to
+    the current caller, which is `["GET"]` anonymously. See
+    errors/adarx-pharmaceuticals-problem-types.yml.

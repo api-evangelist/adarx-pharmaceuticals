@@ -1,0 +1,103 @@
+generated: '2026-08-06'
+method: probed
+source: live GET probes of the /.well-known/ discovery surface on every ADARx host
+description: >-
+  Result of probing the RFC 8615 /.well-known/ discovery surface on both hosts ADARx
+  Pharmaceuticals operates — www.adarx.com (the corporate site) and stophae.com (the STOP-HAE
+  Phase 3 patient-recruitment site). Every path returned 404. Both hosts are WordPress/Apache
+  deployments that answer unknown paths with the theme's own 404 HTML page rather than a
+  catch-all 200, so these are true misses and not single-page-app false negatives. Absence of a
+  record is valid data: ADARx publishes no security.txt, no OAuth or OpenID discovery document, no
+  api-catalog, no AI plugin manifest and no A2A agent card.
+hosts:
+- host: https://www.adarx.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+    file: null
+  - path: /.well-known/openid-configuration
+    status: 404
+    file: null
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+    file: null
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+    file: null
+  - path: /.well-known/api-catalog
+    status: 404
+    file: null
+  - path: /.well-known/ai-plugin.json
+    status: 404
+    file: null
+  - path: /.well-known/agent-card.json
+    status: 404
+    file: null
+  - path: /.well-known/agent.json
+    status: 404
+    file: null
+  - path: /.well-known/mta-sts.txt
+    status: 404
+    file: null
+  - path: /.well-known/change-password
+    status: 404
+    file: null
+- host: https://stophae.com
+  documents:
+  - path: /.well-known/security.txt
+    status: 404
+    file: null
+  - path: /.well-known/openid-configuration
+    status: 404
+    file: null
+  - path: /.well-known/oauth-authorization-server
+    status: 404
+    file: null
+  - path: /.well-known/oauth-protected-resource
+    status: 404
+    file: null
+  - path: /.well-known/api-catalog
+    status: 404
+    file: null
+  - path: /.well-known/ai-plugin.json
+    status: 404
+    file: null
+  - path: /.well-known/agent-card.json
+    status: 404
+    file: null
+  - path: /.well-known/agent.json
+    status: 404
+    file: null
+other_discovery:
+- path: https://www.adarx.com/robots.txt
+  status: 200
+  note: >-
+    Yoast-generated. `User-agent: *` with an empty `Disallow:` — nothing is disallowed, including
+    /wp-json/ — and a pointer to the sitemap index. No AI-crawler directives of any kind.
+- path: https://www.adarx.com/sitemap_index.xml
+  status: 200
+  note: Yoast sitemap index with two children, post-sitemap.xml and page-sitemap.xml.
+- path: https://www.adarx.com/feed/
+  status: 200
+  note: WordPress RSS 2.0 feed carrying the 10 most recent press releases.
+- path: https://www.adarx.com/wp-json/
+  status: 200
+  note: >-
+    The WordPress REST route index — 213 routes. This is the machine-readable contract catalogued
+    in openapi/adarx-pharmaceuticals-content-openapi.yml.
+- path: https://www.adarx.com/llms.txt
+  status: 404
+  note: >-
+    Not published by the provider. The file in llms/ is an API Evangelist generation, not a
+    harvest.
+- path: https://stophae.com/robots.txt
+  status: 200
+  note: Standard WordPress robots.txt; disallows /wp-admin/ except admin-ajax.php.
+- path: https://stophae.com/wp-json/
+  status: 200
+  note: >-
+    The STOP-HAE patient site's REST route index — 226 routes, including the custom `clinic` post
+    type. Catalogued in openapi/adarx-pharmaceuticals-stop-hae-openapi.yml.
+- path: https://stophae.com/llms.txt
+  status: 404
+  note: Not published.

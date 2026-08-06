@@ -1,0 +1,82 @@
+# ADARx Pharmaceuticals
+
+> ADARx Pharmaceuticals, Inc. is a clinical-stage biotechnology company in San Diego, California,
+> developing next-generation RNA therapeutics — siRNA, RNA editing and proprietary targeted
+> delivery — against hepatic and extrahepatic targets. ADARx runs no developer program and
+> publishes no product API. The only machine-readable surfaces reachable without credentials are
+> the WordPress REST content APIs behind www.adarx.com and stophae.com, catalogued below by API
+> Evangelist.
+
+**This file is an API Evangelist generation, not a provider artifact.** ADARx does not publish an
+llms.txt; https://www.adarx.com/llms.txt and https://stophae.com/llms.txt both returned 404 on
+2026-08-06.
+
+## APIs
+
+- [ADARx Pharmaceuticals Content API](https://www.adarx.com/wp-json): the anonymously readable
+  WordPress REST API behind the corporate site. 46 press releases / clinical-trial listings /
+  board-and-leadership biographies / publications, 18 corporate pages, a 105-item media library,
+  six categories, cross-content search, an oEmbed 1.0 provider, and a Yoast SEO head renderer that
+  returns the page's schema.org JSON-LD. Unlike most corporate WordPress installs, article bodies
+  ARE populated in `content.rendered`.
+- [ADARx STOP-HAE Trial Site API](https://stophae.com/wp-json): the WordPress REST API behind the
+  STOP-HAE Phase 3 patient-recruitment site. Its distinguishing feature is a custom `clinic` post
+  type carrying 50 trial-site records, readable anonymously — though the ACF payload that holds
+  each site's address and contact is not projected into REST.
+
+## Specs
+
+- [Content API OpenAPI 3.1](openapi/adarx-pharmaceuticals-content-openapi.yml) — 24 operations,
+  derived from the published route index and verified against live anonymous responses.
+- [STOP-HAE API OpenAPI 3.1](openapi/adarx-pharmaceuticals-stop-hae-openapi.yml) — 17 operations.
+- [Upstream contract: WordPress REST API Handbook](https://developer.wordpress.org/rest-api/)
+
+## Artifacts
+
+- [Authentication profile](authentication/adarx-pharmaceuticals-authentication.yml) — no credential
+  for reads; WordPress Application Passwords (HTTP Basic) advertised for writes.
+- [API conventions](conventions/adarx-pharmaceuticals-conventions.yml) — pagination, sparse
+  fieldsets, HATEOAS, caching, rate-limit signalling (none), versioning.
+- [Error catalogue](errors/adarx-pharmaceuticals-problem-types.yml) — the WordPress
+  `{code, message, data}` envelope; not RFC 9457.
+- [Conformance](conformance/adarx-pharmaceuticals-conformance.yml) — what these surfaces do and do
+  not conform to.
+- [Lifecycle](lifecycle/adarx-pharmaceuticals-lifecycle.yml) — no versioning policy, no deprecation
+  policy, no SLA, no status page, no changelog.
+- [Data model](data-model/adarx-pharmaceuticals-data-model.yml) — the entity graph, and the gaps.
+- [Well-known probe](well-known/adarx-pharmaceuticals-well-known.yml) — every /.well-known/ path
+  404 on both hosts.
+- [Domain security](security/adarx-pharmaceuticals-domain-security.yml) — TLS, HSTS, DNSSEC, CAA,
+  SPF, DMARC.
+- [schema.org JSON-LD](json-ld/adarx-pharmaceuticals-json-ld.yml) — the published graph, and the
+  missing Organization node.
+- [Agent skills](skills/_index.yml) — packaged operating instructions for the flows these APIs
+  actually support.
+
+## Company
+
+- [Home](https://www.adarx.com/)
+- [Company Overview](https://www.adarx.com/company/company-overview/)
+- [Team](https://www.adarx.com/company/team/)
+- [Investors](https://www.adarx.com/company/investors/)
+- [Science Overview](https://www.adarx.com/science/science-overview/)
+- [Technology](https://www.adarx.com/science/technology/) — RNAi, RNA editing, delivery
+- [Pipeline](https://www.adarx.com/pipeline/) — ADX-038 (agazisiran, CFB: IgAN/C3G, GA, PNH),
+  ADX-324 (onvuzosiran, PKK: HAE), ADX-626 (FXI: thrombosis), ADX-077 (obesity), ADX-199 (APP:
+  neurodegeneration)
+- [Publications](https://www.adarx.com/science/publications/)
+- [Patients](https://www.adarx.com/patients/)
+- [STOP-HAE trial site](https://stophae.com/)
+- [News](https://www.adarx.com/news/) · [RSS](https://www.adarx.com/feed/)
+- [Careers](https://www.adarx.com/careers/)
+- [Contact](https://www.adarx.com/contact/) — info@adarx.com, ir@adarx.com, (877) 232-7974
+
+## Not available
+
+- No developer portal, no API documentation, no API reference, no getting-started guide.
+- No SDKs, no CLI, no Postman collection, no sandbox.
+- No OAuth, no OpenID Connect, no scopes.
+- No MCP server, no A2A agent card, no AsyncAPI, no webhooks.
+- No status page, no changelog, no deprecation policy, no security.txt, no trust center, no
+  published certifications.
+- The ADARx pipeline itself is not machine readable — it exists only as rendered HTML.

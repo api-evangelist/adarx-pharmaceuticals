@@ -42,5 +42,21 @@
 > Full detail: **[Where this data comes from](https://apievangelist.com/about/where-our-data-comes-from)**
 <!-- API-EVANGELIST-PROVENANCE:END -->
 
-ADARx Pharmaceuticals is a company surfaced via the API Evangelist harvest backlog (source: secondary-market) and added to the network as a stub for full-pipeline profiling.
+ADARx Pharmaceuticals, Inc. is a clinical-stage biotechnology company in San Diego, California, founded in 2019,
+developing next-generation RNA therapeutics — RNA interference, RNA editing and proprietary targeted
+oligonucleotide delivery. Its pipeline is led by ADX-324 (onvuzosiran), an siRNA against prekallikrein in the
+Phase 3 STOP-HAE study in hereditary angioedema, and ADX-038 (agazisiran), an siRNA against complement factor B in
+Phase 2 for IgA nephropathy / C3 glomerulopathy, geographic atrophy and paroxysmal nocturnal hemoglobinuria, with
+ADX-626 (factor XI), ADX-077 (obesity) and ADX-199 (APP) behind them. The company closed a $200M Series C in
+August 2023 co-led by Bain Capital Life Sciences and TCGX, and signed a collaboration and license option agreement
+with AbbVie in May 2025.
+
+ADARx runs no developer program and publishes no product API, no developer portal and no API documentation. The
+only machine-readable surfaces reachable without credentials are the two WordPress REST content APIs it operates —
+`www.adarx.com/wp-json` (46 press releases and clinical listings, 18 corporate pages, 105 media items) and
+`stophae.com/wp-json` (the STOP-HAE patient site, including a custom `clinic` collection of 50 trial-site
+records) — both catalogued in this repository.
+
+- https://www.adarx.com/
+- https://stophae.com/
 - https://www.nasdaqprivatemarket.com/

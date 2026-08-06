@@ -1,0 +1,175 @@
+generated: '2026-08-06'
+method: derived
+source: >-
+  openapi/adarx-pharmaceuticals-content-openapi.yml and
+  openapi/adarx-pharmaceuticals-stop-hae-openapi.yml, cross-checked against live objects and their
+  `_links` maps fetched anonymously on 2026-08-06.
+summary: >-
+  The entity graph of the two WordPress REST surfaces ADARx Pharmaceuticals operates. Relationships
+  are expressed in WordPress as bare integer id fields plus a `_links` HAL-ish map; both are
+  recorded below. The corporate site (www.adarx.com) and the STOP-HAE patient site (stophae.com)
+  are separate installs with separate id spaces — an id is only meaningful within its own host.
+entities:
+- name: Post
+  api: adarx-pharmaceuticals-content-api
+  collection: /wp/v2/posts
+  count_observed: 46
+  id_field: id
+  id_space: integer, per-install
+  description: >-
+    A press release, clinical-trial listing, leadership/board biography or publication reference.
+    The category assignment is what distinguishes them — this site uses categories as its content
+    type dimension rather than registering custom post types.
+  key_fields: [id, slug, date, modified, status, link, title.rendered, content.rendered, excerpt.rendered, author, featured_media, categories, acf, yoast_head_json]
+  relationships:
+  - type: belongs_to
+    target: User
+    via: author
+    link_rel: author
+  - type: has_one
+    target: MediaItem
+    via: featured_media
+    link_rel: wp:featuredmedia
+    note: 0 when unset.
+  - type: has_many
+    target: Term
+    via: categories
+    link_rel: wp:term
+  - type: has_many
+    target: MediaItem
+    via: /wp/v2/media?parent={id}
+    link_rel: wp:attachment
+- name: Page
+  api: adarx-pharmaceuticals-content-api
+  collection: /wp/v2/pages
+  count_observed: 18
+  id_field: id
+  description: >-
+    A corporate page. Hierarchical — `parent` points at another Page. The observed tree is
+    Company (25) -> Company Overview (27), Team (24), Investors (46); Science (12) -> Science
+    Overview (14), Technology (15), Publications (969); plus the top-level Home (298), Pipeline
+    (10), Patients (20), News (6), Careers (30), Contact (7), Terms of Use (804), Privacy Policy
+    (3) and two supplementary privacy notices (807, 815).
+  key_fields: [id, slug, parent, menu_order, link, title.rendered, content.rendered, yoast_head_json]
+  relationships:
+  - type: belongs_to
+    target: Page
+    via: parent
+    link_rel: up
+    note: 0 for a top-level page.
+  - type: has_many
+    target: Page
+    via: /wp/v2/pages?parent={id}
+  - type: belongs_to
+    target: User
+    via: author
+  - type: has_one
+    target: MediaItem
+    via: featured_media
+- name: MediaItem
+  api: adarx-pharmaceuticals-content-api
+  collection: /wp/v2/media
+  count_observed: 105
+  id_field: id
+  description: >-
+    An attachment — corporate logo, team headshot, pipeline graphic, investor logo, press-release
+    image. `source_url` is the direct file URL; `media_details.sizes` carries the responsive
+    derivatives.
+  key_fields: [id, slug, mime_type, media_type, source_url, alt_text, post, media_details]
+  relationships:
+  - type: belongs_to
+    target: Post
+    via: post
+    note: Also resolves to a Page; `post` is the generic parent id.
+- name: Term
+  api: adarx-pharmaceuticals-content-api
+  collection: /wp/v2/categories
+  count_observed: 6
+  id_field: id
+  description: >-
+    A category. The six observed are News (4, 23 posts), Clinical Trials (5, 7), Leadership (6, 5),
+    BOD (7, 9), Publications (9, 3) and Uncategorized (1, 0). The post_tag taxonomy is registered
+    but empty.
+  key_fields: [id, name, slug, count, taxonomy, parent, link]
+  relationships:
+  - type: has_many
+    target: Post
+    via: /wp/v2/posts?categories={id}
+  - type: belongs_to
+    target: Taxonomy
+    via: taxonomy
+- name: User
+  api: adarx-pharmaceuticals-content-api
+  collection: /wp/v2/users
+  count_observed: 2
+  id_field: id
+  description: >-
+    A content author. Readable anonymously on this install. Returns display name, slug, description
+    and author-archive link; no email address is exposed.
+  key_fields: [id, name, slug, link, avatar_urls]
+  relationships:
+  - type: has_many
+    target: Post
+    via: /wp/v2/posts?author={id}
+- name: PostType
+  api: adarx-pharmaceuticals-content-api
+  collection: /wp/v2/types
+  description: The registry of registered post types. No custom editorial type on www.adarx.com.
+- name: Taxonomy
+  api: adarx-pharmaceuticals-content-api
+  collection: /wp/v2/taxonomies
+  count_observed: 4
+  description: category, post_tag, nav_menu, wp_pattern_category.
+- name: Clinic
+  api: adarx-pharmaceuticals-stop-hae-api
+  collection: /wp/v2/clinic
+  count_observed: 50
+  id_field: id
+  description: >-
+    A STOP-HAE Phase 3 trial site. THE distinguishing entity on stophae.com and the only
+    domain-specific object either install exposes. Identified by a site code carried in both
+    `slug` and `title.rendered` (e.g. `801-01`). The `acf` payload is an empty array on every
+    record, so the site's address, principal investigator and contact details — which the HTML
+    page renders — are NOT retrievable through REST. `categories` is empty on every record even
+    though the category taxonomy is registered against the type.
+  key_fields: [id, slug, title.rendered, link, menu_order, date, modified, status, acf]
+  relationships:
+  - type: has_many
+    target: TrialMediaItem
+    via: /wp/v2/media?parent={id}
+    link_rel: wp:attachment
+  - type: has_many
+    target: TrialTerm
+    via: /wp/v2/categories?post={id}
+    link_rel: wp:term
+    note: Empty on every observed record.
+- name: TrialPage
+  api: adarx-pharmaceuticals-stop-hae-api
+  collection: /wp/v2/pages
+  count_observed: 4
+  description: Home (2), HCP (91), Prescreener (201) and Privacy Policy (211).
+- name: TrialMediaItem
+  api: adarx-pharmaceuticals-stop-hae-api
+  collection: /wp/v2/media
+  count_observed: 592
+  description: >-
+    The largest collection across both installs, and disproportionate to a four-page site — the
+    WPML multilingual configuration duplicates assets per language.
+gaps:
+- >-
+  There is no machine-readable representation of the ADARx pipeline. ADX-038 (agazisiran),
+  ADX-324 (onvuzosiran), ADX-626, ADX-077 and ADX-199 — with their targets (CFB, PKK, FXI, APP),
+  indications (IgAN/C3G, GA, PNH, HAE, thrombosis, obesity, neurodegeneration) and phases — exist
+  only as rendered HTML inside the body of page 10. No custom post type, no taxonomy and no ACF
+  projection exposes them, so the single most valuable dataset ADARx holds is not addressable by
+  an agent through this API.
+- >-
+  The `clinic` records on stophae.com carry site codes but no geography. A patient- or
+  investigator-facing agent cannot answer "where can I enrol" from this API; it has to fall back to
+  the rendered page or to ClinicalTrials.gov (NCT07081503, NCT06989359, NCT06990269, NCT05876312,
+  NCT05691361).
+- >-
+  The schema.org JSON-LD graph carries WebPage/WebSite/BreadcrumbList/ImageObject nodes but no
+  Organization node, so the company's own identity, address and sameAs links are not machine
+  readable either.
+render: null
