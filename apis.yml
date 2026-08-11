@@ -40,37 +40,16 @@ tags:
 - san-diego
 - content-api
 apis:
-- aid: adarx-pharmaceuticals:adarx-pharmaceuticals-content-api
-  name: ADARx Pharmaceuticals Content API
-  description: >-
-    The anonymously readable WordPress REST API behind www.adarx.com. It exposes 46 published posts
-    (23 press releases, 9 board biographies, 7 clinical-trial listings, 5 leadership biographies and
-    3 publications), the 18 corporate pages (Home, Company Overview, Team, Investors, Science
-    Overview, Technology, Publications, Pipeline, Patients, News, Careers, Contact, Terms of Use and
-    three privacy notices), the 105-item media library, the six categories, the registered post
-    types, taxonomies and statuses, cross-content search, the oEmbed 1.0 provider endpoint, and the
-    Yoast SEO head renderer that carries the site's schema.org JSON-LD graph. Two things a consumer
-    should know. First, unlike most corporate WordPress installs, `content.rendered` IS populated —
-    press releases return 4,900 to 5,300 characters of prose — so the API is a usable source for the
-    full text of an ADARx announcement. Second, the ADARx clinical pipeline itself is not modelled:
-    ADX-038, ADX-324, ADX-626, ADX-077 and ADX-199 with their targets, indications and phases exist
-    only as rendered HTML inside page id 10, with no custom post type, taxonomy or ACF projection
-    behind them. This is not a developer product ADARx markets; it is the site's own content
-    surface, registered at /wp-json/ and verified to return data without credentials. The OpenAPI in
-    this repo is derived from the published route index.
+- aid: adarx-pharmaceuticals:adarx-pharmaceuticals-clinics-api
+  name: ADARx Pharmaceuticals Clinics API
+  description: The STOP-HAE trial-site (clinic) registry.
   humanURL: https://developer.wordpress.org/rest-api/
   baseURL: https://www.adarx.com/wp-json
   tags:
-  - content
-  - wordpress
-  - corporate
-  - press-releases
-  - media
+  - clinics
   properties:
   - type: OpenAPI
-    url: openapi/adarx-pharmaceuticals-content-openapi.yml
-  - type: Overlay
-    url: overlays/adarx-pharmaceuticals-content-overlay.yaml
+    url: openapi/adarx-pharmaceuticals-clinics-api-openapi.yml
   - type: Authentication
     url: authentication/adarx-pharmaceuticals-authentication.yml
   - type: ErrorCatalog
@@ -81,51 +60,16 @@ apis:
     url: data-model/adarx-pharmaceuticals-data-model.yml
   - type: JSONLD
     url: json-ld/adarx-pharmaceuticals-json-ld.yml
-  x-contract-provenance: >-
-    Derived by the API Evangelist enrichment pipeline from the WordPress REST route index the site
-    publishes at https://www.adarx.com/wp-json/ — 213 routes across the namespaces oembed/1.0,
-    akismet/v1, redirection/v1, yoast/v1, llar/v1, wp/v2, wp-site-health/v1, wp-block-editor/v1 and
-    wp-abilities/v1 — and verified against live anonymous responses on 2026-08-06. Only the 24
-    operations that returned data without credentials are modelled. /wp/v2/settings, /wp/v2/themes,
-    /wp/v2/plugins, /wp/v2/menus, /wp/v2/widgets, /wp/v2/templates, /wp/v2/block-types,
-    /wp/v2/font-collections, /wp/v2/icons, /wp/v2/sidebars, /wp/v2/menu-locations, the block-pattern
-    and block-directory collections, the revisions sub-collections, /oembed/1.0/proxy and every
-    yoast/v1, redirection/v1 and akismet/v1 functional route all return 401 anonymously. Notably the
-    site registers the WordPress Abilities API (`wp-abilities/v1`), an agent-facing capability
-    registry, but every endpoint under it returns 401 rest_forbidden anonymously, so no agent
-    surface is claimed here. /wp/v2/users DOES return 200 anonymously (two author records, display
-    names and slugs only, no email addresses), which is worth noting because it is not the default
-    posture for a corporate install. ADARx Pharmaceuticals publishes no developer documentation, no
-    API reference, no getting-started guide and no support channel for this surface, so no
-    Documentation/APIReference/GettingStarted pointers are emitted; the humanURL above is the
-    upstream WordPress REST handbook that defines the wp/v2 contract.
-- aid: adarx-pharmaceuticals:adarx-pharmaceuticals-stop-hae-api
-  name: ADARx STOP-HAE Trial Site API
-  description: >-
-    The anonymously readable WordPress REST API behind stophae.com, the patient-recruitment site for
-    STOP-HAE — ADARx's Phase 3 randomized, double-blind, placebo-controlled study of ADX-324
-    (onvuzosiran) in hereditary angioedema. The install identifies itself as "ADARX1 Patient
-    Website" and registers 226 routes. Its distinguishing feature versus the corporate site is a
-    custom post type, `clinic` ("Clinics"), carrying 50 published trial-site records that are
-    readable without credentials — the only domain-specific entity either ADARx deployment exposes.
-    The records give a site code (e.g. 801-01), a permalink and dates; the Advanced Custom Fields
-    payload that presumably holds each site's address, principal investigator and contact is an
-    EMPTY ARRAY on every record, so no geography is available through the API and ClinicalTrials.gov
-    remains the registry of record. The install also carries four patient-facing pages (Home, HCP,
-    Prescreener, Privacy Policy), an empty posts collection, and a 592-item media library inflated
-    by a WPML 4.9.5 multilingual configuration.
-  humanURL: https://stophae.com/
-  baseURL: https://stophae.com/wp-json
+- aid: adarx-pharmaceuticals:adarx-pharmaceuticals-content-api
+  name: ADARx Pharmaceuticals Content API
+  description: Press releases, publications and corporate pages.
+  humanURL: https://developer.wordpress.org/rest-api/
+  baseURL: https://www.adarx.com/wp-json
   tags:
   - content
-  - wordpress
-  - clinical-trials
-  - patient-recruitment
   properties:
   - type: OpenAPI
-    url: openapi/adarx-pharmaceuticals-stop-hae-openapi.yml
-  - type: Overlay
-    url: overlays/adarx-pharmaceuticals-stop-hae-overlay.yaml
+    url: openapi/adarx-pharmaceuticals-content-api-openapi.yml
   - type: Authentication
     url: authentication/adarx-pharmaceuticals-authentication.yml
   - type: ErrorCatalog
@@ -134,21 +78,136 @@ apis:
     url: conventions/adarx-pharmaceuticals-conventions.yml
   - type: DataModel
     url: data-model/adarx-pharmaceuticals-data-model.yml
-  x-contract-provenance: >-
-    Derived by the API Evangelist enrichment pipeline from the WordPress REST route index published
-    at https://stophae.com/wp-json/ — 226 routes across oembed/1.0, wpml/v1, wpml/st/v1, wpml/tm/v1,
-    wpml/ate/v1, otgs/installer/v1, wp/v2, wp-site-health/v1, wp-block-editor/v1 and
-    wp-abilities/v1 — and verified against live anonymous responses on 2026-08-06. Only the 17
-    operations that returned data without credentials are modelled. The WPML translation-management
-    namespaces return their namespace index anonymously but every functional route beneath them is
-    administrative. /wp/v2/settings and the whole wp-abilities/v1 namespace return 401. No
-    developer documentation exists for this surface; the humanURL is the patient site itself.
+  - type: JSONLD
+    url: json-ld/adarx-pharmaceuticals-json-ld.yml
+- aid: adarx-pharmaceuticals:adarx-pharmaceuticals-embed-api
+  name: ADARx Pharmaceuticals Embed API
+  description: oEmbed provider and SEO head rendering.
+  humanURL: https://developer.wordpress.org/rest-api/
+  baseURL: https://www.adarx.com/wp-json
+  tags:
+  - embed
+  properties:
+  - type: OpenAPI
+    url: openapi/adarx-pharmaceuticals-embed-api-openapi.yml
+  - type: Authentication
+    url: authentication/adarx-pharmaceuticals-authentication.yml
+  - type: ErrorCatalog
+    url: errors/adarx-pharmaceuticals-problem-types.yml
+  - type: Conventions
+    url: conventions/adarx-pharmaceuticals-conventions.yml
+  - type: DataModel
+    url: data-model/adarx-pharmaceuticals-data-model.yml
+  - type: JSONLD
+    url: json-ld/adarx-pharmaceuticals-json-ld.yml
+- aid: adarx-pharmaceuticals:adarx-pharmaceuticals-index-api
+  name: ADARx Pharmaceuticals Index API
+  description: Route discovery and site identity.
+  humanURL: https://developer.wordpress.org/rest-api/
+  baseURL: https://www.adarx.com/wp-json
+  tags:
+  - index
+  properties:
+  - type: OpenAPI
+    url: openapi/adarx-pharmaceuticals-index-api-openapi.yml
+  - type: Authentication
+    url: authentication/adarx-pharmaceuticals-authentication.yml
+  - type: ErrorCatalog
+    url: errors/adarx-pharmaceuticals-problem-types.yml
+  - type: Conventions
+    url: conventions/adarx-pharmaceuticals-conventions.yml
+  - type: DataModel
+    url: data-model/adarx-pharmaceuticals-data-model.yml
+  - type: JSONLD
+    url: json-ld/adarx-pharmaceuticals-json-ld.yml
+- aid: adarx-pharmaceuticals:adarx-pharmaceuticals-media-api
+  name: ADARx Pharmaceuticals Media API
+  description: The site media library.
+  humanURL: https://developer.wordpress.org/rest-api/
+  baseURL: https://www.adarx.com/wp-json
+  tags:
+  - media
+  properties:
+  - type: OpenAPI
+    url: openapi/adarx-pharmaceuticals-media-api-openapi.yml
+  - type: Authentication
+    url: authentication/adarx-pharmaceuticals-authentication.yml
+  - type: ErrorCatalog
+    url: errors/adarx-pharmaceuticals-problem-types.yml
+  - type: Conventions
+    url: conventions/adarx-pharmaceuticals-conventions.yml
+  - type: DataModel
+    url: data-model/adarx-pharmaceuticals-data-model.yml
+  - type: JSONLD
+    url: json-ld/adarx-pharmaceuticals-json-ld.yml
+- aid: adarx-pharmaceuticals:adarx-pharmaceuticals-people-api
+  name: ADARx Pharmaceuticals People API
+  description: Content authors registered on the site.
+  humanURL: https://developer.wordpress.org/rest-api/
+  baseURL: https://www.adarx.com/wp-json
+  tags:
+  - people
+  properties:
+  - type: OpenAPI
+    url: openapi/adarx-pharmaceuticals-people-api-openapi.yml
+  - type: Authentication
+    url: authentication/adarx-pharmaceuticals-authentication.yml
+  - type: ErrorCatalog
+    url: errors/adarx-pharmaceuticals-problem-types.yml
+  - type: Conventions
+    url: conventions/adarx-pharmaceuticals-conventions.yml
+  - type: DataModel
+    url: data-model/adarx-pharmaceuticals-data-model.yml
+  - type: JSONLD
+    url: json-ld/adarx-pharmaceuticals-json-ld.yml
+- aid: adarx-pharmaceuticals:adarx-pharmaceuticals-search-api
+  name: ADARx Pharmaceuticals Search API
+  description: Cross-content search.
+  humanURL: https://developer.wordpress.org/rest-api/
+  baseURL: https://www.adarx.com/wp-json
+  tags:
+  - search
+  properties:
+  - type: OpenAPI
+    url: openapi/adarx-pharmaceuticals-search-api-openapi.yml
+  - type: Authentication
+    url: authentication/adarx-pharmaceuticals-authentication.yml
+  - type: ErrorCatalog
+    url: errors/adarx-pharmaceuticals-problem-types.yml
+  - type: Conventions
+    url: conventions/adarx-pharmaceuticals-conventions.yml
+  - type: DataModel
+    url: data-model/adarx-pharmaceuticals-data-model.yml
+  - type: JSONLD
+    url: json-ld/adarx-pharmaceuticals-json-ld.yml
+- aid: adarx-pharmaceuticals:adarx-pharmaceuticals-taxonomy-api
+  name: ADARx Pharmaceuticals Taxonomy API
+  description: Categories, tags, taxonomies and post statuses.
+  humanURL: https://developer.wordpress.org/rest-api/
+  baseURL: https://www.adarx.com/wp-json
+  tags:
+  - taxonomy
+  properties:
+  - type: OpenAPI
+    url: openapi/adarx-pharmaceuticals-taxonomy-api-openapi.yml
+  - type: Authentication
+    url: authentication/adarx-pharmaceuticals-authentication.yml
+  - type: ErrorCatalog
+    url: errors/adarx-pharmaceuticals-problem-types.yml
+  - type: Conventions
+    url: conventions/adarx-pharmaceuticals-conventions.yml
+  - type: DataModel
+    url: data-model/adarx-pharmaceuticals-data-model.yml
+  - type: JSONLD
+    url: json-ld/adarx-pharmaceuticals-json-ld.yml
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: Overlay
+  url: overlays/adarx-pharmaceuticals-content-overlay.yaml
 - type: Website
   url: https://www.adarx.com/
 - type: About
