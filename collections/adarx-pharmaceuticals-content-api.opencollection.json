@@ -1,0 +1,232 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Adarx Pharmaceuticals Content API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "content",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List press releases, clinical-trial listings and publications",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://www.adarx.com/wp-json/wp/v2/posts",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "1-indexed page of the collection."
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query",
+                "description": "Records per page."
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Limit results to those matching a string."
+              },
+              {
+                "name": "orderby",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "_fields",
+                "value": "id,slug,title,link,date",
+                "type": "query",
+                "description": "Comma-separated sparse-fieldset projection, e.g. `id,slug,title,link`."
+              },
+              {
+                "name": "categories",
+                "value": "",
+                "type": "query",
+                "description": "Limit to posts assigned one or more category ids."
+              },
+              {
+                "name": "after",
+                "value": "",
+                "type": "query",
+                "description": "ISO 8601 date; limit to posts published after it."
+              },
+              {
+                "name": "before",
+                "value": "",
+                "type": "query",
+                "description": "ISO 8601 date; limit to posts published before it."
+              }
+            ]
+          },
+          "docs": "46 published posts as of 2026-08-06, spread across the categories News (23), BOD (9), Clinical Trials (7), Leadership (5) and Publications (3)."
+        },
+        {
+          "info": {
+            "name": "Get one post",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://www.adarx.com/wp-json/wp/v2/posts/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "_fields",
+                "value": "id,slug,title,link,date",
+                "type": "query",
+                "description": "Comma-separated sparse-fieldset projection, e.g. `id,slug,title,link`."
+              }
+            ]
+          },
+          "docs": "Get one post"
+        },
+        {
+          "info": {
+            "name": "List corporate pages",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://www.adarx.com/wp-json/wp/v2/pages",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "1-indexed page of the collection."
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query",
+                "description": "Records per page."
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Limit results to those matching a string."
+              },
+              {
+                "name": "_fields",
+                "value": "id,slug,title,link,date",
+                "type": "query",
+                "description": "Comma-separated sparse-fieldset projection, e.g. `id,slug,title,link`."
+              },
+              {
+                "name": "parent",
+                "value": "",
+                "type": "query",
+                "description": "Limit to children of the given page ids."
+              }
+            ]
+          },
+          "docs": "18 published pages as of 2026-08-06 — Home, Company (Overview, Team, Investors), Science (Overview, Technology, Publications), Pipeline, Patients, News, Careers, Contact, Terms of Use, Privacy Policy and two additional privacy notices. Pages are hierarchical via `parent`."
+        },
+        {
+          "info": {
+            "name": "Get one page",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://www.adarx.com/wp-json/wp/v2/pages/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "_fields",
+                "value": "id,slug,title,link,date",
+                "type": "query",
+                "description": "Comma-separated sparse-fieldset projection, e.g. `id,slug,title,link`."
+              }
+            ]
+          },
+          "docs": "Get one page"
+        },
+        {
+          "info": {
+            "name": "List comments",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://www.adarx.com/wp-json/wp/v2/comments",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "1-indexed page of the collection."
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query",
+                "description": "Records per page."
+              }
+            ]
+          },
+          "docs": "Returns an empty array; commenting is not used on this site."
+        },
+        {
+          "info": {
+            "name": "List reusable blocks / patterns",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://www.adarx.com/wp-json/wp/v2/blocks"
+          },
+          "docs": "Returns an empty array on this install."
+        },
+        {
+          "info": {
+            "name": "List block-editor navigation menus",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://www.adarx.com/wp-json/wp/v2/navigation"
+          },
+          "docs": "One navigation menu object is exposed anonymously (2026-08-06)."
+        },
+        {
+          "info": {
+            "name": "List content authors",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://www.adarx.com/wp-json/wp/v2/users"
+          },
+          "docs": "One author account exposed anonymously (2026-08-06); no email addresses are returned."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

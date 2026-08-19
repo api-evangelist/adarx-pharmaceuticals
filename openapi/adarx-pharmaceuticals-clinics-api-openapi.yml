@@ -1,0 +1,230 @@
+openapi: 3.2.0
+info:
+  title: ADARx STOP-HAE Trial Site Clinics API
+  version: '1.0'
+  summary: The anonymously readable WordPress REST API behind stophae.com, the STOP-HAE Phase 3 patient site.
+  description: stophae.com is the patient-recruitment site for STOP-HAE, ADARx Pharmaceuticals' Phase 3 randomized, double-blind, placebo-controlled study of ADX-324 (onvuzosiran) in hereditary angioedema. Its WordPress install identifies itself as "ADARX1 Patient Website" and registers 226 REST routes across oembed/1.0, wpml/v1, wpml/st/v1, wpml/tm/v1, wpml/ate/v1, otgs/installer/v1, wp/v2, wp-site-health/v1, wp-block-editor/v1 and wp-abilities/v1. The distinguishing feature versus the corporate site is a CUSTOM POST TYPE, `clinic` (rest_base `clinic`, label "Clinics"), which carries 50 published trial-site records and is readable without credentials. The records expose site identifiers (e.g. slug `801-01`), permalinks and dates; the Advanced Custom Fields payload that presumably holds the address and contact detail is NOT projected into REST (`acf` is an empty array on every record), so no location data is available through this API. Derived by the API Evangelist enrichment pipeline from https://stophae.com/wp-json/ and verified against live anonymous responses on 2026-08-06. Only operations that returned data without credentials are modelled. The WPML translation-management namespaces expose their namespace index anonymously but every functional route beneath them is administrative.
+  contact:
+    name: ADARx Pharmaceuticals
+    url: https://www.adarx.com/contact/
+    email: info@adarx.com
+  x-derived-from: https://stophae.com/wp-json/
+  x-verified: '2026-08-06'
+  x-upstream-contract: https://developer.wordpress.org/rest-api/
+  x-trial:
+    name: STOP-HAE
+    phase: Phase 3
+    investigational_product: ADX-324 (onvuzosiran)
+    indication: Hereditary angioedema (HAE)
+servers:
+- url: https://stophae.com/wp-json
+  description: Production WordPress REST API for the STOP-HAE patient site
+security: []
+tags:
+- name: clinics
+  description: The STOP-HAE trial-site (clinic) registry.
+paths:
+  /wp/v2/clinic:
+    get:
+      operationId: listTrialClinics
+      summary: List STOP-HAE trial sites
+      description: 50 published `clinic` records as of 2026-08-06. Each is identified by a site code in the `slug`/`title` (e.g. `801-01`). The `acf` custom-field payload is an empty array on every record, so addresses, investigators and contact details are not exposed through REST.
+      tags:
+      - clinics
+      parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/perPage'
+      - $ref: '#/components/parameters/search'
+      - $ref: '#/components/parameters/fields'
+      - name: orderby
+        in: query
+        schema:
+          type: string
+          enum:
+          - date
+          - id
+          - title
+          - slug
+          - menu_order
+          default: date
+      - name: order
+        in: query
+        schema:
+          type: string
+          enum:
+          - asc
+          - desc
+          default: desc
+      responses:
+        '200':
+          description: A page of clinic records.
+          headers:
+            X-WP-Total:
+              $ref: '#/components/headers/XWPTotal'
+            X-WP-TotalPages:
+              $ref: '#/components/headers/XWPTotalPages'
+            Link:
+              $ref: '#/components/headers/LinkPagination'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Clinic'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+  /wp/v2/clinic/{id}:
+    get:
+      operationId: getTrialClinic
+      summary: Get one STOP-HAE trial site
+      tags:
+      - clinics
+      parameters:
+      - $ref: '#/components/parameters/idPath'
+      - $ref: '#/components/parameters/fields'
+      responses:
+        '200':
+          description: The clinic record.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Clinic'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  parameters:
+    idPath:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+    page:
+      name: page
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+    fields:
+      name: _fields
+      in: query
+      description: Comma-separated sparse-fieldset projection.
+      schema:
+        type: string
+      example: id,slug,title,link
+    search:
+      name: search
+      in: query
+      schema:
+        type: string
+    perPage:
+      name: per_page
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 10
+  schemas:
+    RestError:
+      type: object
+      description: The WordPress REST error envelope. Not RFC 9457 problem+json.
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            status:
+              type: integer
+      required:
+      - code
+      - message
+      - data
+    Clinic:
+      type: object
+      description: A STOP-HAE trial site record.
+      properties:
+        id:
+          type: integer
+        date:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+        slug:
+          type: string
+          example: 801-01
+        status:
+          type: string
+          example: publish
+        type:
+          type: string
+          const: clinic
+        link:
+          type: string
+          format: uri
+        menu_order:
+          type: integer
+        title:
+          $ref: '#/components/schemas/RenderedText'
+        featured_media:
+          type: integer
+        categories:
+          type: array
+          description: References /wp/v2/categories/{id}; empty on every observed record.
+          items:
+            type: integer
+        acf:
+          description: Advanced Custom Fields payload. Observed as an EMPTY ARRAY on every clinic record, so no address, investigator or contact data is exposed through REST.
+          oneOf:
+          - type: array
+          - type: object
+      required:
+      - id
+      - slug
+      - type
+      - link
+      - title
+    RenderedText:
+      type: object
+      properties:
+        rendered:
+          type: string
+        protected:
+          type: boolean
+  headers:
+    XWPTotalPages:
+      description: Total number of pages available at the current per_page.
+      schema:
+        type: integer
+    XWPTotal:
+      description: Total number of records in the collection.
+      schema:
+        type: integer
+    LinkPagination:
+      description: RFC 8288 Link header carrying rel="next" / rel="prev".
+      schema:
+        type: string
+  responses:
+    BadRequest:
+      description: Invalid parameter.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/RestError'
+    NotFound:
+      description: No object found with that id.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/RestError'
+  securitySchemes:
+    applicationPassword:
+      type: http
+      scheme: basic
+      description: WordPress Application Passwords (HTTP Basic). Required only for write and administrative routes, which are not modelled here — every operation above is readable anonymously.

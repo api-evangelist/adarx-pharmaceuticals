@@ -1,0 +1,85 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Adarx Pharmaceuticals Media API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "media",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List the media library",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://www.adarx.com/wp-json/wp/v2/media",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "1-indexed page of the collection."
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query",
+                "description": "Records per page."
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query",
+                "description": "Limit results to those matching a string."
+              },
+              {
+                "name": "_fields",
+                "value": "id,slug,title,link,date",
+                "type": "query",
+                "description": "Comma-separated sparse-fieldset projection, e.g. `id,slug,title,link`."
+              },
+              {
+                "name": "parent",
+                "value": "",
+                "type": "query",
+                "description": "Limit to attachments of the given post ids."
+              }
+            ]
+          },
+          "docs": "105 attachments as of 2026-08-06 — logos, team headshots, pipeline graphics and press-release imagery."
+        },
+        {
+          "info": {
+            "name": "Get one media item",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://www.adarx.com/wp-json/wp/v2/media/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "_fields",
+                "value": "id,slug,title,link,date",
+                "type": "query",
+                "description": "Comma-separated sparse-fieldset projection, e.g. `id,slug,title,link`."
+              }
+            ]
+          },
+          "docs": "Get one media item"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

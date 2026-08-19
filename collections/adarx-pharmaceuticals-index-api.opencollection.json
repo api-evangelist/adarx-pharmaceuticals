@@ -1,0 +1,29 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Adarx Pharmaceuticals Index API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "index",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Get the REST route index",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://www.adarx.com/wp-json/"
+          },
+          "docs": "Returns site identity (name, description, url, home), the registered namespaces, the authentication methods offered, and the full route table."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

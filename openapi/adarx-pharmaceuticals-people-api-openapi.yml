@@ -1,0 +1,143 @@
+openapi: 3.2.0
+info:
+  title: ADARx Pharmaceuticals Content People API
+  version: '1.0'
+  summary: The anonymously readable WordPress REST content API behind www.adarx.com.
+  description: 'Derived by the API Evangelist enrichment pipeline from the WordPress REST route index published at https://www.adarx.com/wp-json/ (213 routes across the namespaces oembed/1.0, akismet/v1, redirection/v1, yoast/v1, llar/v1, wp/v2, wp-site-health/v1, wp-block-editor/v1 and wp-abilities/v1) and verified against live anonymous responses on 2026-08-06. Only the operations that returned data without credentials are modelled here. ADARx Pharmaceuticals does not market this as a developer product and publishes no documentation for it; the contract for the wp/v2 namespace is defined upstream by the WordPress REST API Handbook. Anonymous collection sizes observed on 2026-08-06 (X-WP-Total): posts 46, pages 18, media 105, categories 6, users 2, navigation 1, tags 0, comments 0, blocks 0. Unlike many corporate WordPress installs, `content.rendered` IS populated on the press-release posts, so this API yields full article prose as well as identity and metadata. Posts also carry an `acf` (Advanced Custom Fields) object and a `yoast_head_json` object containing the page''s schema.org JSON-LD graph.'
+  contact:
+    name: ADARx Pharmaceuticals
+    url: https://www.adarx.com/contact/
+    email: info@adarx.com
+  x-derived-from: https://www.adarx.com/wp-json/
+  x-verified: '2026-08-06'
+  x-upstream-contract: https://developer.wordpress.org/rest-api/
+servers:
+- url: https://www.adarx.com/wp-json
+  description: Production WordPress REST API
+security: []
+tags:
+- name: people
+  description: Content authors registered on the site.
+paths:
+  /wp/v2/users:
+    get:
+      operationId: listUsers
+      summary: List content authors
+      description: Two author accounts are exposed anonymously on this install (2026-08-06). Unlike many WordPress sites this endpoint is not locked down; it returns display names, slugs and author-archive links but no email addresses.
+      tags:
+      - people
+      parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/perPage'
+      responses:
+        '200':
+          description: A page of author records.
+          headers:
+            X-WP-Total:
+              $ref: '#/components/headers/XWPTotal'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+  /wp/v2/users/{id}:
+    get:
+      operationId: getUser
+      summary: Get one author
+      tags:
+      - people
+      parameters:
+      - $ref: '#/components/parameters/idPath'
+      responses:
+        '200':
+          description: The author record.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  parameters:
+    idPath:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+    page:
+      name: page
+      in: query
+      description: 1-indexed page of the collection.
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+    perPage:
+      name: per_page
+      in: query
+      description: Records per page.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 10
+  schemas:
+    RestError:
+      type: object
+      description: The WordPress REST error envelope. Not RFC 9457 problem+json.
+      properties:
+        code:
+          type: string
+          example: rest_post_invalid_id
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            status:
+              type: integer
+      required:
+      - code
+      - message
+      - data
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        slug:
+          type: string
+        description:
+          type: string
+        url:
+          type: string
+        link:
+          type: string
+          format: uri
+        avatar_urls:
+          type: object
+      required:
+      - id
+      - name
+      - slug
+  responses:
+    NotFound:
+      description: No object found with that id.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/RestError'
+  headers:
+    XWPTotal:
+      description: Total number of records in the collection.
+      schema:
+        type: integer
+  securitySchemes:
+    applicationPassword:
+      type: http
+      scheme: basic
+      description: WordPress Application Passwords (HTTP Basic with a user login and a generated application password). Advertised by the route index at https://www.adarx.com/wp-admin/authorize-application.php. Only required for the write and administrative routes, which are NOT modelled in this document — every operation above is readable anonymously.

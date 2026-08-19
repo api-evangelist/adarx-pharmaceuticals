@@ -1,0 +1,156 @@
+{
+  "item": [
+    {
+      "id": "ea011782-2f40-45e2-a36c-488c52d80924",
+      "name": "search",
+      "description": {
+        "content": "Cross-content search.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "b7767153-22e2-4338-bc3e-dfeb92db7559",
+          "name": "Search across posts and pages",
+          "request": {
+            "name": "Search across posts and pages",
+            "description": {},
+            "url": {
+              "path": [
+                "wp",
+                "v2",
+                "search"
+              ],
+              "host": [
+                "{{wp-v2-search-Url}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "search",
+                  "value": "<string>",
+                  "description": "(Required) The search term."
+                },
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "1-indexed page of the collection."
+                },
+                {
+                  "disabled": false,
+                  "key": "per_page",
+                  "value": "10",
+                  "description": "Records per page."
+                },
+                {
+                  "disabled": false,
+                  "key": "type",
+                  "value": "<string>",
+                  "description": "Object type to search."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "62329ad5-bdfe-450e-9bd6-132d86da7ebc",
+              "name": "Search results.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wp",
+                    "v2",
+                    "search"
+                  ],
+                  "host": [
+                    "{{wp-v2-search-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "search",
+                      "value": "onvuzosiran"
+                    },
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "10"
+                    },
+                    {
+                      "key": "type",
+                      "value": "<string>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Total number of records in the collection.",
+                  "key": "X-WP-Total",
+                  "value": "3160"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": 4617,\n    \"title\": \"string\",\n    \"url\": \"http://OigXNognqTknCxGgHcswCB.ysJmH2NFp1yPuKpuZuiTKHjguSSgWLzw.EwS2wiEd,Hr3h7dsLO\",\n    \"type\": \"post\",\n    \"subtype\": \"page\"\n  },\n  {\n    \"id\": 3490,\n    \"title\": \"string\",\n    \"url\": \"https://TshXLcUbFiqBJBzMFFuUSeAx.rddZDkST5RCWlV\",\n    \"type\": \"post\",\n    \"subtype\": \"page\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://www.adarx.com/wp-json",
+      "key": "baseUrl"
+    },
+    {
+      "type": "string",
+      "value": "https://www.adarx.com/wp-json",
+      "key": "wp-v2-search-Url"
+    }
+  ],
+  "info": {
+    "_postman_id": "40c61391-e9c2-4707-ab17-0451e31d3221",
+    "name": "Adarx Pharmaceuticals Search API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Operations tagged search across 2 of this provider's published API definitions: adarx-pharmaceuticals-content-openapi.yml, adarx-pharmaceuticals-stop-hae-openapi.yml. Each path carries the servers of the definition it was published in.\n\nContact Support:\n Name: ADARx Pharmaceuticals\n Email: info@adarx.com",
+      "type": "text/plain"
+    }
+  }
+}

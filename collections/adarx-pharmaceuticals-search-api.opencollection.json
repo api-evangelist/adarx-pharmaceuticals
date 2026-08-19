@@ -1,0 +1,55 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Adarx Pharmaceuticals Search API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "search",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "Search across posts and pages",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://www.adarx.com/wp-json/wp/v2/search",
+            "params": [
+              {
+                "name": "search",
+                "value": "onvuzosiran",
+                "type": "query",
+                "description": "The search term."
+              },
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "1-indexed page of the collection."
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query",
+                "description": "Records per page."
+              },
+              {
+                "name": "type",
+                "value": "",
+                "type": "query",
+                "description": "Object type to search."
+              }
+            ]
+          },
+          "docs": "Search across posts and pages"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,477 @@
+openapi: 3.2.0
+info:
+  title: Adarx Pharmaceuticals Content API
+  version: '1.0'
+  contact:
+    name: ADARx Pharmaceuticals
+    url: https://www.adarx.com/contact/
+    email: info@adarx.com
+  description: 'Operations tagged content across 2 of this provider''s published API definitions: adarx-pharmaceuticals-content-openapi.yml, adarx-pharmaceuticals-stop-hae-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://www.adarx.com/wp-json
+  description: Production WordPress REST API
+- url: https://stophae.com/wp-json
+  description: Production WordPress REST API for the STOP-HAE patient site
+security: []
+tags:
+- name: content
+  description: Press releases, publications and corporate pages.
+paths:
+  /wp/v2/posts:
+    servers:
+    - url: https://www.adarx.com/wp-json
+      description: Production WordPress REST API
+    get:
+      operationId: listPosts
+      summary: List press releases, clinical-trial listings and publications
+      description: 46 published posts as of 2026-08-06, spread across the categories News (23), BOD (9), Clinical Trials (7), Leadership (5) and Publications (3).
+      tags:
+      - content
+      parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/perPage'
+      - $ref: '#/components/parameters/search'
+      - $ref: '#/components/parameters/orderby'
+      - $ref: '#/components/parameters/order'
+      - $ref: '#/components/parameters/fields'
+      - name: categories
+        in: query
+        description: Limit to posts assigned one or more category ids.
+        schema:
+          type: array
+          items:
+            type: integer
+      - name: after
+        in: query
+        description: ISO 8601 date; limit to posts published after it.
+        schema:
+          type: string
+          format: date-time
+      - name: before
+        in: query
+        description: ISO 8601 date; limit to posts published before it.
+        schema:
+          type: string
+          format: date-time
+      responses:
+        '200':
+          description: A page of posts.
+          headers:
+            X-WP-Total:
+              $ref: '#/components/headers/XWPTotal'
+            X-WP-TotalPages:
+              $ref: '#/components/headers/XWPTotalPages'
+            Link:
+              $ref: '#/components/headers/LinkPagination'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Post'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+  /wp/v2/posts/{id}:
+    servers:
+    - url: https://www.adarx.com/wp-json
+      description: Production WordPress REST API
+    get:
+      operationId: getPost
+      summary: Get one post
+      tags:
+      - content
+      parameters:
+      - $ref: '#/components/parameters/idPath'
+      - $ref: '#/components/parameters/fields'
+      responses:
+        '200':
+          description: The post.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Post'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /wp/v2/pages:
+    servers:
+    - url: https://www.adarx.com/wp-json
+      description: Production WordPress REST API
+    get:
+      operationId: listPages
+      summary: List corporate pages
+      description: 18 published pages as of 2026-08-06 — Home, Company (Overview, Team, Investors), Science (Overview, Technology, Publications), Pipeline, Patients, News, Careers, Contact, Terms of Use, Privacy Policy and two additional privacy notices. Pages are hierarchical via `parent`.
+      tags:
+      - content
+      parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/perPage'
+      - $ref: '#/components/parameters/search'
+      - $ref: '#/components/parameters/fields'
+      - name: parent
+        in: query
+        description: Limit to children of the given page ids.
+        schema:
+          type: array
+          items:
+            type: integer
+      responses:
+        '200':
+          description: A page of pages.
+          headers:
+            X-WP-Total:
+              $ref: '#/components/headers/XWPTotal'
+            X-WP-TotalPages:
+              $ref: '#/components/headers/XWPTotalPages'
+            Link:
+              $ref: '#/components/headers/LinkPagination'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Page'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+  /wp/v2/pages/{id}:
+    servers:
+    - url: https://www.adarx.com/wp-json
+      description: Production WordPress REST API
+    get:
+      operationId: getPage
+      summary: Get one page
+      tags:
+      - content
+      parameters:
+      - $ref: '#/components/parameters/idPath'
+      - $ref: '#/components/parameters/fields'
+      responses:
+        '200':
+          description: The page.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Page'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /wp/v2/comments:
+    servers:
+    - url: https://www.adarx.com/wp-json
+      description: Production WordPress REST API
+    get:
+      operationId: listComments
+      summary: List comments
+      description: Returns an empty array; commenting is not used on this site.
+      tags:
+      - content
+      parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/perPage'
+      responses:
+        '200':
+          description: A page of comments (empty on this site).
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+  /wp/v2/blocks:
+    servers:
+    - url: https://www.adarx.com/wp-json
+      description: Production WordPress REST API
+    get:
+      operationId: listReusableBlocks
+      summary: List reusable blocks / patterns
+      description: Returns an empty array on this install.
+      tags:
+      - content
+      responses:
+        '200':
+          description: A page of reusable blocks (empty on this site).
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+  /wp/v2/navigation:
+    servers:
+    - url: https://www.adarx.com/wp-json
+      description: Production WordPress REST API
+    get:
+      operationId: listNavigationMenus
+      summary: List block-editor navigation menus
+      description: One navigation menu object is exposed anonymously (2026-08-06).
+      tags:
+      - content
+      responses:
+        '200':
+          description: A page of navigation menus.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+  /wp/v2/users:
+    servers:
+    - url: https://stophae.com/wp-json
+      description: Production WordPress REST API for the STOP-HAE patient site
+    get:
+      operationId: listTrialUsers
+      summary: List content authors
+      description: One author account exposed anonymously (2026-08-06); no email addresses are returned.
+      tags:
+      - content
+      responses:
+        '200':
+          description: A page of author records.
+          headers:
+            X-WP-Total:
+              $ref: '#/components/headers/XWPTotal'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+components:
+  parameters:
+    orderby:
+      name: orderby
+      in: query
+      schema:
+        type: string
+        enum:
+        - date
+        - id
+        - title
+        - slug
+        - modified
+        - relevance
+        default: date
+    idPath:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+    fields:
+      name: _fields
+      in: query
+      description: Comma-separated sparse-fieldset projection, e.g. `id,slug,title,link`.
+      schema:
+        type: string
+      example: id,slug,title,link,date
+    page:
+      name: page
+      in: query
+      description: 1-indexed page of the collection.
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+    order:
+      name: order
+      in: query
+      schema:
+        type: string
+        enum:
+        - asc
+        - desc
+        default: desc
+    search:
+      name: search
+      in: query
+      description: Limit results to those matching a string.
+      schema:
+        type: string
+    perPage:
+      name: per_page
+      in: query
+      description: Records per page.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 10
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        slug:
+          type: string
+        link:
+          type: string
+          format: uri
+      required:
+      - id
+      - name
+      - slug
+    RestError:
+      type: object
+      description: The WordPress REST error envelope. Not RFC 9457 problem+json.
+      properties:
+        code:
+          type: string
+          example: rest_post_invalid_id
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            status:
+              type: integer
+      required:
+      - code
+      - message
+      - data
+    Page:
+      type: object
+      properties:
+        id:
+          type: integer
+        date:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+        slug:
+          type: string
+        status:
+          type: string
+        type:
+          type: string
+          const: page
+        link:
+          type: string
+          format: uri
+        parent:
+          type: integer
+          description: References /wp/v2/pages/{id}; 0 for a top-level page.
+        menu_order:
+          type: integer
+        title:
+          $ref: '#/components/schemas/RenderedText'
+        content:
+          $ref: '#/components/schemas/RenderedText'
+        excerpt:
+          $ref: '#/components/schemas/RenderedText'
+        author:
+          type: integer
+        featured_media:
+          type: integer
+        yoast_head_json:
+          type: object
+      required:
+      - id
+      - slug
+      - type
+      - link
+      - title
+    Post:
+      type: object
+      properties:
+        id:
+          type: integer
+        date:
+          type: string
+          format: date-time
+        date_gmt:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+        slug:
+          type: string
+        status:
+          type: string
+          example: publish
+        type:
+          type: string
+          const: post
+        link:
+          type: string
+          format: uri
+        title:
+          $ref: '#/components/schemas/RenderedText'
+        content:
+          $ref: '#/components/schemas/RenderedText'
+        excerpt:
+          $ref: '#/components/schemas/RenderedText'
+        author:
+          type: integer
+          description: References /wp/v2/users/{id}.
+        featured_media:
+          type: integer
+          description: References /wp/v2/media/{id}; 0 when unset.
+        categories:
+          type: array
+          description: References /wp/v2/categories/{id}.
+          items:
+            type: integer
+        tags:
+          type: array
+          items:
+            type: integer
+        acf:
+          description: Advanced Custom Fields payload projected into REST.
+          oneOf:
+          - type: object
+          - type: array
+        yoast_head_json:
+          type: object
+          description: The schema.org JSON-LD graph and Open Graph metadata for this object.
+      required:
+      - id
+      - slug
+      - type
+      - link
+      - title
+    RenderedText:
+      type: object
+      properties:
+        rendered:
+          type: string
+        protected:
+          type: boolean
+  headers:
+    XWPTotalPages:
+      description: Total number of pages available at the current per_page.
+      schema:
+        type: integer
+    XWPTotal:
+      description: Total number of records in the collection.
+      schema:
+        type: integer
+    LinkPagination:
+      description: RFC 8288 Link header carrying rel="next" / rel="prev".
+      schema:
+        type: string
+  responses:
+    BadRequest:
+      description: Invalid parameter.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/RestError'
+    NotFound:
+      description: No object found with that id.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/RestError'
+  securitySchemes:
+    applicationPassword:
+      type: http
+      scheme: basic
+      description: WordPress Application Passwords (HTTP Basic with a user login and a generated application password). Advertised by the route index at https://www.adarx.com/wp-admin/authorize-application.php. Only required for the write and administrative routes, which are NOT modelled in this document — every operation above is readable anonymously.
+x-refined-from:
+- adarx-pharmaceuticals-content-openapi.yml
+- adarx-pharmaceuticals-stop-hae-openapi.yml

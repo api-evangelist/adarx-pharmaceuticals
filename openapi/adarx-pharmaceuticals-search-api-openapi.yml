@@ -1,0 +1,112 @@
+openapi: 3.2.0
+info:
+  title: Adarx Pharmaceuticals Search API
+  version: '1.0'
+  contact:
+    name: ADARx Pharmaceuticals
+    url: https://www.adarx.com/contact/
+    email: info@adarx.com
+  description: 'Operations tagged search across 2 of this provider''s published API definitions: adarx-pharmaceuticals-content-openapi.yml, adarx-pharmaceuticals-stop-hae-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://www.adarx.com/wp-json
+  description: Production WordPress REST API
+- url: https://stophae.com/wp-json
+  description: Production WordPress REST API for the STOP-HAE patient site
+security: []
+tags:
+- name: search
+  description: Cross-content search.
+paths:
+  /wp/v2/search:
+    servers:
+    - url: https://www.adarx.com/wp-json
+      description: Production WordPress REST API
+    get:
+      operationId: searchContent
+      summary: Search across posts and pages
+      tags:
+      - search
+      parameters:
+      - name: search
+        in: query
+        required: true
+        description: The search term.
+        schema:
+          type: string
+        example: onvuzosiran
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/perPage'
+      - name: type
+        in: query
+        description: Object type to search.
+        schema:
+          type: string
+          enum:
+          - post
+          - term
+          - post-format
+      responses:
+        '200':
+          description: Search results.
+          headers:
+            X-WP-Total:
+              $ref: '#/components/headers/XWPTotal'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/SearchResult'
+components:
+  headers:
+    XWPTotal:
+      description: Total number of records in the collection.
+      schema:
+        type: integer
+  schemas:
+    SearchResult:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        url:
+          type: string
+          format: uri
+        type:
+          type: string
+          example: post
+        subtype:
+          type: string
+          example: page
+      required:
+      - id
+      - title
+      - url
+  parameters:
+    perPage:
+      name: per_page
+      in: query
+      description: Records per page.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 10
+    page:
+      name: page
+      in: query
+      description: 1-indexed page of the collection.
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+  securitySchemes:
+    applicationPassword:
+      type: http
+      scheme: basic
+      description: WordPress Application Passwords (HTTP Basic with a user login and a generated application password). Advertised by the route index at https://www.adarx.com/wp-admin/authorize-application.php. Only required for the write and administrative routes, which are NOT modelled in this document — every operation above is readable anonymously.
+x-refined-from:
+- adarx-pharmaceuticals-content-openapi.yml
+- adarx-pharmaceuticals-stop-hae-openapi.yml

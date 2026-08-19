@@ -1,0 +1,269 @@
+{
+  "item": [
+    {
+      "id": "2b48b366-88d3-42a4-8991-53417f74ef7b",
+      "name": "people",
+      "description": {
+        "content": "Content authors registered on the site.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "88798996-3000-4c3b-b5d7-b45732e8a75b",
+          "name": "List content authors",
+          "request": {
+            "name": "List content authors",
+            "description": {
+              "content": "Two author accounts are exposed anonymously on this install (2026-08-06). Unlike many WordPress sites this endpoint is not locked down; it returns display names, slugs and author-archive links but no email addresses.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "wp",
+                "v2",
+                "users"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "1-indexed page of the collection."
+                },
+                {
+                  "disabled": false,
+                  "key": "per_page",
+                  "value": "10",
+                  "description": "Records per page."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "3b1dcb9a-f59e-4eac-a7c0-3eec63f0f18b",
+              "name": "A page of author records.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wp",
+                    "v2",
+                    "users"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "10"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Total number of records in the collection.",
+                  "key": "X-WP-Total",
+                  "value": "8547"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": 2321,\n    \"name\": \"string\",\n    \"slug\": \"string\",\n    \"description\": \"string\",\n    \"url\": \"string\",\n    \"link\": \"http://vMEXVLetaPgRoBdyQkFgXldXZyia.zgnzAVpoLnbnDfqUOZPHs+QzSEzMH8FeqR\",\n    \"avatar_urls\": {}\n  },\n  {\n    \"id\": 4248,\n    \"name\": \"string\",\n    \"slug\": \"string\",\n    \"description\": \"string\",\n    \"url\": \"string\",\n    \"link\": \"http://SNZWDlhgBDwAVRkSsHZlhVGNkATArpbJ.kuuUD26JBcWXFJ9+RGePC8YJb6BJ2\",\n    \"avatar_urls\": {}\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "c154e599-4f2b-41d5-938b-7175c62d29ad",
+          "name": "Get one author",
+          "request": {
+            "name": "Get one author",
+            "description": {},
+            "url": {
+              "path": [
+                "wp",
+                "v2",
+                "users",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "fe2f1c81-792f-4266-ab99-0b8f6f6661f0",
+              "name": "The author record.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wp",
+                    "v2",
+                    "users",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 7811,\n  \"name\": \"string\",\n  \"slug\": \"string\",\n  \"description\": \"string\",\n  \"url\": \"string\",\n  \"link\": \"http://NNlRJG.rtJy2GHjwYR4Qpg-,4ZOrzHgWn9Y2Bze\",\n  \"avatar_urls\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "381543da-f3e7-4668-9439-c40be166007b",
+              "name": "No object found with that id.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wp",
+                    "v2",
+                    "users",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"rest_post_invalid_id\",\n  \"message\": \"string\",\n  \"data\": {\n    \"status\": 8358\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://www.adarx.com/wp-json",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "6bb60e6c-a604-401a-aa9d-3496af8fb257",
+    "name": "ADARx Pharmaceuticals Content People API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Derived by the API Evangelist enrichment pipeline from the WordPress REST route index published at https://www.adarx.com/wp-json/ (213 routes across the namespaces oembed/1.0, akismet/v1, redirection/v1, yoast/v1, llar/v1, wp/v2, wp-site-health/v1, wp-block-editor/v1 and wp-abilities/v1) and verified against live anonymous responses on 2026-08-06. Only the operations that returned data without credentials are modelled here. ADARx Pharmaceuticals does not market this as a developer product and publishes no documentation for it; the contract for the wp/v2 namespace is defined upstream by the WordPress REST API Handbook. Anonymous collection sizes observed on 2026-08-06 (X-WP-Total): posts 46, pages 18, media 105, categories 6, users 2, navigation 1, tags 0, comments 0, blocks 0. Unlike many corporate WordPress installs, `content.rendered` IS populated on the press-release posts, so this API yields full article prose as well as identity and metadata. Posts also carry an `acf` (Advanced Custom Fields) object and a `yoast_head_json` object containing the page's schema.org JSON-LD graph.\n\nContact Support:\n Name: ADARx Pharmaceuticals\n Email: info@adarx.com",
+      "type": "text/plain"
+    }
+  }
+}

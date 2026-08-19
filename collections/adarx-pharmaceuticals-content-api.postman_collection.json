@@ -1,0 +1,1186 @@
+{
+  "item": [
+    {
+      "id": "046e4d85-20b2-4fa5-a4e8-6d06b2698f4c",
+      "name": "content",
+      "description": {
+        "content": "Press releases, publications and corporate pages.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "1dbb2ef5-24b7-4a4d-a0e1-f5be26caeaa2",
+          "name": "List press releases, clinical-trial listings and publications",
+          "request": {
+            "name": "List press releases, clinical-trial listings and publications",
+            "description": {
+              "content": "46 published posts as of 2026-08-06, spread across the categories News (23), BOD (9), Clinical Trials (7), Leadership (5) and Publications (3).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "wp",
+                "v2",
+                "posts"
+              ],
+              "host": [
+                "{{wp-v2-posts-Url}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "1-indexed page of the collection."
+                },
+                {
+                  "disabled": false,
+                  "key": "per_page",
+                  "value": "10",
+                  "description": "Records per page."
+                },
+                {
+                  "disabled": false,
+                  "key": "search",
+                  "value": "<string>",
+                  "description": "Limit results to those matching a string."
+                },
+                {
+                  "disabled": false,
+                  "key": "orderby",
+                  "value": "date"
+                },
+                {
+                  "disabled": false,
+                  "key": "order",
+                  "value": "desc"
+                },
+                {
+                  "disabled": false,
+                  "key": "_fields",
+                  "value": "<string>",
+                  "description": "Comma-separated sparse-fieldset projection, e.g. `id,slug,title,link`."
+                },
+                {
+                  "disabled": false,
+                  "key": "categories",
+                  "value": "<integer>",
+                  "description": "Limit to posts assigned one or more category ids."
+                },
+                {
+                  "disabled": false,
+                  "key": "categories",
+                  "value": "<integer>",
+                  "description": "Limit to posts assigned one or more category ids."
+                },
+                {
+                  "disabled": false,
+                  "key": "after",
+                  "value": "<dateTime>",
+                  "description": "ISO 8601 date; limit to posts published after it."
+                },
+                {
+                  "disabled": false,
+                  "key": "before",
+                  "value": "<dateTime>",
+                  "description": "ISO 8601 date; limit to posts published before it."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "54c3c03c-ad67-4578-9291-eaf9be6a1752",
+              "name": "A page of posts.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wp",
+                    "v2",
+                    "posts"
+                  ],
+                  "host": [
+                    "{{wp-v2-posts-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "10"
+                    },
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "orderby",
+                      "value": "date"
+                    },
+                    {
+                      "key": "order",
+                      "value": "desc"
+                    },
+                    {
+                      "key": "_fields",
+                      "value": "id,slug,title,link,date"
+                    },
+                    {
+                      "key": "categories",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "categories",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "after",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "before",
+                      "value": "<dateTime>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Total number of records in the collection.",
+                  "key": "X-WP-Total",
+                  "value": "852"
+                },
+                {
+                  "disabled": false,
+                  "description": "Total number of pages available at the current per_page.",
+                  "key": "X-WP-TotalPages",
+                  "value": "852"
+                },
+                {
+                  "disabled": false,
+                  "description": "RFC 8288 Link header carrying rel=\"next\" / rel=\"prev\".",
+                  "key": "Link",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": 9672,\n    \"slug\": \"string\",\n    \"type\": \"string\",\n    \"link\": \"https://tpBXqupaqYZWCbuIIwgmkE.mnzdWMEHd0PM+OV0OBsf6lB5SN80ehfPpit+z4j\",\n    \"title\": {\n      \"rendered\": \"string\",\n      \"protected\": false\n    },\n    \"date\": \"1984-05-04T14:37:19.325Z\",\n    \"date_gmt\": \"1967-02-12T06:41:01.159Z\",\n    \"modified\": \"2020-03-03T03:25:38.110Z\",\n    \"status\": \"publish\",\n    \"content\": {\n      \"rendered\": \"string\",\n      \"protected\": true\n    },\n    \"excerpt\": {\n      \"rendered\": \"string\",\n      \"protected\": true\n    },\n    \"author\": 3130,\n    \"featured_media\": 921,\n    \"categories\": [\n      6048,\n      8604\n    ],\n    \"tags\": [\n      2266,\n      3410\n    ],\n    \"acf\": {},\n    \"yoast_head_json\": {}\n  },\n  {\n    \"id\": 6447,\n    \"slug\": \"string\",\n    \"type\": \"string\",\n    \"link\": \"https://gRTwQpAABBhiChfkMiHlCtJRdqt.fxkQJE5tKrCp0XZYpKNi\",\n    \"title\": {\n      \"rendered\": \"string\",\n      \"protected\": true\n    },\n    \"date\": \"1976-10-02T11:48:46.382Z\",\n    \"date_gmt\": \"1999-02-07T15:14:38.212Z\",\n    \"modified\": \"1978-09-04T05:29:30.541Z\",\n    \"status\": \"publish\",\n    \"content\": {\n      \"rendered\": \"string\",\n      \"protected\": false\n    },\n    \"excerpt\": {\n      \"rendered\": \"string\",\n      \"protected\": true\n    },\n    \"author\": 3909,\n    \"featured_media\": 4250,\n    \"categories\": [\n      4162,\n      1991\n    ],\n    \"tags\": [\n      1936,\n      6720\n    ],\n    \"acf\": {},\n    \"yoast_head_json\": {}\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "2feadbea-7793-4853-b654-30e61abde425",
+              "name": "Invalid parameter.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wp",
+                    "v2",
+                    "posts"
+                  ],
+                  "host": [
+                    "{{wp-v2-posts-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "10"
+                    },
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "orderby",
+                      "value": "date"
+                    },
+                    {
+                      "key": "order",
+                      "value": "desc"
+                    },
+                    {
+                      "key": "_fields",
+                      "value": "id,slug,title,link,date"
+                    },
+                    {
+                      "key": "categories",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "categories",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "after",
+                      "value": "<dateTime>"
+                    },
+                    {
+                      "key": "before",
+                      "value": "<dateTime>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"rest_post_invalid_id\",\n  \"message\": \"string\",\n  \"data\": {\n    \"status\": 5408\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "7b1d9701-086e-4fd6-8cc2-ebf8c787c1ad",
+          "name": "Get one post",
+          "request": {
+            "name": "Get one post",
+            "description": {},
+            "url": {
+              "path": [
+                "wp",
+                "v2",
+                "posts",
+                ":id"
+              ],
+              "host": [
+                "{{wp-v2-posts-id-Url}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "_fields",
+                  "value": "<string>",
+                  "description": "Comma-separated sparse-fieldset projection, e.g. `id,slug,title,link`."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "ad5f0400-520d-4e81-bcd3-3f0d1b4ca12b",
+              "name": "The post.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wp",
+                    "v2",
+                    "posts",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{wp-v2-posts-id-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "_fields",
+                      "value": "id,slug,title,link,date"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 4187,\n  \"slug\": \"string\",\n  \"type\": \"string\",\n  \"link\": \"http://IJHazdjEngzgfDzhieSqjJuMDj.pphan2UGJLaQfA,MwyRGY3dPydwnOmB,tJ41Kscdnl8VtoWy0q1JA.LoF09\",\n  \"title\": {\n    \"rendered\": \"string\",\n    \"protected\": true\n  },\n  \"date\": \"1982-02-15T10:17:52.106Z\",\n  \"date_gmt\": \"1992-08-26T15:01:48.772Z\",\n  \"modified\": \"1988-08-20T06:32:20.078Z\",\n  \"status\": \"publish\",\n  \"content\": {\n    \"rendered\": \"string\",\n    \"protected\": true\n  },\n  \"excerpt\": {\n    \"rendered\": \"string\",\n    \"protected\": true\n  },\n  \"author\": 9985,\n  \"featured_media\": 6623,\n  \"categories\": [\n    5449,\n    1017\n  ],\n  \"tags\": [\n    835,\n    9410\n  ],\n  \"acf\": {},\n  \"yoast_head_json\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "cc83abde-51ec-4862-a5b9-62c66a8cf7c8",
+              "name": "No object found with that id.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wp",
+                    "v2",
+                    "posts",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{wp-v2-posts-id-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "_fields",
+                      "value": "id,slug,title,link,date"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"rest_post_invalid_id\",\n  \"message\": \"string\",\n  \"data\": {\n    \"status\": 5408\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "4f28c90f-321c-4521-9107-c3fb5f6e6e12",
+          "name": "List corporate pages",
+          "request": {
+            "name": "List corporate pages",
+            "description": {
+              "content": "18 published pages as of 2026-08-06 — Home, Company (Overview, Team, Investors), Science (Overview, Technology, Publications), Pipeline, Patients, News, Careers, Contact, Terms of Use, Privacy Policy and two additional privacy notices. Pages are hierarchical via `parent`.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "wp",
+                "v2",
+                "pages"
+              ],
+              "host": [
+                "{{wp-v2-pages-Url}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "1-indexed page of the collection."
+                },
+                {
+                  "disabled": false,
+                  "key": "per_page",
+                  "value": "10",
+                  "description": "Records per page."
+                },
+                {
+                  "disabled": false,
+                  "key": "search",
+                  "value": "<string>",
+                  "description": "Limit results to those matching a string."
+                },
+                {
+                  "disabled": false,
+                  "key": "_fields",
+                  "value": "<string>",
+                  "description": "Comma-separated sparse-fieldset projection, e.g. `id,slug,title,link`."
+                },
+                {
+                  "disabled": false,
+                  "key": "parent",
+                  "value": "<integer>",
+                  "description": "Limit to children of the given page ids."
+                },
+                {
+                  "disabled": false,
+                  "key": "parent",
+                  "value": "<integer>",
+                  "description": "Limit to children of the given page ids."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "07b867c5-4f61-4d75-902e-4d6efc4573f5",
+              "name": "A page of pages.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wp",
+                    "v2",
+                    "pages"
+                  ],
+                  "host": [
+                    "{{wp-v2-pages-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "10"
+                    },
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "_fields",
+                      "value": "id,slug,title,link,date"
+                    },
+                    {
+                      "key": "parent",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "parent",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Total number of records in the collection.",
+                  "key": "X-WP-Total",
+                  "value": "852"
+                },
+                {
+                  "disabled": false,
+                  "description": "Total number of pages available at the current per_page.",
+                  "key": "X-WP-TotalPages",
+                  "value": "852"
+                },
+                {
+                  "disabled": false,
+                  "description": "RFC 8288 Link header carrying rel=\"next\" / rel=\"prev\".",
+                  "key": "Link",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": 3719,\n    \"slug\": \"string\",\n    \"type\": \"string\",\n    \"link\": \"https://ZfjmjeIbNzTiQ.qltuJk0RMFW75D.G6N+aT9+TRQ\",\n    \"title\": {\n      \"rendered\": \"string\",\n      \"protected\": true\n    },\n    \"date\": \"2002-11-16T12:24:21.582Z\",\n    \"modified\": \"2015-05-30T10:00:31.921Z\",\n    \"status\": \"string\",\n    \"parent\": 1734,\n    \"menu_order\": 6326,\n    \"content\": {\n      \"rendered\": \"string\",\n      \"protected\": true\n    },\n    \"excerpt\": {\n      \"rendered\": \"string\",\n      \"protected\": true\n    },\n    \"author\": 9525,\n    \"featured_media\": 289,\n    \"yoast_head_json\": {}\n  },\n  {\n    \"id\": 3209,\n    \"slug\": \"string\",\n    \"type\": \"string\",\n    \"link\": \"https://D.siqcelLDjQ-Bcl-ipRug2NvEFcxrLTS2i\",\n    \"title\": {\n      \"rendered\": \"string\",\n      \"protected\": false\n    },\n    \"date\": \"1983-12-15T14:13:09.171Z\",\n    \"modified\": \"1974-08-06T10:00:31.661Z\",\n    \"status\": \"string\",\n    \"parent\": 9009,\n    \"menu_order\": 9901,\n    \"content\": {\n      \"rendered\": \"string\",\n      \"protected\": false\n    },\n    \"excerpt\": {\n      \"rendered\": \"string\",\n      \"protected\": false\n    },\n    \"author\": 584,\n    \"featured_media\": 9261,\n    \"yoast_head_json\": {}\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "6e8913ba-27cf-4ec6-9eae-48f7ee47f2f5",
+              "name": "Invalid parameter.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wp",
+                    "v2",
+                    "pages"
+                  ],
+                  "host": [
+                    "{{wp-v2-pages-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "10"
+                    },
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "_fields",
+                      "value": "id,slug,title,link,date"
+                    },
+                    {
+                      "key": "parent",
+                      "value": "<integer>"
+                    },
+                    {
+                      "key": "parent",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"rest_post_invalid_id\",\n  \"message\": \"string\",\n  \"data\": {\n    \"status\": 5408\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "cd0f077b-5311-412b-b4c4-77f8effec8e7",
+          "name": "Get one page",
+          "request": {
+            "name": "Get one page",
+            "description": {},
+            "url": {
+              "path": [
+                "wp",
+                "v2",
+                "pages",
+                ":id"
+              ],
+              "host": [
+                "{{wp-v2-pages-id-Url}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "_fields",
+                  "value": "<string>",
+                  "description": "Comma-separated sparse-fieldset projection, e.g. `id,slug,title,link`."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "f1e1cf1e-da9a-4254-b9f5-fd5025447ffe",
+              "name": "The page.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wp",
+                    "v2",
+                    "pages",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{wp-v2-pages-id-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "_fields",
+                      "value": "id,slug,title,link,date"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 8711,\n  \"slug\": \"string\",\n  \"type\": \"string\",\n  \"link\": \"https://gQXgGjfTHRihZyquOCFxHpooEjF.zysOixwMvlSv5x.8t3\",\n  \"title\": {\n    \"rendered\": \"string\",\n    \"protected\": false\n  },\n  \"date\": \"1965-04-11T11:23:28.836Z\",\n  \"modified\": \"2012-06-25T20:32:18.896Z\",\n  \"status\": \"string\",\n  \"parent\": 2174,\n  \"menu_order\": 2825,\n  \"content\": {\n    \"rendered\": \"string\",\n    \"protected\": true\n  },\n  \"excerpt\": {\n    \"rendered\": \"string\",\n    \"protected\": false\n  },\n  \"author\": 7176,\n  \"featured_media\": 2863,\n  \"yoast_head_json\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "38b19830-7661-4785-8d15-be17d372a404",
+              "name": "No object found with that id.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wp",
+                    "v2",
+                    "pages",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{wp-v2-pages-id-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "_fields",
+                      "value": "id,slug,title,link,date"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"rest_post_invalid_id\",\n  \"message\": \"string\",\n  \"data\": {\n    \"status\": 5408\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "a5d4bc4e-f9b7-4f4a-8401-908df24e03a2",
+          "name": "List comments",
+          "request": {
+            "name": "List comments",
+            "description": {
+              "content": "Returns an empty array; commenting is not used on this site.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "wp",
+                "v2",
+                "comments"
+              ],
+              "host": [
+                "{{wp-v2-comments-Url}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1",
+                  "description": "1-indexed page of the collection."
+                },
+                {
+                  "disabled": false,
+                  "key": "per_page",
+                  "value": "10",
+                  "description": "Records per page."
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "7d9ab7a1-3ae8-4371-8dc3-70d54e71e46c",
+              "name": "A page of comments (empty on this site).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wp",
+                    "v2",
+                    "comments"
+                  ],
+                  "host": [
+                    "{{wp-v2-comments-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "10"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "e3ff4b6c-239e-406e-a874-7ab420356de4",
+          "name": "List reusable blocks / patterns",
+          "request": {
+            "name": "List reusable blocks / patterns",
+            "description": {
+              "content": "Returns an empty array on this install.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "wp",
+                "v2",
+                "blocks"
+              ],
+              "host": [
+                "{{wp-v2-blocks-Url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a3b4819a-0c0b-4642-8719-4cf70cecf099",
+              "name": "A page of reusable blocks (empty on this site).",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wp",
+                    "v2",
+                    "blocks"
+                  ],
+                  "host": [
+                    "{{wp-v2-blocks-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "5ce89c5f-6a1e-4a82-b8f5-ae04b8a18153",
+          "name": "List block-editor navigation menus",
+          "request": {
+            "name": "List block-editor navigation menus",
+            "description": {
+              "content": "One navigation menu object is exposed anonymously (2026-08-06).",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "wp",
+                "v2",
+                "navigation"
+              ],
+              "host": [
+                "{{wp-v2-navigation-Url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "c8de00d8-6e24-4f0a-8ab3-449adb41f416",
+              "name": "A page of navigation menus.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wp",
+                    "v2",
+                    "navigation"
+                  ],
+                  "host": [
+                    "{{wp-v2-navigation-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "993eb252-780c-4b58-ac24-4cc079862f00",
+          "name": "List content authors",
+          "request": {
+            "name": "List content authors",
+            "description": {
+              "content": "One author account exposed anonymously (2026-08-06); no email addresses are returned.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "wp",
+                "v2",
+                "users"
+              ],
+              "host": [
+                "{{wp-v2-users-Url}}"
+              ],
+              "query": [],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "b9591b84-8b28-4160-8f0b-56d7647f6b35",
+              "name": "A page of author records.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wp",
+                    "v2",
+                    "users"
+                  ],
+                  "host": [
+                    "{{wp-v2-users-Url}}"
+                  ],
+                  "query": [],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Total number of records in the collection.",
+                  "key": "X-WP-Total",
+                  "value": "852"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": 9467,\n    \"name\": \"string\",\n    \"slug\": \"string\",\n    \"link\": \"http://UPWijYCImzzYYqxpLovMRJlwMRUwemfw.lubXpElJy\"\n  },\n  {\n    \"id\": 6818,\n    \"name\": \"string\",\n    \"slug\": \"string\",\n    \"link\": \"http://HeZwgZGBPbC.hquf1aLo5goDIu3Z7SUYDqzTZTatu+ASDYMMYNzd9CB6Av3\"\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://www.adarx.com/wp-json",
+      "key": "baseUrl"
+    },
+    {
+      "type": "string",
+      "value": "https://www.adarx.com/wp-json",
+      "key": "wp-v2-posts-Url"
+    },
+    {
+      "type": "string",
+      "value": "https://www.adarx.com/wp-json",
+      "key": "wp-v2-posts-id-Url"
+    },
+    {
+      "type": "string",
+      "value": "https://www.adarx.com/wp-json",
+      "key": "wp-v2-pages-Url"
+    },
+    {
+      "type": "string",
+      "value": "https://www.adarx.com/wp-json",
+      "key": "wp-v2-pages-id-Url"
+    },
+    {
+      "type": "string",
+      "value": "https://www.adarx.com/wp-json",
+      "key": "wp-v2-comments-Url"
+    },
+    {
+      "type": "string",
+      "value": "https://www.adarx.com/wp-json",
+      "key": "wp-v2-blocks-Url"
+    },
+    {
+      "type": "string",
+      "value": "https://www.adarx.com/wp-json",
+      "key": "wp-v2-navigation-Url"
+    },
+    {
+      "type": "string",
+      "value": "https://stophae.com/wp-json",
+      "key": "wp-v2-users-Url"
+    }
+  ],
+  "info": {
+    "_postman_id": "6c15d85c-343c-4300-93f0-e5bb0650ae2b",
+    "name": "Adarx Pharmaceuticals Content API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Operations tagged content across 2 of this provider's published API definitions: adarx-pharmaceuticals-content-openapi.yml, adarx-pharmaceuticals-stop-hae-openapi.yml. Each path carries the servers of the definition it was published in.\n\nContact Support:\n Name: ADARx Pharmaceuticals\n Email: info@adarx.com",
+      "type": "text/plain"
+    }
+  }
+}

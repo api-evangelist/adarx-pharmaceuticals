@@ -1,0 +1,138 @@
+openapi: 3.2.0
+info:
+  title: Adarx Pharmaceuticals Embed API
+  version: '1.0'
+  contact:
+    name: ADARx Pharmaceuticals
+    url: https://www.adarx.com/contact/
+    email: info@adarx.com
+  description: 'Operations tagged embed across 2 of this provider''s published API definitions: adarx-pharmaceuticals-content-openapi.yml, adarx-pharmaceuticals-stop-hae-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://www.adarx.com/wp-json
+  description: Production WordPress REST API
+- url: https://stophae.com/wp-json
+  description: Production WordPress REST API for the STOP-HAE patient site
+security: []
+tags:
+- name: embed
+  description: oEmbed provider and SEO head rendering.
+paths:
+  /oembed/1.0/embed:
+    servers:
+    - url: https://www.adarx.com/wp-json
+      description: Production WordPress REST API
+    get:
+      operationId: getOEmbed
+      summary: oEmbed provider for adarx.com URLs
+      description: RFC-less but widely implemented oEmbed 1.0 provider endpoint. Returns provider identity, author, title, thumbnail and an iframe embed for any URL on this site.
+      tags:
+      - embed
+      parameters:
+      - name: url
+        in: query
+        required: true
+        description: The adarx.com URL to embed.
+        schema:
+          type: string
+          format: uri
+        example: https://www.adarx.com/
+      - name: format
+        in: query
+        schema:
+          type: string
+          enum:
+          - json
+          - xml
+          default: json
+      - name: maxwidth
+        in: query
+        schema:
+          type: integer
+      responses:
+        '200':
+          description: The oEmbed document.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  version:
+                    type: string
+                  provider_name:
+                    type: string
+                  provider_url:
+                    type: string
+                    format: uri
+                  author_name:
+                    type: string
+                  title:
+                    type: string
+                  html:
+                    type: string
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /yoast/v1/get_head:
+    servers:
+    - url: https://www.adarx.com/wp-json
+      description: Production WordPress REST API
+    get:
+      operationId: getSeoHead
+      summary: Render the Yoast SEO head for a URL
+      description: Returns the full `<head>` SEO block for any URL on the site, including the schema.org JSON-LD `@graph`. This is the machine-readable structured-data surface of the site; the same graph is embedded per-object as `yoast_head_json` on posts and pages.
+      tags:
+      - embed
+      parameters:
+      - name: url
+        in: query
+        required: true
+        schema:
+          type: string
+          format: uri
+        example: https://www.adarx.com/
+      responses:
+        '200':
+          description: The rendered head.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  html:
+                    type: string
+                  json:
+                    type: object
+components:
+  schemas:
+    RestError:
+      type: object
+      description: The WordPress REST error envelope. Not RFC 9457 problem+json.
+      properties:
+        code:
+          type: string
+          example: rest_post_invalid_id
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            status:
+              type: integer
+      required:
+      - code
+      - message
+      - data
+  responses:
+    NotFound:
+      description: No object found with that id.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/RestError'
+  securitySchemes:
+    applicationPassword:
+      type: http
+      scheme: basic
+      description: WordPress Application Passwords (HTTP Basic with a user login and a generated application password). Advertised by the route index at https://www.adarx.com/wp-admin/authorize-application.php. Only required for the write and administrative routes, which are NOT modelled in this document — every operation above is readable anonymously.
+x-refined-from:
+- adarx-pharmaceuticals-content-openapi.yml
+- adarx-pharmaceuticals-stop-hae-openapi.yml

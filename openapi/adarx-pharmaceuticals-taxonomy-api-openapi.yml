@@ -1,0 +1,321 @@
+openapi: 3.2.0
+info:
+  title: Adarx Pharmaceuticals Taxonomy API
+  version: '1.0'
+  contact:
+    name: ADARx Pharmaceuticals
+    url: https://www.adarx.com/contact/
+    email: info@adarx.com
+  description: 'Operations tagged taxonomy across 2 of this provider''s published API definitions: adarx-pharmaceuticals-content-openapi.yml, adarx-pharmaceuticals-stop-hae-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://www.adarx.com/wp-json
+  description: Production WordPress REST API
+- url: https://stophae.com/wp-json
+  description: Production WordPress REST API for the STOP-HAE patient site
+security: []
+tags:
+- name: taxonomy
+  description: Categories, tags, taxonomies and post statuses.
+paths:
+  /wp/v2/categories:
+    servers:
+    - url: https://www.adarx.com/wp-json
+      description: Production WordPress REST API
+    get:
+      operationId: listCategories
+      summary: List post categories
+      description: Six categories as of 2026-08-06 — News (23), BOD (9), Clinical Trials (7), Leadership (5), Publications (3) and Uncategorized (0). These are the primary editorial facet on this site.
+      tags:
+      - taxonomy
+      parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/perPage'
+      - $ref: '#/components/parameters/fields'
+      responses:
+        '200':
+          description: A page of categories.
+          headers:
+            X-WP-Total:
+              $ref: '#/components/headers/XWPTotal'
+            X-WP-TotalPages:
+              $ref: '#/components/headers/XWPTotalPages'
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Term'
+  /wp/v2/categories/{id}:
+    servers:
+    - url: https://www.adarx.com/wp-json
+      description: Production WordPress REST API
+    get:
+      operationId: getCategory
+      summary: Get one category
+      tags:
+      - taxonomy
+      parameters:
+      - $ref: '#/components/parameters/idPath'
+      responses:
+        '200':
+          description: The category.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Term'
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /wp/v2/tags:
+    servers:
+    - url: https://www.adarx.com/wp-json
+      description: Production WordPress REST API
+    get:
+      operationId: listTags
+      summary: List post tags
+      description: The tag taxonomy is registered but empty on this site (X-WP-Total 0 on 2026-08-06).
+      tags:
+      - taxonomy
+      parameters:
+      - $ref: '#/components/parameters/page'
+      - $ref: '#/components/parameters/perPage'
+      responses:
+        '200':
+          description: A page of tags.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Term'
+  /wp/v2/taxonomies:
+    servers:
+    - url: https://www.adarx.com/wp-json
+      description: Production WordPress REST API
+    get:
+      operationId: listTaxonomies
+      summary: List registered taxonomies
+      description: Four registered — category, post_tag, nav_menu, wp_pattern_category.
+      tags:
+      - taxonomy
+      responses:
+        '200':
+          description: A map of taxonomy name to definition.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+  /wp/v2/taxonomies/{taxonomy}:
+    servers:
+    - url: https://www.adarx.com/wp-json
+      description: Production WordPress REST API
+    get:
+      operationId: getTaxonomy
+      summary: Get one taxonomy definition
+      tags:
+      - taxonomy
+      parameters:
+      - name: taxonomy
+        in: path
+        required: true
+        schema:
+          type: string
+        example: category
+      responses:
+        '200':
+          description: The taxonomy definition.
+          content:
+            application/json:
+              schema:
+                type: object
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /wp/v2/types:
+    servers:
+    - url: https://www.adarx.com/wp-json
+      description: Production WordPress REST API
+    get:
+      operationId: listPostTypes
+      summary: List registered post types
+      description: Registered types on this install — post, page, attachment, nav_menu_item, wp_block, wp_template, wp_template_part, wp_global_styles, wp_navigation, wp_font_family, wp_font_face. No custom editorial post type is registered on www.adarx.com.
+      tags:
+      - taxonomy
+      responses:
+        '200':
+          description: A map of post type name to definition.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+  /wp/v2/types/{type}:
+    servers:
+    - url: https://www.adarx.com/wp-json
+      description: Production WordPress REST API
+    get:
+      operationId: getPostType
+      summary: Get one post type definition
+      tags:
+      - taxonomy
+      parameters:
+      - name: type
+        in: path
+        required: true
+        schema:
+          type: string
+        example: post
+      responses:
+        '200':
+          description: The post type definition.
+          content:
+            application/json:
+              schema:
+                type: object
+        '404':
+          $ref: '#/components/responses/NotFound'
+  /wp/v2/statuses:
+    servers:
+    - url: https://www.adarx.com/wp-json
+      description: Production WordPress REST API
+    get:
+      operationId: listStatuses
+      summary: List post statuses visible anonymously
+      description: Anonymously this returns publish and (empty) private-visible statuses only.
+      tags:
+      - taxonomy
+      responses:
+        '200':
+          description: A map of status slug to definition.
+          content:
+            application/json:
+              schema:
+                type: object
+                additionalProperties:
+                  type: object
+  /wp/v2/statuses/{status}:
+    servers:
+    - url: https://www.adarx.com/wp-json
+      description: Production WordPress REST API
+    get:
+      operationId: getStatus
+      summary: Get one post status definition
+      tags:
+      - taxonomy
+      parameters:
+      - name: status
+        in: path
+        required: true
+        schema:
+          type: string
+        example: publish
+      responses:
+        '200':
+          description: The status definition.
+          content:
+            application/json:
+              schema:
+                type: object
+        '404':
+          $ref: '#/components/responses/NotFound'
+components:
+  parameters:
+    idPath:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+    page:
+      name: page
+      in: query
+      description: 1-indexed page of the collection.
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+    fields:
+      name: _fields
+      in: query
+      description: Comma-separated sparse-fieldset projection, e.g. `id,slug,title,link`.
+      schema:
+        type: string
+      example: id,slug,title,link,date
+    perPage:
+      name: per_page
+      in: query
+      description: Records per page.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 10
+  schemas:
+    RestError:
+      type: object
+      description: The WordPress REST error envelope. Not RFC 9457 problem+json.
+      properties:
+        code:
+          type: string
+          example: rest_post_invalid_id
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            status:
+              type: integer
+      required:
+      - code
+      - message
+      - data
+    Term:
+      type: object
+      properties:
+        id:
+          type: integer
+        count:
+          type: integer
+        name:
+          type: string
+        slug:
+          type: string
+        description:
+          type: string
+        taxonomy:
+          type: string
+        parent:
+          type: integer
+        link:
+          type: string
+          format: uri
+      required:
+      - id
+      - name
+      - slug
+      - taxonomy
+  headers:
+    XWPTotalPages:
+      description: Total number of pages available at the current per_page.
+      schema:
+        type: integer
+    XWPTotal:
+      description: Total number of records in the collection.
+      schema:
+        type: integer
+  responses:
+    NotFound:
+      description: No object found with that id.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/RestError'
+  securitySchemes:
+    applicationPassword:
+      type: http
+      scheme: basic
+      description: WordPress Application Passwords (HTTP Basic with a user login and a generated application password). Advertised by the route index at https://www.adarx.com/wp-admin/authorize-application.php. Only required for the write and administrative routes, which are NOT modelled in this document — every operation above is readable anonymously.
+x-refined-from:
+- adarx-pharmaceuticals-content-openapi.yml
+- adarx-pharmaceuticals-stop-hae-openapi.yml

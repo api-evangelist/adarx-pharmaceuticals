@@ -1,0 +1,65 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Adarx Pharmaceuticals Embed API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "embed",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "oEmbed provider for adarx.com URLs",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://www.adarx.com/wp-json/oembed/1.0/embed",
+            "params": [
+              {
+                "name": "url",
+                "value": "https://www.adarx.com/",
+                "type": "query",
+                "description": "The adarx.com URL to embed."
+              },
+              {
+                "name": "format",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "maxwidth",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "RFC-less but widely implemented oEmbed 1.0 provider endpoint. Returns provider identity, author, title, thumbnail and an iframe embed for any URL on this site."
+        },
+        {
+          "info": {
+            "name": "Render the Yoast SEO head for a URL",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://www.adarx.com/wp-json/yoast/v1/get_head",
+            "params": [
+              {
+                "name": "url",
+                "value": "https://www.adarx.com/",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "Returns the full `<head>` SEO block for any URL on the site, including the schema.org JSON-LD `@graph`. This is the machine-readable structured-data surface of the site; the same graph is embedded per-object as `yoast_head_json` on posts and pages."
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

@@ -1,0 +1,86 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ADARx STOP-HAE Trial Site Clinics API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "clinics",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List STOP-HAE trial sites",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://stophae.com/wp-json/wp/v2/clinic",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "search",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "_fields",
+                "value": "id,slug,title,link",
+                "type": "query",
+                "description": "Comma-separated sparse-fieldset projection."
+              },
+              {
+                "name": "orderby",
+                "value": "",
+                "type": "query"
+              },
+              {
+                "name": "order",
+                "value": "",
+                "type": "query"
+              }
+            ]
+          },
+          "docs": "50 published `clinic` records as of 2026-08-06. Each is identified by a site code in the `slug`/`title` (e.g. `801-01`). The `acf` custom-field payload is an empty array on every record, so addresses, investigators and contact details are not exposed through REST."
+        },
+        {
+          "info": {
+            "name": "Get one STOP-HAE trial site",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://stophae.com/wp-json/wp/v2/clinic/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              },
+              {
+                "name": "_fields",
+                "value": "id,slug,title,link",
+                "type": "query",
+                "description": "Comma-separated sparse-fieldset projection."
+              }
+            ]
+          },
+          "docs": "Get one STOP-HAE trial site"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

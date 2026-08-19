@@ -1,0 +1,61 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "ADARx Pharmaceuticals Content People API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "people",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List content authors",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://www.adarx.com/wp-json/wp/v2/users",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "1-indexed page of the collection."
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query",
+                "description": "Records per page."
+              }
+            ]
+          },
+          "docs": "Two author accounts are exposed anonymously on this install (2026-08-06). Unlike many WordPress sites this endpoint is not locked down; it returns display names, slugs and author-archive links but no email addresses."
+        },
+        {
+          "info": {
+            "name": "Get one author",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://www.adarx.com/wp-json/wp/v2/users/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get one author"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

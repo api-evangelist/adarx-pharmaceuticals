@@ -1,0 +1,395 @@
+{
+  "item": [
+    {
+      "id": "7b910fe6-ad5f-41e7-a5c6-ae2eee48de77",
+      "name": "clinics",
+      "description": {
+        "content": "The STOP-HAE trial-site (clinic) registry.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "b0ff0a7b-af1e-40f3-ad22-bd14c0332ac0",
+          "name": "List STOP-HAE trial sites",
+          "request": {
+            "name": "List STOP-HAE trial sites",
+            "description": {
+              "content": "50 published `clinic` records as of 2026-08-06. Each is identified by a site code in the `slug`/`title` (e.g. `801-01`). The `acf` custom-field payload is an empty array on every record, so addresses, investigators and contact details are not exposed through REST.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "wp",
+                "v2",
+                "clinic"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "disabled": false,
+                  "key": "per_page",
+                  "value": "10"
+                },
+                {
+                  "disabled": false,
+                  "key": "search",
+                  "value": "<string>"
+                },
+                {
+                  "disabled": false,
+                  "key": "_fields",
+                  "value": "<string>",
+                  "description": "Comma-separated sparse-fieldset projection."
+                },
+                {
+                  "disabled": false,
+                  "key": "orderby",
+                  "value": "date"
+                },
+                {
+                  "disabled": false,
+                  "key": "order",
+                  "value": "desc"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "69a7dd4a-2bcb-4ac6-a3e1-6fefbf4233dc",
+              "name": "A page of clinic records.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wp",
+                    "v2",
+                    "clinic"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "10"
+                    },
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "_fields",
+                      "value": "id,slug,title,link"
+                    },
+                    {
+                      "key": "orderby",
+                      "value": "date"
+                    },
+                    {
+                      "key": "order",
+                      "value": "desc"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "disabled": false,
+                  "description": "Total number of records in the collection.",
+                  "key": "X-WP-Total",
+                  "value": "5588"
+                },
+                {
+                  "disabled": false,
+                  "description": "Total number of pages available at the current per_page.",
+                  "key": "X-WP-TotalPages",
+                  "value": "5588"
+                },
+                {
+                  "disabled": false,
+                  "description": "RFC 8288 Link header carrying rel=\"next\" / rel=\"prev\".",
+                  "key": "Link",
+                  "value": "string"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "[\n  {\n    \"id\": 8928,\n    \"slug\": \"801-01\",\n    \"type\": \"string\",\n    \"link\": \"https://TLMmAtDSZetQiAMBUKfctGeJIbkk.fugqTzgG,8JvBsswCk7pdUsC8Z8EtLSjNZ4v37ZwRFoyhvEYD-pUXIr\",\n    \"title\": {\n      \"rendered\": \"string\",\n      \"protected\": true\n    },\n    \"date\": \"2009-08-10T23:51:16.698Z\",\n    \"modified\": \"2014-06-18T14:42:39.964Z\",\n    \"status\": \"publish\",\n    \"menu_order\": 2269,\n    \"featured_media\": 3586,\n    \"categories\": [\n      9736,\n      6526\n    ]\n  },\n  {\n    \"id\": 3719,\n    \"slug\": \"801-01\",\n    \"type\": \"string\",\n    \"link\": \"http://jfGuUNfvTQjNMHaHZPElbvnRiAGAwdUae.xtw7Sq,,fP7ADIrf82nPiAgMxrOgUreAPUNoRxP2hj,n0nqAXKI.L\",\n    \"title\": {\n      \"rendered\": \"string\",\n      \"protected\": false\n    },\n    \"date\": \"1963-11-17T19:47:53.913Z\",\n    \"modified\": \"1956-12-06T07:54:14.103Z\",\n    \"status\": \"publish\",\n    \"menu_order\": 3480,\n    \"featured_media\": 9013,\n    \"categories\": [\n      8542,\n      6148\n    ]\n  }\n]",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "fe64e24e-32de-49b3-a184-96308c86909d",
+              "name": "Invalid parameter.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wp",
+                    "v2",
+                    "clinic"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "page",
+                      "value": "1"
+                    },
+                    {
+                      "key": "per_page",
+                      "value": "10"
+                    },
+                    {
+                      "key": "search",
+                      "value": "<string>"
+                    },
+                    {
+                      "key": "_fields",
+                      "value": "id,slug,title,link"
+                    },
+                    {
+                      "key": "orderby",
+                      "value": "date"
+                    },
+                    {
+                      "key": "order",
+                      "value": "desc"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Bad Request",
+              "code": 400,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"message\": \"string\",\n  \"data\": {\n    \"status\": 5477\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "dd649dd0-d972-4a07-8d18-6b6daeeb34b7",
+          "name": "Get one STOP-HAE trial site",
+          "request": {
+            "name": "Get one STOP-HAE trial site",
+            "description": {},
+            "url": {
+              "path": [
+                "wp",
+                "v2",
+                "clinic",
+                ":id"
+              ],
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "_fields",
+                  "value": "<string>",
+                  "description": "Comma-separated sparse-fieldset projection."
+                }
+              ],
+              "variable": [
+                {
+                  "disabled": false,
+                  "type": "any",
+                  "value": "<integer>",
+                  "key": "id",
+                  "description": "(Required) "
+                }
+              ]
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "361722f1-b893-4250-813c-8b46743f8c43",
+              "name": "The clinic record.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wp",
+                    "v2",
+                    "clinic",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "_fields",
+                      "value": "id,slug,title,link"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"id\": 8013,\n  \"slug\": \"801-01\",\n  \"type\": \"string\",\n  \"link\": \"https://vVdRGPBTZxPXCwo.auveHn-zS9aho-HhfZKChVGKAFolzYt5apA209qfaAvg,1tmVHrnygjSC607mFdvzVfd\",\n  \"title\": {\n    \"rendered\": \"string\",\n    \"protected\": true\n  },\n  \"date\": \"1960-12-08T20:08:04.254Z\",\n  \"modified\": \"1969-03-13T14:36:57.632Z\",\n  \"status\": \"publish\",\n  \"menu_order\": 8347,\n  \"featured_media\": 4678,\n  \"categories\": [\n    5811,\n    6705\n  ]\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "8758e601-9166-460b-b350-017845ba36e5",
+              "name": "No object found with that id.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "wp",
+                    "v2",
+                    "clinic",
+                    ":id"
+                  ],
+                  "host": [
+                    "{{baseUrl}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "_fields",
+                      "value": "id,slug,title,link"
+                    }
+                  ],
+                  "variable": [
+                    {
+                      "disabled": false,
+                      "type": "any",
+                      "value": "<integer>",
+                      "key": "id",
+                      "description": "(Required) "
+                    }
+                  ]
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"string\",\n  \"message\": \"string\",\n  \"data\": {\n    \"status\": 5477\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://stophae.com/wp-json",
+      "key": "baseUrl"
+    }
+  ],
+  "info": {
+    "_postman_id": "9cbdc2bb-5665-4c00-8d98-167e114521ba",
+    "name": "ADARx STOP-HAE Trial Site Clinics API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "stophae.com is the patient-recruitment site for STOP-HAE, ADARx Pharmaceuticals' Phase 3 randomized, double-blind, placebo-controlled study of ADX-324 (onvuzosiran) in hereditary angioedema. Its WordPress install identifies itself as \"ADARX1 Patient Website\" and registers 226 REST routes across oembed/1.0, wpml/v1, wpml/st/v1, wpml/tm/v1, wpml/ate/v1, otgs/installer/v1, wp/v2, wp-site-health/v1, wp-block-editor/v1 and wp-abilities/v1. The distinguishing feature versus the corporate site is a CUSTOM POST TYPE, `clinic` (rest_base `clinic`, label \"Clinics\"), which carries 50 published trial-site records and is readable without credentials. The records expose site identifiers (e.g. slug `801-01`), permalinks and dates; the Advanced Custom Fields payload that presumably holds the address and contact detail is NOT projected into REST (`acf` is an empty array on every record), so no location data is available through this API. Derived by the API Evangelist enrichment pipeline from https://stophae.com/wp-json/ and verified against live anonymous responses on 2026-08-06. Only operations that returned data without credentials are modelled. The WPML translation-management namespaces expose their namespace index anonymously but every functional route beneath them is administrative.\n\nContact Support:\n Name: ADARx Pharmaceuticals\n Email: info@adarx.com",
+      "type": "text/plain"
+    }
+  }
+}

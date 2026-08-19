@@ -1,0 +1,64 @@
+openapi: 3.2.0
+info:
+  title: Adarx Pharmaceuticals Index API
+  version: '1.0'
+  contact:
+    name: ADARx Pharmaceuticals
+    url: https://www.adarx.com/contact/
+    email: info@adarx.com
+  description: 'Operations tagged index across 2 of this provider''s published API definitions: adarx-pharmaceuticals-content-openapi.yml, adarx-pharmaceuticals-stop-hae-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://www.adarx.com/wp-json
+  description: Production WordPress REST API
+- url: https://stophae.com/wp-json
+  description: Production WordPress REST API for the STOP-HAE patient site
+security: []
+tags:
+- name: index
+  description: Route discovery and site identity.
+paths:
+  /:
+    servers:
+    - url: https://www.adarx.com/wp-json
+      description: Production WordPress REST API
+    get:
+      operationId: getRouteIndex
+      summary: Get the REST route index
+      description: Returns site identity (name, description, url, home), the registered namespaces, the authentication methods offered, and the full route table.
+      tags:
+      - index
+      responses:
+        '200':
+          description: The route index.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  name:
+                    type: string
+                  description:
+                    type: string
+                  url:
+                    type: string
+                    format: uri
+                  home:
+                    type: string
+                    format: uri
+                  namespaces:
+                    type: array
+                    items:
+                      type: string
+                  authentication:
+                    type: object
+                  routes:
+                    type: object
+components:
+  securitySchemes:
+    applicationPassword:
+      type: http
+      scheme: basic
+      description: WordPress Application Passwords (HTTP Basic with a user login and a generated application password). Advertised by the route index at https://www.adarx.com/wp-admin/authorize-application.php. Only required for the write and administrative routes, which are NOT modelled in this document — every operation above is readable anonymously.
+x-refined-from:
+- adarx-pharmaceuticals-content-openapi.yml
+- adarx-pharmaceuticals-stop-hae-openapi.yml

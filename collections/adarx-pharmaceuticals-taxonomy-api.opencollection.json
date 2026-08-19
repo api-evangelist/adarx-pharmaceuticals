@@ -1,0 +1,179 @@
+{
+  "opencollection": "1.0.0",
+  "info": {
+    "name": "Adarx Pharmaceuticals Taxonomy API",
+    "version": "1.0"
+  },
+  "items": [
+    {
+      "info": {
+        "name": "taxonomy",
+        "type": "folder"
+      },
+      "items": [
+        {
+          "info": {
+            "name": "List post categories",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://www.adarx.com/wp-json/wp/v2/categories",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "1-indexed page of the collection."
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query",
+                "description": "Records per page."
+              },
+              {
+                "name": "_fields",
+                "value": "id,slug,title,link,date",
+                "type": "query",
+                "description": "Comma-separated sparse-fieldset projection, e.g. `id,slug,title,link`."
+              }
+            ]
+          },
+          "docs": "Six categories as of 2026-08-06 — News (23), BOD (9), Clinical Trials (7), Leadership (5), Publications (3) and Uncategorized (0). These are the primary editorial facet on this site."
+        },
+        {
+          "info": {
+            "name": "Get one category",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://www.adarx.com/wp-json/wp/v2/categories/:id",
+            "params": [
+              {
+                "name": "id",
+                "value": "",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get one category"
+        },
+        {
+          "info": {
+            "name": "List post tags",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://www.adarx.com/wp-json/wp/v2/tags",
+            "params": [
+              {
+                "name": "page",
+                "value": "",
+                "type": "query",
+                "description": "1-indexed page of the collection."
+              },
+              {
+                "name": "per_page",
+                "value": "",
+                "type": "query",
+                "description": "Records per page."
+              }
+            ]
+          },
+          "docs": "The tag taxonomy is registered but empty on this site (X-WP-Total 0 on 2026-08-06)."
+        },
+        {
+          "info": {
+            "name": "List registered taxonomies",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://www.adarx.com/wp-json/wp/v2/taxonomies"
+          },
+          "docs": "Four registered — category, post_tag, nav_menu, wp_pattern_category."
+        },
+        {
+          "info": {
+            "name": "Get one taxonomy definition",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://www.adarx.com/wp-json/wp/v2/taxonomies/:taxonomy",
+            "params": [
+              {
+                "name": "taxonomy",
+                "value": "category",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get one taxonomy definition"
+        },
+        {
+          "info": {
+            "name": "List registered post types",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://www.adarx.com/wp-json/wp/v2/types"
+          },
+          "docs": "Registered types on this install — post, page, attachment, nav_menu_item, wp_block, wp_template, wp_template_part, wp_global_styles, wp_navigation, wp_font_family, wp_font_face. No custom editorial post type is registered on www.adarx.com."
+        },
+        {
+          "info": {
+            "name": "Get one post type definition",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://www.adarx.com/wp-json/wp/v2/types/:type",
+            "params": [
+              {
+                "name": "type",
+                "value": "post",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get one post type definition"
+        },
+        {
+          "info": {
+            "name": "List post statuses visible anonymously",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://www.adarx.com/wp-json/wp/v2/statuses"
+          },
+          "docs": "Anonymously this returns publish and (empty) private-visible statuses only."
+        },
+        {
+          "info": {
+            "name": "Get one post status definition",
+            "type": "http"
+          },
+          "http": {
+            "method": "GET",
+            "url": "https://www.adarx.com/wp-json/wp/v2/statuses/:status",
+            "params": [
+              {
+                "name": "status",
+                "value": "publish",
+                "type": "path"
+              }
+            ]
+          },
+          "docs": "Get one post status definition"
+        }
+      ]
+    }
+  ],
+  "bundled": true
+}

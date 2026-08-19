@@ -1,0 +1,282 @@
+{
+  "item": [
+    {
+      "id": "00260049-c2cb-4d15-b07b-c65c5788ba5e",
+      "name": "embed",
+      "description": {
+        "content": "oEmbed provider and SEO head rendering.",
+        "type": "text/plain"
+      },
+      "item": [
+        {
+          "id": "54b45a97-db2a-43d3-998b-56473cdb4b75",
+          "name": "oEmbed provider for adarx.com URLs",
+          "request": {
+            "name": "oEmbed provider for adarx.com URLs",
+            "description": {
+              "content": "RFC-less but widely implemented oEmbed 1.0 provider endpoint. Returns provider identity, author, title, thumbnail and an iframe embed for any URL on this site.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "oembed",
+                "1.0",
+                "embed"
+              ],
+              "host": [
+                "{{oembed-1.0-embed-Url}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "url",
+                  "value": "<uri>",
+                  "description": "(Required) The adarx.com URL to embed."
+                },
+                {
+                  "disabled": false,
+                  "key": "format",
+                  "value": "json"
+                },
+                {
+                  "disabled": false,
+                  "key": "maxwidth",
+                  "value": "<integer>"
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "a0003a05-21ee-492d-b931-df851ed5b627",
+              "name": "The oEmbed document.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "oembed",
+                    "1.0",
+                    "embed"
+                  ],
+                  "host": [
+                    "{{oembed-1.0-embed-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "url",
+                      "value": "https://www.adarx.com/"
+                    },
+                    {
+                      "key": "format",
+                      "value": "json"
+                    },
+                    {
+                      "key": "maxwidth",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"version\": \"string\",\n  \"provider_name\": \"string\",\n  \"provider_url\": \"https://klmbrouHCCbbhrrFZbIcHomUkrRUk.yomoSAakvvH+iwk-sYVrbLWpxJrdctnhF4tKx350SYZi\",\n  \"author_name\": \"string\",\n  \"title\": \"string\",\n  \"html\": \"string\"\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            },
+            {
+              "id": "7e6e867b-5763-4054-aa7a-2587863b971b",
+              "name": "No object found with that id.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "oembed",
+                    "1.0",
+                    "embed"
+                  ],
+                  "host": [
+                    "{{oembed-1.0-embed-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "url",
+                      "value": "https://www.adarx.com/"
+                    },
+                    {
+                      "key": "format",
+                      "value": "json"
+                    },
+                    {
+                      "key": "maxwidth",
+                      "value": "<integer>"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"code\": \"rest_post_invalid_id\",\n  \"message\": \"string\",\n  \"data\": {\n    \"status\": 9177\n  }\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        },
+        {
+          "id": "0a3e7027-a7ff-4001-a358-875dac1852f7",
+          "name": "Render the Yoast SEO head for a URL",
+          "request": {
+            "name": "Render the Yoast SEO head for a URL",
+            "description": {
+              "content": "Returns the full `<head>` SEO block for any URL on the site, including the schema.org JSON-LD `@graph`. This is the machine-readable structured-data surface of the site; the same graph is embedded per-object as `yoast_head_json` on posts and pages.",
+              "type": "text/plain"
+            },
+            "url": {
+              "path": [
+                "yoast",
+                "v1",
+                "get_head"
+              ],
+              "host": [
+                "{{yoast-v1-get_head-Url}}"
+              ],
+              "query": [
+                {
+                  "disabled": false,
+                  "key": "url",
+                  "value": "<uri>",
+                  "description": "(Required) "
+                }
+              ],
+              "variable": []
+            },
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              }
+            ],
+            "method": "GET",
+            "auth": null
+          },
+          "response": [
+            {
+              "id": "8ca2f3af-dc12-4248-a221-38c6b858034b",
+              "name": "The rendered head.",
+              "originalRequest": {
+                "url": {
+                  "path": [
+                    "yoast",
+                    "v1",
+                    "get_head"
+                  ],
+                  "host": [
+                    "{{yoast-v1-get_head-Url}}"
+                  ],
+                  "query": [
+                    {
+                      "key": "url",
+                      "value": "https://www.adarx.com/"
+                    }
+                  ],
+                  "variable": []
+                },
+                "header": [
+                  {
+                    "key": "Accept",
+                    "value": "application/json"
+                  }
+                ],
+                "method": "GET",
+                "body": {}
+              },
+              "status": "OK",
+              "code": 200,
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": "{\n  \"html\": \"string\",\n  \"json\": {}\n}",
+              "cookie": [],
+              "_postman_previewlanguage": "json"
+            }
+          ],
+          "event": [],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          }
+        }
+      ],
+      "event": []
+    }
+  ],
+  "event": [],
+  "variable": [
+    {
+      "type": "string",
+      "value": "https://www.adarx.com/wp-json",
+      "key": "baseUrl"
+    },
+    {
+      "type": "string",
+      "value": "https://www.adarx.com/wp-json",
+      "key": "oembed-1.0-embed-Url"
+    },
+    {
+      "type": "string",
+      "value": "https://www.adarx.com/wp-json",
+      "key": "yoast-v1-get_head-Url"
+    }
+  ],
+  "info": {
+    "_postman_id": "93566d96-2193-434f-87ef-76d0639d7c8d",
+    "name": "Adarx Pharmaceuticals Embed API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "description": {
+      "content": "Operations tagged embed across 2 of this provider's published API definitions: adarx-pharmaceuticals-content-openapi.yml, adarx-pharmaceuticals-stop-hae-openapi.yml. Each path carries the servers of the definition it was published in.\n\nContact Support:\n Name: ADARx Pharmaceuticals\n Email: info@adarx.com",
+      "type": "text/plain"
+    }
+  }
+}
