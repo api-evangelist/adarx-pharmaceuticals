@@ -28,6 +28,19 @@ created: '2026-08-06'
 modified: '2026-08-06'
 tags:
 - Company
+- Biotechnology
+- biopharmaceuticals
+- RNA Therapeutics
+- siRNA
+- RNA Editing
+- Clinical Trials
+- Rare Disease
+- Drug Development
+- Life Sciences
+- San Diego
+- content-api
+tags_raw:
+- Company
 - biotechnology
 - biopharmaceuticals
 - rna-therapeutics
@@ -46,6 +59,8 @@ apis:
   humanURL: https://developer.wordpress.org/rest-api/
   baseURL: https://www.adarx.com/wp-json
   tags:
+  - Clinics
+  tags_raw:
   - clinics
   properties:
   - type: OpenAPI
@@ -66,6 +81,8 @@ apis:
   humanURL: https://developer.wordpress.org/rest-api/
   baseURL: https://www.adarx.com/wp-json
   tags:
+  - Content
+  tags_raw:
   - content
   properties:
   - type: OpenAPI
@@ -86,6 +103,8 @@ apis:
   humanURL: https://developer.wordpress.org/rest-api/
   baseURL: https://www.adarx.com/wp-json
   tags:
+  - Embed
+  tags_raw:
   - embed
   properties:
   - type: OpenAPI
@@ -106,6 +125,8 @@ apis:
   humanURL: https://developer.wordpress.org/rest-api/
   baseURL: https://www.adarx.com/wp-json
   tags:
+  - Index
+  tags_raw:
   - index
   properties:
   - type: OpenAPI
@@ -126,6 +147,8 @@ apis:
   humanURL: https://developer.wordpress.org/rest-api/
   baseURL: https://www.adarx.com/wp-json
   tags:
+  - Media
+  tags_raw:
   - media
   properties:
   - type: OpenAPI
@@ -146,6 +169,8 @@ apis:
   humanURL: https://developer.wordpress.org/rest-api/
   baseURL: https://www.adarx.com/wp-json
   tags:
+  - People
+  tags_raw:
   - people
   properties:
   - type: OpenAPI
@@ -166,6 +191,8 @@ apis:
   humanURL: https://developer.wordpress.org/rest-api/
   baseURL: https://www.adarx.com/wp-json
   tags:
+  - Search
+  tags_raw:
   - search
   properties:
   - type: OpenAPI
@@ -186,6 +213,8 @@ apis:
   humanURL: https://developer.wordpress.org/rest-api/
   baseURL: https://www.adarx.com/wp-json
   tags:
+  - Taxonomy
+  tags_raw:
   - taxonomy
   properties:
   - type: OpenAPI
