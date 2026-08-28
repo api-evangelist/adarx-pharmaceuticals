@@ -17,6 +17,18 @@ description: >-
   May 2025. ADARx runs no developer program and publishes no product API, no developer portal and no
   API documentation; the only machine-readable surfaces reachable without credentials are the
   WordPress REST content APIs behind www.adarx.com and stophae.com, both catalogued here.
+deliveryModel:
+  model: saas
+  open_source: false
+  commercial: true
+  callable_host: true
+  label: Hosted service · you call their endpoint
+  confidence: high
+  source:
+  - openapi
+  - pricing
+  generated: '2026-08-28'
+  method: derived
 image: https://www.adarx.com/wp-content/uploads/2024/11/adarx-logo.png
 url: https://raw.githubusercontent.com/api-evangelist/adarx-pharmaceuticals/refs/heads/main/apis.yml
 x-type: company
