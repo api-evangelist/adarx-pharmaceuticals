@@ -58,11 +58,6 @@ paths:
                 items:
                   $ref: '#/components/schemas/SearchResult'
 components:
-  headers:
-    XWPTotal:
-      description: Total number of records in the collection.
-      schema:
-        type: integer
   schemas:
     SearchResult:
       type: object
@@ -102,6 +97,11 @@ components:
         type: integer
         minimum: 1
         default: 1
+  headers:
+    XWPTotal:
+      description: Total number of records in the collection.
+      schema:
+        type: integer
   securitySchemes:
     applicationPassword:
       type: http

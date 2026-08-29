@@ -60,12 +60,6 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   parameters:
-    idPath:
-      name: id
-      in: path
-      required: true
-      schema:
-        type: integer
     page:
       name: page
       in: query
@@ -83,6 +77,24 @@ components:
         minimum: 1
         maximum: 100
         default: 10
+    idPath:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+  responses:
+    NotFound:
+      description: No object found with that id.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/RestError'
+  headers:
+    XWPTotal:
+      description: Total number of records in the collection.
+      schema:
+        type: integer
   schemas:
     RestError:
       type: object
@@ -124,18 +136,6 @@ components:
       - id
       - name
       - slug
-  responses:
-    NotFound:
-      description: No object found with that id.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/RestError'
-  headers:
-    XWPTotal:
-      description: Total number of records in the collection.
-      schema:
-        type: integer
   securitySchemes:
     applicationPassword:
       type: http

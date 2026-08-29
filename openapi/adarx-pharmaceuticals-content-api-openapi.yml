@@ -236,82 +236,14 @@ paths:
                 items:
                   $ref: '#/components/schemas/User'
 components:
-  parameters:
-    orderby:
-      name: orderby
-      in: query
-      schema:
-        type: string
-        enum:
-        - date
-        - id
-        - title
-        - slug
-        - modified
-        - relevance
-        default: date
-    idPath:
-      name: id
-      in: path
-      required: true
-      schema:
-        type: integer
-    fields:
-      name: _fields
-      in: query
-      description: Comma-separated sparse-fieldset projection, e.g. `id,slug,title,link`.
-      schema:
-        type: string
-      example: id,slug,title,link,date
-    page:
-      name: page
-      in: query
-      description: 1-indexed page of the collection.
-      schema:
-        type: integer
-        minimum: 1
-        default: 1
-    order:
-      name: order
-      in: query
-      schema:
-        type: string
-        enum:
-        - asc
-        - desc
-        default: desc
-    search:
-      name: search
-      in: query
-      description: Limit results to those matching a string.
-      schema:
-        type: string
-    perPage:
-      name: per_page
-      in: query
-      description: Records per page.
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 10
   schemas:
-    User:
+    RenderedText:
       type: object
       properties:
-        id:
-          type: integer
-        name:
+        rendered:
           type: string
-        slug:
-          type: string
-        link:
-          type: string
-          format: uri
-      required:
-      - id
-      - name
-      - slug
+        protected:
+          type: boolean
     RestError:
       type: object
       description: The WordPress REST error envelope. Not RFC 9457 problem+json.
@@ -330,50 +262,6 @@ components:
       - code
       - message
       - data
-    Page:
-      type: object
-      properties:
-        id:
-          type: integer
-        date:
-          type: string
-          format: date-time
-        modified:
-          type: string
-          format: date-time
-        slug:
-          type: string
-        status:
-          type: string
-        type:
-          type: string
-          const: page
-        link:
-          type: string
-          format: uri
-        parent:
-          type: integer
-          description: References /wp/v2/pages/{id}; 0 for a top-level page.
-        menu_order:
-          type: integer
-        title:
-          $ref: '#/components/schemas/RenderedText'
-        content:
-          $ref: '#/components/schemas/RenderedText'
-        excerpt:
-          $ref: '#/components/schemas/RenderedText'
-        author:
-          type: integer
-        featured_media:
-          type: integer
-        yoast_head_json:
-          type: object
-      required:
-      - id
-      - slug
-      - type
-      - link
-      - title
     Post:
       type: object
       properties:
@@ -434,26 +322,66 @@ components:
       - type
       - link
       - title
-    RenderedText:
+    User:
       type: object
       properties:
-        rendered:
+        id:
+          type: integer
+        name:
           type: string
-        protected:
-          type: boolean
-  headers:
-    XWPTotalPages:
-      description: Total number of pages available at the current per_page.
-      schema:
-        type: integer
-    XWPTotal:
-      description: Total number of records in the collection.
-      schema:
-        type: integer
-    LinkPagination:
-      description: RFC 8288 Link header carrying rel="next" / rel="prev".
-      schema:
-        type: string
+        slug:
+          type: string
+        link:
+          type: string
+          format: uri
+      required:
+      - id
+      - name
+      - slug
+    Page:
+      type: object
+      properties:
+        id:
+          type: integer
+        date:
+          type: string
+          format: date-time
+        modified:
+          type: string
+          format: date-time
+        slug:
+          type: string
+        status:
+          type: string
+        type:
+          type: string
+          const: page
+        link:
+          type: string
+          format: uri
+        parent:
+          type: integer
+          description: References /wp/v2/pages/{id}; 0 for a top-level page.
+        menu_order:
+          type: integer
+        title:
+          $ref: '#/components/schemas/RenderedText'
+        content:
+          $ref: '#/components/schemas/RenderedText'
+        excerpt:
+          $ref: '#/components/schemas/RenderedText'
+        author:
+          type: integer
+        featured_media:
+          type: integer
+        yoast_head_json:
+          type: object
+      required:
+      - id
+      - slug
+      - type
+      - link
+      - title
   responses:
     BadRequest:
       description: Invalid parameter.
@@ -467,6 +395,78 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/RestError'
+  parameters:
+    perPage:
+      name: per_page
+      in: query
+      description: Records per page.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 10
+    idPath:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+    search:
+      name: search
+      in: query
+      description: Limit results to those matching a string.
+      schema:
+        type: string
+    order:
+      name: order
+      in: query
+      schema:
+        type: string
+        enum:
+        - asc
+        - desc
+        default: desc
+    orderby:
+      name: orderby
+      in: query
+      schema:
+        type: string
+        enum:
+        - date
+        - id
+        - title
+        - slug
+        - modified
+        - relevance
+        default: date
+    fields:
+      name: _fields
+      in: query
+      description: Comma-separated sparse-fieldset projection, e.g. `id,slug,title,link`.
+      schema:
+        type: string
+      example: id,slug,title,link,date
+    page:
+      name: page
+      in: query
+      description: 1-indexed page of the collection.
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+  headers:
+    XWPTotal:
+      description: Total number of records in the collection.
+      schema:
+        type: integer
+    XWPTotalPages:
+      description: Total number of pages available at the current per_page.
+      schema:
+        type: integer
+    LinkPagination:
+      description: RFC 8288 Link header carrying rel="next" / rel="prev".
+      schema:
+        type: string
   securitySchemes:
     applicationPassword:
       type: http

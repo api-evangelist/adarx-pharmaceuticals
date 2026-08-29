@@ -24,14 +24,6 @@
   "errors": [],
   "warnings": [],
   "notes": [
-    "adarx-pharmaceuticals-clinics-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "adarx-pharmaceuticals-content-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "adarx-pharmaceuticals-embed-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "adarx-pharmaceuticals-index-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "adarx-pharmaceuticals-media-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "adarx-pharmaceuticals-people-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "adarx-pharmaceuticals-search-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
-    "adarx-pharmaceuticals-taxonomy-api-openapi.yml: upgraded openapi 3.1.0 -> OpenAPI 3.2.0",
     "apis.yml register: already-registered"
   ],
   "skipped": []

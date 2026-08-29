@@ -92,58 +92,7 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
-  parameters:
-    idPath:
-      name: id
-      in: path
-      required: true
-      schema:
-        type: integer
-    page:
-      name: page
-      in: query
-      schema:
-        type: integer
-        minimum: 1
-        default: 1
-    fields:
-      name: _fields
-      in: query
-      description: Comma-separated sparse-fieldset projection.
-      schema:
-        type: string
-      example: id,slug,title,link
-    search:
-      name: search
-      in: query
-      schema:
-        type: string
-    perPage:
-      name: per_page
-      in: query
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 10
   schemas:
-    RestError:
-      type: object
-      description: The WordPress REST error envelope. Not RFC 9457 problem+json.
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-        data:
-          type: object
-          properties:
-            status:
-              type: integer
-      required:
-      - code
-      - message
-      - data
     Clinic:
       type: object
       description: A STOP-HAE trial site record.
@@ -197,19 +146,23 @@ components:
           type: string
         protected:
           type: boolean
-  headers:
-    XWPTotalPages:
-      description: Total number of pages available at the current per_page.
-      schema:
-        type: integer
-    XWPTotal:
-      description: Total number of records in the collection.
-      schema:
-        type: integer
-    LinkPagination:
-      description: RFC 8288 Link header carrying rel="next" / rel="prev".
-      schema:
-        type: string
+    RestError:
+      type: object
+      description: The WordPress REST error envelope. Not RFC 9457 problem+json.
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            status:
+              type: integer
+      required:
+      - code
+      - message
+      - data
   responses:
     BadRequest:
       description: Invalid parameter.
@@ -223,6 +176,53 @@ components:
         application/json:
           schema:
             $ref: '#/components/schemas/RestError'
+  parameters:
+    perPage:
+      name: per_page
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 10
+    idPath:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+    search:
+      name: search
+      in: query
+      schema:
+        type: string
+    fields:
+      name: _fields
+      in: query
+      description: Comma-separated sparse-fieldset projection.
+      schema:
+        type: string
+      example: id,slug,title,link
+    page:
+      name: page
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+  headers:
+    XWPTotal:
+      description: Total number of records in the collection.
+      schema:
+        type: integer
+    XWPTotalPages:
+      description: Total number of pages available at the current per_page.
+      schema:
+        type: integer
+    LinkPagination:
+      description: RFC 8288 Link header carrying rel="next" / rel="prev".
+      schema:
+        type: string
   securitySchemes:
     applicationPassword:
       type: http

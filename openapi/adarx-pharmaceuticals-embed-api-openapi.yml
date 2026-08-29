@@ -102,6 +102,13 @@ paths:
                   json:
                     type: object
 components:
+  responses:
+    NotFound:
+      description: No object found with that id.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/RestError'
   schemas:
     RestError:
       type: object
@@ -121,13 +128,6 @@ components:
       - code
       - message
       - data
-  responses:
-    NotFound:
-      description: No object found with that id.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/RestError'
   securitySchemes:
     applicationPassword:
       type: http
