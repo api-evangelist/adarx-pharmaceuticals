@@ -1,0 +1,26 @@
+slug: adarx-pharmaceuticals
+provider: ADARx Pharmaceuticals
+generated_by: planning/capability-mapping/scripts/classify_capabilities.py
+model: claude-opus-5
+frame:
+- Pharmaceuticals & Life Sciences
+min_confidence: 0.7
+capability_model:
+  source: https://github.com/vincentmakes/turbo-ea-capabilities
+  license: CC-BY-4.0
+  attribution: Turbo EA Capabilities by Vincent Verdet — Turbo EA, https://github.com/vincentmakes/turbo-ea-capabilities,
+    CC BY 4.0
+  notice: NOTICE
+edge_count: 1
+edges:
+- tag: clinics
+  spec_file: adarx-pharmaceuticals-clinics-api-openapi.yml
+  capability_id: BC-1520.20
+  capability_id_l1: BC-1520
+  capability_name: Clinical Trial Site Management
+  confidence: 0.7
+  evidence: GET /wp/v2/clinic  listTrialClinics  List STOP-HAE trial sites
+  reason: The custom post type `clinic` holds 50 published trial-site records for ADARx's Phase 3 STOP-HAE
+    study, exposed as a site directory on the patient-recruitment website. That is clinical trial site
+    information, closest to Clinical Trial Site Management; the recruitment-facing purpose introduces
+    some ambiguity with subject management, hence 0.7.
