@@ -40,16 +40,16 @@ created: '2026-08-06'
 modified: '2026-08-06'
 tags:
 - Company
-- Biotechnology
+- biotechnology
 - biopharmaceuticals
-- RNA Therapeutics
-- siRNA
-- RNA Editing
-- Clinical Trials
-- Rare Disease
-- Drug Development
-- Life Sciences
-- San Diego
+- rna-therapeutics
+- sirna
+- rna-editing
+- clinical-trials
+- rare-disease
+- drug-development
+- life-sciences
+- san-diego
 - content-api
 tags_raw:
 - Company
@@ -71,7 +71,7 @@ apis:
   humanURL: https://developer.wordpress.org/rest-api/
   baseURL: https://www.adarx.com/wp-json
   tags:
-  - Clinics
+  - clinics
   tags_raw:
   - clinics
   properties:
@@ -93,7 +93,7 @@ apis:
   humanURL: https://developer.wordpress.org/rest-api/
   baseURL: https://www.adarx.com/wp-json
   tags:
-  - Content
+  - content
   tags_raw:
   - content
   properties:
