@@ -3,7 +3,7 @@ info:
   title: ADARx STOP-HAE Trial Site Clinics API
   version: '1.0'
   summary: The anonymously readable WordPress REST API behind stophae.com, the STOP-HAE Phase 3 patient site.
-  description: stophae.com is the patient-recruitment site for STOP-HAE, ADARx Pharmaceuticals' Phase 3 randomized, double-blind, placebo-controlled study of ADX-324 (onvuzosiran) in hereditary angioedema. Its WordPress install identifies itself as "ADARX1 Patient Website" and registers 226 REST routes across oembed/1.0, wpml/v1, wpml/st/v1, wpml/tm/v1, wpml/ate/v1, otgs/installer/v1, wp/v2, wp-site-health/v1, wp-block-editor/v1 and wp-abilities/v1. The distinguishing feature versus the corporate site is a CUSTOM POST TYPE, `clinic` (rest_base `clinic`, label "Clinics"), which carries 50 published trial-site records and is readable without credentials. The records expose site identifiers (e.g. slug `801-01`), permalinks and dates; the Advanced Custom Fields payload that presumably holds the address and contact detail is NOT projected into REST (`acf` is an empty array on every record), so no location data is available through this API. Derived by the API Evangelist enrichment pipeline from https://stophae.com/wp-json/ and verified against live anonymous responses on 2026-08-06. Only operations that returned data without credentials are modelled. The WPML translation-management namespaces expose their namespace index anonymously but every functional route beneath them is administrative.
+  description: stophae.com is the patient-recruitment site for STOP-HAE, ADARx Pharmaceuticals' Phase 3 randomized, double-blind, placebo-controlled study of ADX-324 (onvuzosiran) in hereditary angioedema.
   contact:
     name: ADARx Pharmaceuticals
     url: https://www.adarx.com/contact/
@@ -21,7 +21,7 @@ servers:
   description: Production WordPress REST API for the STOP-HAE patient site
 security: []
 tags:
-- name: clinics
+- name: Clinics
   description: The STOP-HAE trial-site (clinic) registry.
 paths:
   /wp/v2/clinic:
@@ -30,7 +30,7 @@ paths:
       summary: List STOP-HAE trial sites
       description: 50 published `clinic` records as of 2026-08-06. Each is identified by a site code in the `slug`/`title` (e.g. `801-01`). The `acf` custom-field payload is an empty array on every record, so addresses, investigators and contact details are not exposed through REST.
       tags:
-      - clinics
+      - Clinics
       parameters:
       - $ref: '#/components/parameters/page'
       - $ref: '#/components/parameters/perPage'
@@ -78,7 +78,7 @@ paths:
       operationId: getTrialClinic
       summary: Get one STOP-HAE trial site
       tags:
-      - clinics
+      - Clinics
       parameters:
       - $ref: '#/components/parameters/idPath'
       - $ref: '#/components/parameters/fields'
@@ -92,7 +92,65 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  parameters:
+    idPath:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+    search:
+      name: search
+      in: query
+      schema:
+        type: string
+    page:
+      name: page
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+    fields:
+      name: _fields
+      in: query
+      description: Comma-separated sparse-fieldset projection.
+      schema:
+        type: string
+      example: id,slug,title,link
+    perPage:
+      name: per_page
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 10
   schemas:
+    RenderedText:
+      type: object
+      properties:
+        rendered:
+          type: string
+        protected:
+          type: boolean
+    RestError:
+      type: object
+      description: The WordPress REST error envelope. Not RFC 9457 problem+json.
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            status:
+              type: integer
+      required:
+      - code
+      - message
+      - data
     Clinic:
       type: object
       description: A STOP-HAE trial site record.
@@ -139,78 +197,11 @@ components:
       - type
       - link
       - title
-    RenderedText:
-      type: object
-      properties:
-        rendered:
-          type: string
-        protected:
-          type: boolean
-    RestError:
-      type: object
-      description: The WordPress REST error envelope. Not RFC 9457 problem+json.
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-        data:
-          type: object
-          properties:
-            status:
-              type: integer
-      required:
-      - code
-      - message
-      - data
-  responses:
-    BadRequest:
-      description: Invalid parameter.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/RestError'
-    NotFound:
-      description: No object found with that id.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/RestError'
-  parameters:
-    perPage:
-      name: per_page
-      in: query
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 10
-    idPath:
-      name: id
-      in: path
-      required: true
-      schema:
-        type: integer
-    search:
-      name: search
-      in: query
-      schema:
-        type: string
-    fields:
-      name: _fields
-      in: query
-      description: Comma-separated sparse-fieldset projection.
-      schema:
-        type: string
-      example: id,slug,title,link
-    page:
-      name: page
-      in: query
-      schema:
-        type: integer
-        minimum: 1
-        default: 1
   headers:
+    LinkPagination:
+      description: RFC 8288 Link header carrying rel="next" / rel="prev".
+      schema:
+        type: string
     XWPTotal:
       description: Total number of records in the collection.
       schema:
@@ -219,10 +210,19 @@ components:
       description: Total number of pages available at the current per_page.
       schema:
         type: integer
-    LinkPagination:
-      description: RFC 8288 Link header carrying rel="next" / rel="prev".
-      schema:
-        type: string
+  responses:
+    NotFound:
+      description: No object found with that id.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/RestError'
+    BadRequest:
+      description: Invalid parameter.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/RestError'
   securitySchemes:
     applicationPassword:
       type: http

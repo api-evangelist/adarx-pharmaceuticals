@@ -6,6 +6,11 @@ info:
     name: ADARx Pharmaceuticals
     url: https://www.adarx.com/contact/
     email: info@adarx.com
+  x-refined-note:
+  - x-derived-from differs across the merged source definitions and was not carried
+  - x-trial differs across the merged source definitions and was not carried
+  x-upstream-contract: https://developer.wordpress.org/rest-api/
+  x-verified: '2026-08-06'
   description: 'Operations tagged search across 2 of this provider''s published API definitions: adarx-pharmaceuticals-content-openapi.yml, adarx-pharmaceuticals-stop-hae-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://www.adarx.com/wp-json
@@ -14,18 +19,15 @@ servers:
   description: Production WordPress REST API for the STOP-HAE patient site
 security: []
 tags:
-- name: search
+- name: Search
   description: Cross-content search.
 paths:
   /wp/v2/search:
-    servers:
-    - url: https://www.adarx.com/wp-json
-      description: Production WordPress REST API
     get:
       operationId: searchContent
       summary: Search across posts and pages
       tags:
-      - search
+      - Search
       parameters:
       - name: search
         in: query
@@ -57,7 +59,48 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/SearchResult'
+    servers:
+    - url: https://www.adarx.com/wp-json
+      description: Production WordPress REST API
 components:
+  parameters:
+    perPage:
+      name: per_page
+      in: query
+      description: Records per page.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 10
+    page:
+      name: page
+      in: query
+      description: 1-indexed page of the collection.
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+    perPage_2:
+      name: per_page
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 10
+    page_2:
+      name: page
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+  headers:
+    XWPTotal:
+      description: Total number of records in the collection.
+      schema:
+        type: integer
   schemas:
     SearchResult:
       type: object
@@ -79,29 +122,24 @@ components:
       - id
       - title
       - url
-  parameters:
-    perPage:
-      name: per_page
-      in: query
-      description: Records per page.
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 10
-    page:
-      name: page
-      in: query
-      description: 1-indexed page of the collection.
-      schema:
-        type: integer
-        minimum: 1
-        default: 1
-  headers:
-    XWPTotal:
-      description: Total number of records in the collection.
-      schema:
-        type: integer
+    SearchResult_2:
+      type: object
+      properties:
+        id:
+          type: integer
+        title:
+          type: string
+        url:
+          type: string
+          format: uri
+        type:
+          type: string
+        subtype:
+          type: string
+      required:
+      - id
+      - title
+      - url
   securitySchemes:
     applicationPassword:
       type: http

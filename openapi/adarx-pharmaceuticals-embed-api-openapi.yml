@@ -6,6 +6,11 @@ info:
     name: ADARx Pharmaceuticals
     url: https://www.adarx.com/contact/
     email: info@adarx.com
+  x-refined-note:
+  - x-derived-from differs across the merged source definitions and was not carried
+  - x-trial differs across the merged source definitions and was not carried
+  x-upstream-contract: https://developer.wordpress.org/rest-api/
+  x-verified: '2026-08-06'
   description: 'Operations tagged embed across 2 of this provider''s published API definitions: adarx-pharmaceuticals-content-openapi.yml, adarx-pharmaceuticals-stop-hae-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://www.adarx.com/wp-json
@@ -14,19 +19,16 @@ servers:
   description: Production WordPress REST API for the STOP-HAE patient site
 security: []
 tags:
-- name: embed
+- name: Embed
   description: oEmbed provider and SEO head rendering.
 paths:
   /oembed/1.0/embed:
-    servers:
-    - url: https://www.adarx.com/wp-json
-      description: Production WordPress REST API
     get:
       operationId: getOEmbed
       summary: oEmbed provider for adarx.com URLs
       description: RFC-less but widely implemented oEmbed 1.0 provider endpoint. Returns provider identity, author, title, thumbnail and an iframe embed for any URL on this site.
       tags:
-      - embed
+      - Embed
       parameters:
       - name: url
         in: query
@@ -71,16 +73,16 @@ paths:
                     type: string
         '404':
           $ref: '#/components/responses/NotFound'
-  /yoast/v1/get_head:
     servers:
     - url: https://www.adarx.com/wp-json
       description: Production WordPress REST API
+  /yoast/v1/get_head:
     get:
       operationId: getSeoHead
       summary: Render the Yoast SEO head for a URL
-      description: Returns the full `<head>` SEO block for any URL on the site, including the schema.org JSON-LD `@graph`. This is the machine-readable structured-data surface of the site; the same graph is embedded per-object as `yoast_head_json` on posts and pages.
+      description: Returns the full `` SEO block for any URL on the site, including the schema.org JSON-LD `@graph`. This is the machine-readable structured-data surface of the site; the same graph is embedded per-object as `yoast_head_json` on posts and pages.
       tags:
-      - embed
+      - Embed
       parameters:
       - name: url
         in: query
@@ -101,14 +103,10 @@ paths:
                     type: string
                   json:
                     type: object
+    servers:
+    - url: https://www.adarx.com/wp-json
+      description: Production WordPress REST API
 components:
-  responses:
-    NotFound:
-      description: No object found with that id.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/RestError'
   schemas:
     RestError:
       type: object
@@ -128,6 +126,30 @@ components:
       - code
       - message
       - data
+    RestError_2:
+      type: object
+      description: The WordPress REST error envelope. Not RFC 9457 problem+json.
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            status:
+              type: integer
+      required:
+      - code
+      - message
+      - data
+  responses:
+    NotFound:
+      description: No object found with that id.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/RestError'
   securitySchemes:
     applicationPassword:
       type: http

@@ -6,6 +6,11 @@ info:
     name: ADARx Pharmaceuticals
     url: https://www.adarx.com/contact/
     email: info@adarx.com
+  x-refined-note:
+  - x-derived-from differs across the merged source definitions and was not carried
+  - x-trial differs across the merged source definitions and was not carried
+  x-upstream-contract: https://developer.wordpress.org/rest-api/
+  x-verified: '2026-08-06'
   description: 'Operations tagged media across 2 of this provider''s published API definitions: adarx-pharmaceuticals-content-openapi.yml, adarx-pharmaceuticals-stop-hae-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://www.adarx.com/wp-json
@@ -14,19 +19,16 @@ servers:
   description: Production WordPress REST API for the STOP-HAE patient site
 security: []
 tags:
-- name: media
+- name: Media
   description: The site media library.
 paths:
   /wp/v2/media:
-    servers:
-    - url: https://www.adarx.com/wp-json
-      description: Production WordPress REST API
     get:
       operationId: listMedia
       summary: List the media library
       description: 105 attachments as of 2026-08-06 — logos, team headshots, pipeline graphics and press-release imagery.
       tags:
-      - media
+      - Media
       parameters:
       - $ref: '#/components/parameters/page'
       - $ref: '#/components/parameters/perPage'
@@ -57,15 +59,15 @@ paths:
                   $ref: '#/components/schemas/MediaItem'
         '400':
           $ref: '#/components/responses/BadRequest'
-  /wp/v2/media/{id}:
     servers:
     - url: https://www.adarx.com/wp-json
       description: Production WordPress REST API
+  /wp/v2/media/{id}:
     get:
       operationId: getMediaItem
       summary: Get one media item
       tags:
-      - media
+      - Media
       parameters:
       - $ref: '#/components/parameters/idPath'
       - $ref: '#/components/parameters/fields'
@@ -78,8 +80,100 @@ paths:
                 $ref: '#/components/schemas/MediaItem'
         '404':
           $ref: '#/components/responses/NotFound'
+    servers:
+    - url: https://www.adarx.com/wp-json
+      description: Production WordPress REST API
 components:
+  parameters:
+    perPage:
+      name: per_page
+      in: query
+      description: Records per page.
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 10
+    idPath:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
+    search:
+      name: search
+      in: query
+      description: Limit results to those matching a string.
+      schema:
+        type: string
+    page:
+      name: page
+      in: query
+      description: 1-indexed page of the collection.
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+    fields:
+      name: _fields
+      in: query
+      description: Comma-separated sparse-fieldset projection, e.g. `id,slug,title,link`.
+      schema:
+        type: string
+      example: id,slug,title,link,date
+    perPage_2:
+      name: per_page
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 10
+    search_2:
+      name: search
+      in: query
+      schema:
+        type: string
+    page_2:
+      name: page
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+    fields_2:
+      name: _fields
+      in: query
+      description: Comma-separated sparse-fieldset projection.
+      schema:
+        type: string
+      example: id,slug,title,link
   schemas:
+    RenderedText:
+      type: object
+      properties:
+        rendered:
+          type: string
+        protected:
+          type: boolean
+    RestError:
+      type: object
+      description: The WordPress REST error envelope. Not RFC 9457 problem+json.
+      properties:
+        code:
+          type: string
+          example: rest_post_invalid_id
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            status:
+              type: integer
+      required:
+      - code
+      - message
+      - data
     MediaItem:
       type: object
       properties:
@@ -126,20 +220,12 @@ components:
       - slug
       - type
       - source_url
-    RenderedText:
-      type: object
-      properties:
-        rendered:
-          type: string
-        protected:
-          type: boolean
-    RestError:
+    RestError_2:
       type: object
       description: The WordPress REST error envelope. Not RFC 9457 problem+json.
       properties:
         code:
           type: string
-          example: rest_post_invalid_id
         message:
           type: string
         data:
@@ -151,57 +237,42 @@ components:
       - code
       - message
       - data
-  responses:
-    BadRequest:
-      description: Invalid parameter.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/RestError'
-    NotFound:
-      description: No object found with that id.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/RestError'
-  parameters:
-    perPage:
-      name: per_page
-      in: query
-      description: Records per page.
-      schema:
-        type: integer
-        minimum: 1
-        maximum: 100
-        default: 10
-    idPath:
-      name: id
-      in: path
-      required: true
-      schema:
-        type: integer
-    search:
-      name: search
-      in: query
-      description: Limit results to those matching a string.
-      schema:
-        type: string
-    fields:
-      name: _fields
-      in: query
-      description: Comma-separated sparse-fieldset projection, e.g. `id,slug,title,link`.
-      schema:
-        type: string
-      example: id,slug,title,link,date
-    page:
-      name: page
-      in: query
-      description: 1-indexed page of the collection.
-      schema:
-        type: integer
-        minimum: 1
-        default: 1
+    MediaItem_2:
+      type: object
+      properties:
+        id:
+          type: integer
+        slug:
+          type: string
+        type:
+          type: string
+          const: attachment
+        link:
+          type: string
+          format: uri
+        title:
+          $ref: '#/components/schemas/RenderedText'
+        media_type:
+          type: string
+        mime_type:
+          type: string
+        source_url:
+          type: string
+          format: uri
+        alt_text:
+          type: string
+        post:
+          type: integer
+      required:
+      - id
+      - slug
+      - type
+      - source_url
   headers:
+    LinkPagination:
+      description: RFC 8288 Link header carrying rel="next" / rel="prev".
+      schema:
+        type: string
     XWPTotal:
       description: Total number of records in the collection.
       schema:
@@ -210,10 +281,19 @@ components:
       description: Total number of pages available at the current per_page.
       schema:
         type: integer
-    LinkPagination:
-      description: RFC 8288 Link header carrying rel="next" / rel="prev".
-      schema:
-        type: string
+  responses:
+    NotFound:
+      description: No object found with that id.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/RestError'
+    BadRequest:
+      description: Invalid parameter.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/RestError'
   securitySchemes:
     applicationPassword:
       type: http

@@ -6,6 +6,11 @@ info:
     name: ADARx Pharmaceuticals
     url: https://www.adarx.com/contact/
     email: info@adarx.com
+  x-refined-note:
+  - x-derived-from differs across the merged source definitions and was not carried
+  - x-trial differs across the merged source definitions and was not carried
+  x-upstream-contract: https://developer.wordpress.org/rest-api/
+  x-verified: '2026-08-06'
   description: 'Operations tagged index across 2 of this provider''s published API definitions: adarx-pharmaceuticals-content-openapi.yml, adarx-pharmaceuticals-stop-hae-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://www.adarx.com/wp-json
@@ -14,19 +19,16 @@ servers:
   description: Production WordPress REST API for the STOP-HAE patient site
 security: []
 tags:
-- name: index
+- name: Index
   description: Route discovery and site identity.
 paths:
   /:
-    servers:
-    - url: https://www.adarx.com/wp-json
-      description: Production WordPress REST API
     get:
       operationId: getRouteIndex
       summary: Get the REST route index
       description: Returns site identity (name, description, url, home), the registered namespaces, the authentication methods offered, and the full route table.
       tags:
-      - index
+      - Index
       responses:
         '200':
           description: The route index.
@@ -53,6 +55,9 @@ paths:
                     type: object
                   routes:
                     type: object
+    servers:
+    - url: https://www.adarx.com/wp-json
+      description: Production WordPress REST API
 components:
   securitySchemes:
     applicationPassword:
