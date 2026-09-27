@@ -78,182 +78,36 @@ tags_raw:
 - san-diego
 - content-api
 apis:
-- aid: adarx-pharmaceuticals:adarx-pharmaceuticals-clinics-api
-  name: ADARx Pharmaceuticals Clinics API
-  description: The STOP-HAE trial-site (clinic) registry.
-  humanURL: https://developer.wordpress.org/rest-api/
+- aid: adarx-pharmaceuticals:adarx-com-website-wordpress-rest
+  name: ADARx Pharmaceuticals Website (WordPress REST)
+  description: >-
+    The public WordPress REST API (wp-json) of the ADARx Pharmaceuticals website at www.adarx.com: the
+    route index of the site's content management system, catalogued as one site surface rather than as
+    separate APIs.
   baseURL: https://www.adarx.com/wp-json
   tags:
-  - Clinics
-  tags_raw:
-  - clinics
+  - WordPress
+  x-surface: platform-generated
   properties:
-  - type: OpenAPI
-    url: openapi/adarx-pharmaceuticals-clinics-api-openapi.yml
-  - type: Authentication
-    url: authentication/adarx-pharmaceuticals-authentication.yml
-  - type: ErrorCatalog
-    url: errors/adarx-pharmaceuticals-problem-types.yml
-  - type: Conventions
-    url: conventions/adarx-pharmaceuticals-conventions.yml
-  - type: DataModel
-    url: data-model/adarx-pharmaceuticals-data-model.yml
-  - type: JSONLD
-    url: json-ld/adarx-pharmaceuticals-json-ld.yml
-- aid: adarx-pharmaceuticals:adarx-pharmaceuticals-content-api
-  name: ADARx Pharmaceuticals Content API
-  description: Press releases, publications and corporate pages.
-  humanURL: https://developer.wordpress.org/rest-api/
-  baseURL: https://www.adarx.com/wp-json
+  - type: Documentation
+    url: https://www.adarx.com/wp-json
+  x-platform: wordpress
+  x-platform-surface: rest
+- aid: adarx-pharmaceuticals:stophae-com-website-wordpress-rest
+  name: ADARx Pharmaceuticals Website (WordPress REST)
+  description: >-
+    The public WordPress REST API (wp-json) of the ADARx Pharmaceuticals website at stophae.com: the route
+    index of the site's content management system, catalogued as one site surface rather than as separate
+    APIs.
+  baseURL: https://stophae.com/wp-json
   tags:
-  - Content
-  tags_raw:
-  - content
+  - WordPress
+  x-surface: platform-generated
+  x-platform: wordpress
+  x-platform-surface: rest
   properties:
-  - type: OpenAPI
-    url: openapi/adarx-pharmaceuticals-content-api-openapi.yml
-  - type: Authentication
-    url: authentication/adarx-pharmaceuticals-authentication.yml
-  - type: ErrorCatalog
-    url: errors/adarx-pharmaceuticals-problem-types.yml
-  - type: Conventions
-    url: conventions/adarx-pharmaceuticals-conventions.yml
-  - type: DataModel
-    url: data-model/adarx-pharmaceuticals-data-model.yml
-  - type: JSONLD
-    url: json-ld/adarx-pharmaceuticals-json-ld.yml
-- aid: adarx-pharmaceuticals:adarx-pharmaceuticals-embed-api
-  name: ADARx Pharmaceuticals Embed API
-  description: oEmbed provider and SEO head rendering.
-  humanURL: https://developer.wordpress.org/rest-api/
-  baseURL: https://www.adarx.com/wp-json
-  tags:
-  - Embed
-  tags_raw:
-  - embed
-  properties:
-  - type: OpenAPI
-    url: openapi/adarx-pharmaceuticals-embed-api-openapi.yml
-  - type: Authentication
-    url: authentication/adarx-pharmaceuticals-authentication.yml
-  - type: ErrorCatalog
-    url: errors/adarx-pharmaceuticals-problem-types.yml
-  - type: Conventions
-    url: conventions/adarx-pharmaceuticals-conventions.yml
-  - type: DataModel
-    url: data-model/adarx-pharmaceuticals-data-model.yml
-  - type: JSONLD
-    url: json-ld/adarx-pharmaceuticals-json-ld.yml
-- aid: adarx-pharmaceuticals:adarx-pharmaceuticals-index-api
-  name: ADARx Pharmaceuticals Index API
-  description: Route discovery and site identity.
-  humanURL: https://developer.wordpress.org/rest-api/
-  baseURL: https://www.adarx.com/wp-json
-  tags:
-  - Index
-  tags_raw:
-  - index
-  properties:
-  - type: OpenAPI
-    url: openapi/adarx-pharmaceuticals-index-api-openapi.yml
-  - type: Authentication
-    url: authentication/adarx-pharmaceuticals-authentication.yml
-  - type: ErrorCatalog
-    url: errors/adarx-pharmaceuticals-problem-types.yml
-  - type: Conventions
-    url: conventions/adarx-pharmaceuticals-conventions.yml
-  - type: DataModel
-    url: data-model/adarx-pharmaceuticals-data-model.yml
-  - type: JSONLD
-    url: json-ld/adarx-pharmaceuticals-json-ld.yml
-- aid: adarx-pharmaceuticals:adarx-pharmaceuticals-media-api
-  name: ADARx Pharmaceuticals Media API
-  description: The site media library.
-  humanURL: https://developer.wordpress.org/rest-api/
-  baseURL: https://www.adarx.com/wp-json
-  tags:
-  - Media
-  tags_raw:
-  - media
-  properties:
-  - type: OpenAPI
-    url: openapi/adarx-pharmaceuticals-media-api-openapi.yml
-  - type: Authentication
-    url: authentication/adarx-pharmaceuticals-authentication.yml
-  - type: ErrorCatalog
-    url: errors/adarx-pharmaceuticals-problem-types.yml
-  - type: Conventions
-    url: conventions/adarx-pharmaceuticals-conventions.yml
-  - type: DataModel
-    url: data-model/adarx-pharmaceuticals-data-model.yml
-  - type: JSONLD
-    url: json-ld/adarx-pharmaceuticals-json-ld.yml
-- aid: adarx-pharmaceuticals:adarx-pharmaceuticals-people-api
-  name: ADARx Pharmaceuticals People API
-  description: Content authors registered on the site.
-  humanURL: https://developer.wordpress.org/rest-api/
-  baseURL: https://www.adarx.com/wp-json
-  tags:
-  - People
-  tags_raw:
-  - people
-  properties:
-  - type: OpenAPI
-    url: openapi/adarx-pharmaceuticals-people-api-openapi.yml
-  - type: Authentication
-    url: authentication/adarx-pharmaceuticals-authentication.yml
-  - type: ErrorCatalog
-    url: errors/adarx-pharmaceuticals-problem-types.yml
-  - type: Conventions
-    url: conventions/adarx-pharmaceuticals-conventions.yml
-  - type: DataModel
-    url: data-model/adarx-pharmaceuticals-data-model.yml
-  - type: JSONLD
-    url: json-ld/adarx-pharmaceuticals-json-ld.yml
-- aid: adarx-pharmaceuticals:adarx-pharmaceuticals-search-api
-  name: ADARx Pharmaceuticals Search API
-  description: Cross-content search.
-  humanURL: https://developer.wordpress.org/rest-api/
-  baseURL: https://www.adarx.com/wp-json
-  tags:
-  - Search
-  tags_raw:
-  - search
-  properties:
-  - type: OpenAPI
-    url: openapi/adarx-pharmaceuticals-search-api-openapi.yml
-  - type: Authentication
-    url: authentication/adarx-pharmaceuticals-authentication.yml
-  - type: ErrorCatalog
-    url: errors/adarx-pharmaceuticals-problem-types.yml
-  - type: Conventions
-    url: conventions/adarx-pharmaceuticals-conventions.yml
-  - type: DataModel
-    url: data-model/adarx-pharmaceuticals-data-model.yml
-  - type: JSONLD
-    url: json-ld/adarx-pharmaceuticals-json-ld.yml
-- aid: adarx-pharmaceuticals:adarx-pharmaceuticals-taxonomy-api
-  name: ADARx Pharmaceuticals Taxonomy API
-  description: Categories, tags, taxonomies and post statuses.
-  humanURL: https://developer.wordpress.org/rest-api/
-  baseURL: https://www.adarx.com/wp-json
-  tags:
-  - Taxonomy
-  tags_raw:
-  - taxonomy
-  properties:
-  - type: OpenAPI
-    url: openapi/adarx-pharmaceuticals-taxonomy-api-openapi.yml
-  - type: Authentication
-    url: authentication/adarx-pharmaceuticals-authentication.yml
-  - type: ErrorCatalog
-    url: errors/adarx-pharmaceuticals-problem-types.yml
-  - type: Conventions
-    url: conventions/adarx-pharmaceuticals-conventions.yml
-  - type: DataModel
-    url: data-model/adarx-pharmaceuticals-data-model.yml
-  - type: JSONLD
-    url: json-ld/adarx-pharmaceuticals-json-ld.yml
+  - type: Documentation
+    url: https://stophae.com/wp-json
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
