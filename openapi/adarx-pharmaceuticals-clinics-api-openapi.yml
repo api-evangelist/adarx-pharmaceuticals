@@ -92,19 +92,33 @@ paths:
         '404':
           $ref: '#/components/responses/NotFound'
 components:
+  headers:
+    XWPTotalPages:
+      description: Total number of pages available at the current per_page.
+      schema:
+        type: integer
+    XWPTotal:
+      description: Total number of records in the collection.
+      schema:
+        type: integer
+    LinkPagination:
+      description: RFC 8288 Link header carrying rel="next" / rel="prev".
+      schema:
+        type: string
+  responses:
+    NotFound:
+      description: No object found with that id.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/RestError'
+    BadRequest:
+      description: Invalid parameter.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/RestError'
   parameters:
-    fields:
-      name: _fields
-      in: query
-      description: Comma-separated sparse-fieldset projection.
-      schema:
-        type: string
-      example: id,slug,title,link
-    search:
-      name: search
-      in: query
-      schema:
-        type: string
     perPage:
       name: per_page
       in: query
@@ -113,12 +127,11 @@ components:
         minimum: 1
         maximum: 100
         default: 10
-    idPath:
-      name: id
-      in: path
-      required: true
+    search:
+      name: search
+      in: query
       schema:
-        type: integer
+        type: string
     page:
       name: page
       in: query
@@ -126,7 +139,37 @@ components:
         type: integer
         minimum: 1
         default: 1
+    fields:
+      name: _fields
+      in: query
+      description: Comma-separated sparse-fieldset projection.
+      schema:
+        type: string
+      example: id,slug,title,link
+    idPath:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
   schemas:
+    RestError:
+      type: object
+      description: The WordPress REST error envelope. Not RFC 9457 problem+json.
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        data:
+          type: object
+          properties:
+            status:
+              type: integer
+      required:
+      - code
+      - message
+      - data
     Clinic:
       type: object
       description: A STOP-HAE trial site record.
@@ -180,49 +223,6 @@ components:
           type: string
         protected:
           type: boolean
-    RestError:
-      type: object
-      description: The WordPress REST error envelope. Not RFC 9457 problem+json.
-      properties:
-        code:
-          type: string
-        message:
-          type: string
-        data:
-          type: object
-          properties:
-            status:
-              type: integer
-      required:
-      - code
-      - message
-      - data
-  responses:
-    BadRequest:
-      description: Invalid parameter.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/RestError'
-    NotFound:
-      description: No object found with that id.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/RestError'
-  headers:
-    LinkPagination:
-      description: RFC 8288 Link header carrying rel="next" / rel="prev".
-      schema:
-        type: string
-    XWPTotalPages:
-      description: Total number of pages available at the current per_page.
-      schema:
-        type: integer
-    XWPTotal:
-      description: Total number of records in the collection.
-      schema:
-        type: integer
   securitySchemes:
     applicationPassword:
       type: http
