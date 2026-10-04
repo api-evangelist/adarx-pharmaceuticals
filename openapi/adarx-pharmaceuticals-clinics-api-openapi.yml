@@ -93,10 +93,6 @@ paths:
           $ref: '#/components/responses/NotFound'
 components:
   headers:
-    XWPTotalPages:
-      description: Total number of pages available at the current per_page.
-      schema:
-        type: integer
     XWPTotal:
       description: Total number of records in the collection.
       schema:
@@ -105,19 +101,10 @@ components:
       description: RFC 8288 Link header carrying rel="next" / rel="prev".
       schema:
         type: string
-  responses:
-    NotFound:
-      description: No object found with that id.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/RestError'
-    BadRequest:
-      description: Invalid parameter.
-      content:
-        application/json:
-          schema:
-            $ref: '#/components/schemas/RestError'
+    XWPTotalPages:
+      description: Total number of pages available at the current per_page.
+      schema:
+        type: integer
   parameters:
     perPage:
       name: per_page
@@ -127,18 +114,17 @@ components:
         minimum: 1
         maximum: 100
         default: 10
+    idPath:
+      name: id
+      in: path
+      required: true
+      schema:
+        type: integer
     search:
       name: search
       in: query
       schema:
         type: string
-    page:
-      name: page
-      in: query
-      schema:
-        type: integer
-        minimum: 1
-        default: 1
     fields:
       name: _fields
       in: query
@@ -146,13 +132,21 @@ components:
       schema:
         type: string
       example: id,slug,title,link
-    idPath:
-      name: id
-      in: path
-      required: true
+    page:
+      name: page
+      in: query
       schema:
         type: integer
+        minimum: 1
+        default: 1
   schemas:
+    RenderedText:
+      type: object
+      properties:
+        rendered:
+          type: string
+        protected:
+          type: boolean
     RestError:
       type: object
       description: The WordPress REST error envelope. Not RFC 9457 problem+json.
@@ -216,13 +210,19 @@ components:
       - type
       - link
       - title
-    RenderedText:
-      type: object
-      properties:
-        rendered:
-          type: string
-        protected:
-          type: boolean
+  responses:
+    BadRequest:
+      description: Invalid parameter.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/RestError'
+    NotFound:
+      description: No object found with that id.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/RestError'
   securitySchemes:
     applicationPassword:
       type: http
