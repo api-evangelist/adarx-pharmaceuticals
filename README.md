@@ -66,7 +66,7 @@
 
 ADARx Pharmaceuticals, Inc. is a clinical-stage biotechnology company headquartered at 5871 Oberlin Drive, San Diego, California, founded in 2019 and developing next-generation RNA therapeutics intended to control the expression of specific disease drivers with highly selective RNA-targeted medicines. Its proprietary platform spans RNA interference, RNA editing and targeted oligonucleotide delivery, engineered around compact, modular constructs the company says extend reach beyond the liver. The clinical pipeline is led by ADX-324 (onvuzosiran), an siRNA against prekallikrein now in the Phase 3 STOP-HAE study in hereditary angioedema, and ADX-038 (agazisiran), an siRNA against complement factor B in Phase 2 for IgA nephropathy and C3 glomerulopathy, geographic atrophy and paroxysmal nocturnal hemoglobinuria; earlier programmes include ADX-626 (factor XI, thrombosis), ADX-077 (obesity) and ADX-199 (amyloid-beta precursor protein, neurodegeneration), plus undisclosed extrahepatic CNS, immunology and oncology work. The company closed an oversubscribed 200 million dollar Series C in August 2023 co-led by Bain Capital Life Sciences and TCGX, and entered a collaboration and license option agreement with AbbVie in May 2025. ADARx runs no developer program and publishes no product API, no developer portal and no API documentation; the only machine-readable surfaces reachable without credentials are the WordPress REST content APIs behind www.adarx.com and stophae.com, both catalogued here.
 
-**Areas:** Company · Biotechnology · Biopharmaceutical · RNA Therapeutics · siRNA · RNA Editing · Clinical Trials · Rare Disease · Drug Development · Life Sciences · San Diego · content-api
+**Areas:** Company · Biotechnology · Biopharmaceutical · RNA Therapeutics · siRNA · RNA Editing · Clinical Trials · Rare Disease · Drug Development · Life Sciences · San Diego · Content API
 
 ## ADARx Pharmaceuticals on APIs.io
 
@@ -104,15 +104,21 @@ Postman and Open Collection request collections.
 
 OpenAPI overlays, including conversational phrasing for each operation.
 
-- [Adarx Pharmaceuticals Content Overlay](https://apis.io/overlays/adarx-pharmaceuticals/adarx-pharmaceuticals-content-overlay/)
-- [Adarx Pharmaceuticals Stop Hae Overlay](https://apis.io/overlays/adarx-pharmaceuticals/adarx-pharmaceuticals-stop-hae-overlay/)
+- [ADARx Pharmaceuticals Content Overlay](https://apis.io/overlays/adarx-pharmaceuticals/adarx-pharmaceuticals-content-overlay/)
+- [ADARx Pharmaceuticals Stop Hae Overlay](https://apis.io/overlays/adarx-pharmaceuticals/adarx-pharmaceuticals-stop-hae-overlay/)
+
+#### Governance rules (1)
+
+Spectral rulesets for the provider's contracts.
+
+- [ADARx Pharmaceuticals API Rules](https://apis.io/rules/adarx-pharmaceuticals/adarx-pharmaceuticals-rules/)
 
 #### Security (2)
 
 Authentication, trust centre, and vulnerability disclosure.
 
-- [Adarx Pharmaceuticals Authentication](https://apis.io/security/adarx-pharmaceuticals/adarx-pharmaceuticals-authentication/)
-- [Adarx Pharmaceuticals Domain Security](https://apis.io/security/adarx-pharmaceuticals/adarx-pharmaceuticals-domain-security/)
+- [ADARx Pharmaceuticals Authentication](https://apis.io/security/adarx-pharmaceuticals/adarx-pharmaceuticals-authentication/)
+- [ADARx Pharmaceuticals Domain Security](https://apis.io/security/adarx-pharmaceuticals/adarx-pharmaceuticals-domain-security/)
 
 ## Where to find this API
 
@@ -125,18 +131,18 @@ Links to the company's own pages. This repository publishes no copy of their spe
 
 ## API Evangelist rating
 
-**Kin Score 20.1** — emerging · rubric 0.24.0 · scored 2026-10-17
+**Kin Score 23.3** — emerging · rubric 0.28.1 · scored 2026-11-21
 
 | Facet | Score |
 |---|---|
-| Discoverability | 65.2 |
+| Discoverability | 66.1 |
 | Contract quality | 8.3 |
-| Contract governance | 4.5 |
+| Contract governance | 18.2 |
 | Operational transparency | 0.0 |
 | Developer ergonomics | 28.0 |
-| Access clarity | 21.1 |
+| Access clarity | 31.9 |
 
-**Agent readiness 4.8** — human-only
+**Agent readiness 4.7** — human-only
 
 | Agent-readiness dimension | Result |
 |---|---|
@@ -159,8 +165,14 @@ Links to the company's own pages. This repository publishes no copy of their spe
 | Protected Resource Metadata | — |
 | Dynamic Client Registration | — |
 | Agentic Commerce | — |
+| Pagination Ratio | na |
+| Operation Distinctiveness | na |
+| MCP Tool Quality | na |
+| Onboarding Descriptor | — |
+| Dns Aid Index | na |
+| Markdown Negotiation | na |
 
-**Regulatory alignment 19.5** — Health
+**Regulatory alignment 14.8** — Health
 
 The rubric is published at [github.com/api-evangelist/kin-score](https://github.com/api-evangelist/kin-score). The per-check breakdown behind these numbers — which checks were earned, partial or missed — along with score history and how this provider compares to its peers, is available at [apis.io/providers/adarx-pharmaceuticals/](https://apis.io/providers/adarx-pharmaceuticals/).
 
